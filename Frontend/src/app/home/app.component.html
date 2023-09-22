@@ -1,16 +1,7 @@
 <h1>STORE</h1>
 
-<table>
-    <tr>
-        <td> <button routerLink="/users">Get Users</button> </td>
-        <td> <button routerLink="/add-user">Add User</button> </td>
-    </tr>
-</table>
-
+<app-addusers [usersListBehavior]="usersListRoot"></app-addusers>
 <br>
-
-<app-addusers></app-addusers>
-<br><br>
-<app-users></app-users>
+<app-users [usersListBehavior]="usersListRoot"></app-users>
 
 

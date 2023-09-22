@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
-import { Router } from '@angular/router';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css'],
 })
+
 export class AppComponent implements OnInit{
+  public usersListRoot = new BehaviorSubject<User[]>([]);
 
 	constructor() { }
 
 	ngOnInit() {
-    let name: string = Math.random().toString();
-    let user = new User();
-    user.name = name;
+		let name: string = Math.random().toString();
+		let user = new User();
+		user.name = name;
 
-		// setInterval(this.logTest, 3000, this.service);
-		// console.log(`user ${user.name} added`)
-
+		// setInterval(this.generateRandomUser, 3000, this.service);
 	}
 
 	generateRandomUser(service: UserService) {
@@ -28,6 +28,7 @@ export class AppComponent implements OnInit{
 		user.name = name;
 
 		service.addUser(user).subscribe();
+		console.log(`user ${user.name} added`)
 	}
 
 }

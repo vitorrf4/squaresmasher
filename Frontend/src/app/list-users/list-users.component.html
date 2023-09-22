@@ -1,0 +1,9 @@
+<table *ngFor="let user of usersListBehavior | async" >
+    <tr>
+      <td>ID: {{user.id}}</td>
+      <td>Name: {{user.name}} </td>
+<!--        <td>ID: {{user.id}}</td>-->
+<!--        <td>Name: {{user.name}} </td>-->
+        <td> <button (click)=(deleteUser(user.id)) >DELETE</button> </td>
+    </tr>
+</table>

@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
         User createdUser = repo.save(user);
 
-        logger.info("User " + user.getId() + " created at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
+        logger.info("User " + createdUser.getId() + " created at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
 
         return ResponseEntity.created(new URI("user/" + createdUser.getId())).body(createdUser);
     }

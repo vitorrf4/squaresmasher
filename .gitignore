@@ -20,7 +20,7 @@ target/
 *.ipr
 
 ### VS Code ###
-/*/.vscode/
+*/.vscode/
 # Compiled output
 /dist
 /tmp
@@ -28,12 +28,12 @@ target/
 /bazel-out
 
 # Node
-/*//node_modules
-/*//npm-debug.log
-/*/yarn-error.log
+*/node_modules
+*/npm-debug.log
+*/yarn-error.log
 
 # IDEs and editors
-/*/.idea/
+*/.idea/
 .project
 .classpath
 .c9/

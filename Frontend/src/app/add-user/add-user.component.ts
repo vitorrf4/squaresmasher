@@ -7,13 +7,13 @@ import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-addusers',
-  templateUrl: "./adduser.component.html",
-  styleUrls: ['./adduser.component.css'],
+  templateUrl: "./add-user.component.html",
+  styleUrls: ['./add-user.component.css'],
   providers: [ListUsersComponent]
 })
 
 export class AddusersComponent {
-  @Input() usersListBehavior!: BehaviorSubject<User[]>;
+  @Input() users!: BehaviorSubject<User[]>;
   user: User;
 
   constructor(private service: UserService, private userlist : ListUsersComponent, private router: Router) {
@@ -21,10 +21,6 @@ export class AddusersComponent {
   }
 
   addUser() {
-    this.service.addUser(this.user).subscribe(data => {
-      const nextWithUser = this.usersListBehavior.value;
-      nextWithUser.push(new User(data));
-      this.usersListBehavior.next(nextWithUser);
-    });
+    this.service.addUser(this.user);
   }
 }

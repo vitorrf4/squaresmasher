@@ -10,9 +10,8 @@ import {BehaviorSubject} from "rxjs";
 })
 
 export class AppComponent implements OnInit{
-  public usersListRoot = new BehaviorSubject<User[]>([]);
 
-	constructor() { }
+	constructor(private service: UserService) { }
 
 	ngOnInit() {
 		let name: string = Math.random().toString();
@@ -23,11 +22,11 @@ export class AppComponent implements OnInit{
 	}
 
 	generateRandomUser(service: UserService) {
-		var name : string = (Math.random() + 1000).toString();
+		var name : string = (Math.random() * 1000).toFixed(0);
 		var user = new User();
 		user.name = name;
 
-		service.addUser(user).subscribe();
+		service.addUser(user);
 		console.log(`user ${user.name} added`)
 	}
 

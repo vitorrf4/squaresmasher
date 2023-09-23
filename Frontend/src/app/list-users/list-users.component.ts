@@ -1,7 +1,7 @@
-import {Component, Injectable, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { User } from '../models/user';
 import { UserService } from '../services/user.service';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,21 +10,16 @@ import {Router} from "@angular/router";
 	styleUrls: ['./list-users.component.css'],
 })
 
-@Injectable()
 export class ListUsersComponent implements OnInit {
-	@Input() usersListBehavior!: BehaviorSubject<User[]>;
+	@Input() users!: BehaviorSubject<User[]>;
 
 	constructor(private service: UserService, private router: Router) { }
 
 	ngOnInit() {
-		this.service.findAll().subscribe(data => {
-			this.usersListBehavior.next(data);
-		});
+    this.users = this.service.getList();
 	}
 
 	deleteUser(id : number) {
-		this.service.deleteUser(id).subscribe();
-		const newUserList = this.usersListBehavior.value.filter(u => u.id != id);
-		this.usersListBehavior.next(newUserList);
+		this.service.deleteUser(id);
 	}
 }

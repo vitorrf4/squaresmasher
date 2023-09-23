@@ -1,24 +1,28 @@
 package com.store.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import javax.swing.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    @Column(name = "user_name") private String name;
+    @Column(name = "user_password") private String password;
 
-    public User() { }
+    public User() {
+        id = -1L;
+        name = "";
+        password = "";
+    }
 
-    public User(Long id, String name) {
+    public User(Long id, String name, String Passowrd) {
         this.id = id;
         this.name = name;
+        this.password = password;
     }
 
     public Long getId() {

@@ -1,4 +1,4 @@
-<table *ngFor="let user of users | async" >
+<table *ngFor="let user of users.getValue().slice().reverse()" >
     <tr>
       <td>ID: {{user.id}}</td>
       <td>Name: {{user.name}} </td>

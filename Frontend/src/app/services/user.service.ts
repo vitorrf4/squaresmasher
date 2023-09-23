@@ -13,19 +13,19 @@ export class UserService {
   }
 
   public getList(): BehaviorSubject<User[]> {
-    this.http.get<User[]>(`${this.userUrl}/list`).subscribe(
+    this.http.get<User[]>(`${this.userUrl}`).subscribe(
       data => this.usersListBehaviorSubject.next(data));
     return this.usersListBehaviorSubject;
   }
 
 	public addUser(user : User) {
-    this.http.post(`${this.userUrl}/add`, user).subscribe(data => {
+    this.http.post(`${this.userUrl}`, user).subscribe(data => {
       this.usersListBehaviorSubject.getValue().push(new User(data));
     });
 	}
 
 	public deleteUser(id : Number){
-    this.http.delete(`${this.userUrl}/delete/${id}`).subscribe(data => {
+    this.http.delete(`${this.userUrl}/${id}`).subscribe(data => {
       const listWithoutDeletedUser = this.usersListBehaviorSubject.value.filter(u => u.id != id);
       this.usersListBehaviorSubject.next(listWithoutDeletedUser);
     })

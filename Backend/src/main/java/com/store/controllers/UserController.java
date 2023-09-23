@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping(path = "users")
-@CrossOrigin
+@RequestMapping(path = "/users")
+@CrossOrigin // only allow origin from deployed frontend server
 public class UserController {
     public UserRepo repo;
     public Logger logger = Logger.getLogger("USER_CONTROLLER_DEBUG");
@@ -23,19 +23,19 @@ public class UserController {
         this.repo = repo;
     }
 
-    @GetMapping(path="list")
+    @GetMapping()
     ResponseEntity<List<User>> getAllUsers() {
         logger.info("User list requested at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
 
         return ResponseEntity.ok(repo.findAll());
     }
 
-    @GetMapping(path="search/{id}")
+    @GetMapping(path="/{id}")
     ResponseEntity<?> getUserById(@PathVariable Long id) {
         return ResponseEntity.ok(repo.findById(id));
     }
 
-    @PostMapping("add")
+    @PostMapping()
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
         User createdUser = repo.save(user);
 
@@ -44,14 +44,14 @@ public class UserController {
         return ResponseEntity.created(new URI("user/" + createdUser.getId())).body(createdUser);
     }
 
-    @PutMapping("change")
+    @PutMapping("/{id}")
     ResponseEntity<User> changeUser(@RequestBody User user) {
         User modifiedUser = repo.save(user);
 
         return ResponseEntity.ok(modifiedUser);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/{id}")
     ResponseEntity<?> deleteUser(@PathVariable Long id) {
         logger.info("User " + id + " delete requested at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
 
@@ -59,6 +59,4 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
-
-
 }

@@ -2,7 +2,7 @@ package com.store;
 
 import com.store.controllers.UserController;
 import com.store.models.User;
-import com.store.repos.UserRepo;
+import com.store.repos.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(UserController.class)
 class UserControllerTest {
-	@MockBean private UserRepo repo;
+	@MockBean private UserRepository repo;
 	@Autowired private UserController controller;
 
 	@Test @DisplayName("GET /users - Success")

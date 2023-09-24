@@ -1,7 +1,7 @@
 package com.store.controllers;
 
 import com.store.models.User;
-import com.store.repos.UserRepo;
+import com.store.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,11 @@ import java.util.logging.Logger;
 @RequestMapping(path = "/users")
 @CrossOrigin // only allow origin from deployed frontend server
 public class UserController {
-    public UserRepo repo;
+    public UserRepository repo;
     public Logger logger = Logger.getLogger("USER_CONTROLLER_DEBUG");
 
     @Autowired
-    public UserController(UserRepo repo) {
+    public UserController(UserRepository repo) {
         this.repo = repo;
     }
 

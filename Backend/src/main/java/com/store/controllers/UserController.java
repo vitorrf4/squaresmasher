@@ -3,8 +3,11 @@ package com.store.controllers;
 import com.store.models.User;
 import com.store.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
@@ -23,38 +26,44 @@ public class UserController {
         this.repo = repo;
     }
 
-    @GetMapping()
-    ResponseEntity<List<User>> getAllUsers() {
-        logger.info("User list requested at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
-
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(repo.findAll());
     }
 
     @GetMapping(path="/{id}")
-    ResponseEntity<?> getUserById(@PathVariable Long id) {
+    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+        if(repo.findById(id).isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok(repo.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
+        if (user == null || user.getName().isEmpty() || user.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        if (repo.findByName(user.getName()) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         User createdUser = repo.save(user);
 
-        logger.info("User " + createdUser.getId() + " created at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
-
-        return ResponseEntity.created(new URI("user/" + createdUser.getId())).body(createdUser);
+        return ResponseEntity.created(new URI("/users/" + createdUser.getId())).body(createdUser);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<User> changeUser(@RequestBody User user) {
+    public ResponseEntity<User> changeUser(@RequestBody User user) {
         User modifiedUser = repo.save(user);
 
         return ResponseEntity.ok(modifiedUser);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        logger.info("User " + id + " delete requested at " + LocalDateTime.now().getHour() + ":" + LocalDateTime.now().getMinute());
-
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         repo.deleteById(id);
 
         return ResponseEntity.noContent().build();

@@ -2,7 +2,6 @@ package com.store.models;
 
 import jakarta.persistence.*;
 
-import javax.swing.*;
 import java.util.Objects;
 
 @Entity(name="user")
@@ -12,17 +11,20 @@ public class User {
     private Long id;
     @Column(name = "user_name") private String name;
     @Column(name = "user_password") private String password;
+    @OneToOne private Store store;
 
     public User() {
         id = -1L;
         name = "";
         password = "";
+        store = new Store();
     }
 
-    public User(Long id, String name, String Passowrd) {
+    public User(Long id, String name, String password, Store store) {
         this.id = id;
         this.name = name;
         this.password = password;
+        this.store = store;
     }
 
     public Long getId() {
@@ -41,6 +43,13 @@ public class User {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,5 +60,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }

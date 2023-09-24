@@ -16,7 +16,7 @@ export class ListUsersComponent implements OnInit {
 	constructor(private service: UserService, private router: Router) { }
 
 	ngOnInit() {
-    this.users = this.service.getList();
+        this.users = this.service.getList();
 	}
 
 	deleteUser(id : number) {

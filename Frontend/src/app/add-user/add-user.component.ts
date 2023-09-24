@@ -16,7 +16,7 @@ export class AddusersComponent {
   @Input() users!: BehaviorSubject<User[]>;
   user: User;
 
-  constructor(private service: UserService, private userlist : ListUsersComponent, private router: Router) {
+  constructor(private service: UserService) {
     this.user = new User();
   }
 

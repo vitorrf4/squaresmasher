@@ -1,5 +1,6 @@
 package com.store.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -11,16 +12,16 @@ public class User {
     private Long id;
     @Column(name = "user_name") private String name;
     @Column(name = "user_password") private String password;
-    @OneToOne private Store store;
+    @OneToOne
+    private Store store;
 
     public User() {
         id = -1L;
         name = "";
         password = "";
-        store = new Store();
     }
 
-    public User(Long id, String name, String password, Store store) {
+    public User(Long id, String name, String password, @Nullable Store store) {
         this.id = id;
         this.name = name;
         this.password = password;

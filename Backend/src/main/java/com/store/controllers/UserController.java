@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping(path="/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        if(repo.findById(id).isEmpty()) {
+        if(!repo.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
 
@@ -42,7 +42,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
-        if (user == null || user.getName().isEmpty() || user.getPassword().isEmpty()) {
+        if (user == null || user.getName().isEmpty() || user.getName().isBlank() || user.getPassword().isEmpty() || user.getPassword().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -52,11 +52,19 @@ public class UserController {
 
         User createdUser = repo.save(user);
 
-        return ResponseEntity.created(new URI("/users/" + createdUser.getId())).body(createdUser);
+        return ResponseEntity.created(new URI("/users/" + createdUser.getId())).body(createdUser); // change created uri for deployed server
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> changeUser(@RequestBody User user) {
+    public ResponseEntity<User> changeUser(@PathVariable Long id, @RequestBody User user) {
+        if (!repo.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (user.getName().isEmpty() || user.getName().isBlank() || user.getPassword().isBlank() || user.getPassword().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         User modifiedUser = repo.save(user);
 
         return ResponseEntity.ok(modifiedUser);
@@ -64,8 +72,11 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        repo.deleteById(id);
+        if (!repo.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
 
+        repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

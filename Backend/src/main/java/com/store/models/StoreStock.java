@@ -13,10 +13,18 @@ public class StoreStock {
 
     public StoreStock() { }
 
-    public StoreStock(Long id, List<MovieCopy> copies, int totalCopies) {
+    public StoreStock(Long id, List<MovieCopy> copies) {
         this.id = id;
         this.copies = copies;
-        this.totalCopies = totalCopies;
+        calculateTotalCopies();
+    }
+
+    private void calculateTotalCopies() {
+        int copies = 0;
+
+        for (MovieCopy copy : this.copies) copies += copy.getCopiesAmount();
+
+        totalCopies = copies;
     }
 
     public Long getId() {
@@ -33,6 +41,7 @@ public class StoreStock {
 
     public void setCopies(List<MovieCopy> copies) {
         this.copies = copies;
+        calculateTotalCopies();
     }
 
     public int getTotalCopies() {

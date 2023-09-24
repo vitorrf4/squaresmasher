@@ -7,7 +7,6 @@ import java.util.Objects;
 @Entity
 public class Store {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToOne private User user;
     @OneToOne private StoreStock stock;
     @OneToMany private List<Sale> sales;
     private String name;
@@ -16,9 +15,8 @@ public class Store {
 
     public Store() { }
 
-    public Store(Long id, User user, StoreStock stock, List<Sale> sales, String name, double totalRevenue) {
+    public Store(Long id, StoreStock stock, List<Sale> sales, String name, double totalRevenue) {
         this.id = id;
-        this.user = user;
         this.stock = stock;
         this.sales = sales;
         this.name = name;
@@ -31,14 +29,6 @@ public class Store {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public StoreStock getStock() {
@@ -78,11 +68,11 @@ public class Store {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Store store = (Store) o;
-        return Double.compare(totalRevenue, store.totalRevenue) == 0 && Objects.equals(id, store.id) && Objects.equals(user, store.user) && Objects.equals(stock, store.stock) && Objects.equals(sales, store.sales) && Objects.equals(name, store.name);
+        return Double.compare(totalRevenue, store.totalRevenue) == 0 && Objects.equals(id, store.id) && Objects.equals(stock, store.stock) && Objects.equals(sales, store.sales) && Objects.equals(name, store.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, stock, sales, name, totalRevenue);
+        return Objects.hash(id, stock, sales, name, totalRevenue);
     }
 }

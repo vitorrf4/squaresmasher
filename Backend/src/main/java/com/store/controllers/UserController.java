@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -42,7 +41,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
-        if (user == null || user.getName().isEmpty() || user.getName().isBlank() || user.getPassword().isEmpty() || user.getPassword().isBlank()) {
+        if (user == null || user.getName().isEmpty() || user.getName().isBlank()
+                || user.getPassword().isEmpty() || user.getPassword().isBlank()) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -61,7 +61,8 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        if (user.getName().isEmpty() || user.getName().isBlank() || user.getPassword().isBlank() || user.getPassword().isEmpty()) {
+        if (user.getName().isEmpty() || user.getName().isBlank()
+                || user.getPassword().isBlank() || user.getPassword().isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 

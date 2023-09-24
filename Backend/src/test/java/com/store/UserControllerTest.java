@@ -5,7 +5,6 @@ import com.store.models.User;
 import com.store.repos.UserRepo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,10 +21,10 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(UserController.class)
 class UserControllerTest {
 	@MockBean private UserRepo repo;
-	@Autowired @InjectMocks private UserController controller;
+	@Autowired private UserController controller;
 
 	@Test @DisplayName("GET /users - Success")
-	public void whenGetUsers_thenSuccessCode() {
+	public void whenGetUsers_thenSuccess() {
 		User userToAdd1 = new User();
 		User userToAdd2 = new User();
 
@@ -36,7 +35,7 @@ class UserControllerTest {
 	}
 
 	@Test @DisplayName("GET /users/1 - Success")
-	public void whenGetUserById_thenSuccessCode() {
+	public void whenGetUserById_thenSuccess() {
 		User user1 = new User();
 		user1.setName("test name");
 
@@ -53,7 +52,7 @@ class UserControllerTest {
 	}
 
 	@Test @DisplayName("POST /users/1 - Created")
-	public void whenAddUser_thenSuccess() throws Exception {
+	public void whenAddUser_thenCreated() throws Exception {
 		User user1 = new User();
 		user1.setId(1L);
 		user1.setName("test name");
@@ -67,7 +66,7 @@ class UserControllerTest {
 	}
 
 	@Test @DisplayName("POST /users - BadRequest")
-	public void whenAddUser_thenFailure() throws URISyntaxException {
+	public void whenAddUser_thenBadRequest() throws URISyntaxException {
 		assertThat(controller.addUser(new User()).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 	}
 

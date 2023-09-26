@@ -8,8 +8,9 @@ import java.util.Objects;
 @Entity
 public class Sale {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToMany private List<SaleItem> items;
     @OneToOne private Customer customer;
+    @OneToMany private List<SaleItem> items;
+    @OneToOne private Store store;
     private Date saleDate;
     private double revenue;
 
@@ -28,9 +29,9 @@ public class Sale {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public List<SaleItem> getItems() {
         return items;

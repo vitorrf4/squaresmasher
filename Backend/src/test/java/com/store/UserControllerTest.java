@@ -29,6 +29,7 @@ class UserControllerTest {
 		given(service.getAllUsers()).willReturn(new ArrayList<>(List.of(new User(), new User())));
 
 		assertThat(controller.callGetAllUsers().getStatusCode()).isEqualTo(HttpStatus.OK);
+		assertThat(controller.callGetAllUsers().getBody().size()).isEqualTo(2);
 	}
 
 	@Test @DisplayName("GET /users/1 - Success")

@@ -18,26 +18,26 @@ public class MovieService {
         this.repo = repo;
     }
 
-    public List<Movie> getAllCustomers() {
+    public List<Movie> getAllMovies() {
         return repo.findAll();
     }
 
-    public Movie getCustomer(Long id) {
+    public Movie getMovie(Long id) {
         return repo.findById(id).orElse(null);
     }
 
-    public Movie createCustomer(Movie customer) {
+    public Movie registerMovie(Movie customer) {
         if (customer == null) return null;
         return repo.save(customer);
     }
 
-    public Movie updateCustomer(Movie customer) {
+    public Movie updateMovie(Movie customer) {
         if (customer == null) return null;
         if (!repo.existsById(customer.getId())) return null;
         return repo.save(customer);
     }
 
-    public boolean deleteCustomer(Long id) {
+    public boolean deleteMovie(Long id) {
         Optional<Movie> movie = repo.findById(id);
         if (movie.isEmpty()) return false;
         repo.delete(movie.get());

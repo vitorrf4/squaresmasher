@@ -42,6 +42,7 @@ public class DatabaseInserter implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         try {
+            if (userRepo.existsById(1L)) return;
 
             User user1 = new User();
             user1.setName("test user");
@@ -66,7 +67,8 @@ public class DatabaseInserter implements CommandLineRunner {
             copyRepo.save(copy1);
             stockRepo.save(stock1);
             storeRepo.save(store1);
-            User createdUserr = userService.createUser(user1);
+            userService.createUser(user1);
+            System.out.println("Initialized user 1");
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();

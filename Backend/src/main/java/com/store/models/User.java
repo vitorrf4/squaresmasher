@@ -7,9 +7,9 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  private Long id;
-    @OneToOne private Store store;
     private String name;
     private String password;
+    @OneToOne private Store store;
 
     public User() { }
 

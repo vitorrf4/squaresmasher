@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.DoubleStream;
 
 @Entity
 public class Sale {
@@ -17,8 +18,7 @@ public class Sale {
 
     public Sale() { }
 
-    public Sale(Long id, List<SaleItem> items, Customer customer, Date saleDate, double revenue) {
-        this.id = id;
+    public Sale(List<SaleItem> items, Customer customer, Date saleDate, double revenue) {
         this.items = items;
         this.customer = customer;
         this.saleDate = saleDate;
@@ -28,10 +28,6 @@ public class Sale {
     public Long getId() {
         return id;
     }
-
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
 
     public List<SaleItem> getItems() {
         return items;
@@ -62,6 +58,13 @@ public class Sale {
     }
 
     public void setRevenue(double revenue) {
+        this.revenue = revenue;
+    }
+
+    private void calculateRevenue() {
+        double revenue = 0;
+        for (SaleItem item : items) revenue += item.getItemTotalPrice() * item.getCopiesSold();
+
         this.revenue = revenue;
     }
 

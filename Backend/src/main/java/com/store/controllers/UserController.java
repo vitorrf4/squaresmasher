@@ -30,39 +30,38 @@ public class UserController {
 
     @GetMapping(path="/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        if(!repo.existsById(id)) {
+        if(!repo.existsById(id))
             return ResponseEntity.notFound().build();
-        }
+
 
         return ResponseEntity.ok(repo.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<User> addUser(@RequestBody User user) throws URISyntaxException {
-        if (user == null || user.getName().isEmpty() || user.getName().isBlank()
-                || user.getPassword().isEmpty() || user.getPassword().isBlank()) {
+        if (user == null || user.getName().isEmpty() || user.getName().isBlank() ||
+                user.getPassword().isEmpty() || user.getPassword().isBlank())
             return ResponseEntity.badRequest().build();
-        }
 
-        if (repo.findByName(user.getName()) != null) {
+        if (repo.findByName(user.getName()) != null)
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+
 
         User createdUser = repo.save(user);
 
         return ResponseEntity.created(new URI("/users/" + createdUser.getId())).body(createdUser); // change created uri for deployed server
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> changeUser(@PathVariable Long id, @RequestBody User user) {
-        if (!repo.existsById(id)) {
+        if (!repo.existsById(id))
             return ResponseEntity.notFound().build();
-        }
 
-        if (user.getName().isEmpty() || user.getName().isBlank()
-                || user.getPassword().isBlank() || user.getPassword().isEmpty()) {
+        if (user.getName().isEmpty() || user.getName().isBlank() ||
+                user.getPassword().isBlank() || user.getPassword().isEmpty())
             return ResponseEntity.badRequest().build();
-        }
+
 
         User modifiedUser = repo.save(user);
 
@@ -71,9 +70,9 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        if (!repo.existsById(id)) {
+        if (!repo.existsById(id))
             return ResponseEntity.notFound().build();
-        }
+
 
         repo.deleteById(id);
         return ResponseEntity.noContent().build();

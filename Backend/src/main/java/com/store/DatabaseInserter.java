@@ -2,12 +2,15 @@ package com.store;
 
 import com.store.models.*;
 import com.store.repos.*;
+import com.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
+import java.util.zip.DataFormatException;
 
 @Component
 public class DatabaseInserter implements CommandLineRunner {
@@ -19,9 +22,10 @@ public class DatabaseInserter implements CommandLineRunner {
     public final StoreRepository storeRepo;
     public final StoreStockRepository stockRepo;
     public final UserRepository userRepo;
+    public final UserService userService;
 
     @Autowired
-    public DatabaseInserter(CustomerRepository customerRepo, MovieCopyRepository copyRepo, MovieRepository movieRepo, SaleItemRepository saleItemRepo, SaleRepository saleRepo, StoreRepository storeRepo, StoreStockRepository stockRepo, UserRepository userRepo) {
+    public DatabaseInserter(CustomerRepository customerRepo, MovieCopyRepository copyRepo, MovieRepository movieRepo, SaleItemRepository saleItemRepo, SaleRepository saleRepo, StoreRepository storeRepo, StoreStockRepository stockRepo, UserRepository userRepo, UserService userService) {
         this.customerRepo = customerRepo;
         this.copyRepo = copyRepo;
         this.movieRepo = movieRepo;
@@ -30,14 +34,18 @@ public class DatabaseInserter implements CommandLineRunner {
         this.storeRepo = storeRepo;
         this.stockRepo = stockRepo;
         this.userRepo = userRepo;
+        this.userService = userService;
     }
 
 
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        try {
+
             User user1 = new User();
             user1.setName("test user");
+            user1.setPassword("test password");
 
             Store store1 = new Store();
             store1.setName("test store");
@@ -54,14 +62,14 @@ public class DatabaseInserter implements CommandLineRunner {
             stock1.setCopies(List.of(copy1));
             store1.setStock(stock1);
 
-
             movieRepo.save(movie1);
             copyRepo.save(copy1);
             stockRepo.save(stock1);
             storeRepo.save(store1);
-            userRepo.save(user1);
-
-            System.out.println("Initialized Store: " + storeRepo.findById(1L).get().getName());
-            System.out.println("Initialized User: " + userRepo.findById(1L).get().getName());
+            User createdUserr = userService.createUser(user1);
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
     }
 }

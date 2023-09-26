@@ -11,11 +11,7 @@ public class User {
     private String name;
     private String password;
 
-    public User() {
-        store = new Store();
-        name = "";
-        password = "";
-    }
+    public User() { }
 
     public User(Long id, String name, String password, Store store) {
         this.id = id;

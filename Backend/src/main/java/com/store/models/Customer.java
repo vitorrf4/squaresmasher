@@ -2,6 +2,7 @@ package com.store.models;
 
 import jakarta.persistence.*;
 
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,9 @@ public class Customer {
     public Customer() { }
 
     public Customer(String name) {
+        if (name == null || name.isEmpty() || name.isBlank())
+            throw new InvalidParameterException();
+
         this.name = name;
     }
 
@@ -28,6 +32,13 @@ public class Customer {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        if (name == null || name.isEmpty() || name.isBlank())
+            throw new InvalidParameterException();
+
+        this.name = name;
     }
 
     public boolean makePurchase(List<SaleItem> purchasedItems, Store store) {

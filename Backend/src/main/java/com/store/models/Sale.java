@@ -8,13 +8,16 @@ import java.util.Objects;
 
 @Entity
 public class Sale {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToOne private Customer customer;
-    @OneToMany private List<SaleItem> items;
-    @ManyToOne(cascade = CascadeType.ALL) private Store store;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Customer customer;
+    @OneToMany(cascade = CascadeType.ALL) @JoinTable(name = "sale_has_items")
+    private List<SaleItem> items;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Store store;
     private LocalDate saleDate;
     private double revenue;
-
 
     public Sale() { }
 
@@ -63,10 +66,7 @@ public class Sale {
     }
 
     private void calculateSaleRevenue() {
-        double revenue = 0;
         for (SaleItem item : items) revenue += item.getItemTotalPrice();
-
-        this.revenue = revenue;
     }
 
     @Override

@@ -7,15 +7,17 @@ import java.util.Objects;
 @Entity
 public class MovieCopy {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne private Movie movie;
+    @ManyToOne(cascade = CascadeType.ALL) private Movie movie;
     private int copiesAmount;
+    private double price;
 
 
     public MovieCopy() { }
 
-    public MovieCopy(Movie movie, int copiesAmount) {
+    public MovieCopy(Movie movie, int copiesAmount, double price) {
         this.movie = movie;
         this.copiesAmount = copiesAmount;
+        this.price = price;
     }
 
     public Long getId() {
@@ -34,12 +36,28 @@ public class MovieCopy {
         this.movie = movie;
     }
 
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public int getCopiesAmount() {
         return copiesAmount;
     }
+    //TODO documentation
+    public void addCopies(int copiesAdded) {
+        copiesAmount += copiesAdded;
+    }
 
-    public void setCopiesAmount(int copiesAmount) {
-        this.copiesAmount = copiesAmount;
+    public boolean takeCopies(int copiesTaken) {
+        if (copiesTaken > copiesAmount) return false;
+
+        copiesAmount -= copiesTaken;
+        return true;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.store.models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -29,8 +30,8 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public boolean makePurchase(List<SaleItem> purchasedItems, Store store) {
+        return store.makeSale(purchasedItems, this);
     }
 
     @Override

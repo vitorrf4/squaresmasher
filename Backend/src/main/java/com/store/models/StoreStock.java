@@ -1,30 +1,23 @@
 package com.store.models;
 
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
+
+import java.util.*;
 
 @Entity
 public class StoreStock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToMany private List<MovieCopy> copies;
+    @OneToMany(cascade = CascadeType.ALL) private List<MovieCopy> copies;
     private int totalCopies;
 
 
-    public StoreStock() { }
-
-    public StoreStock(List<MovieCopy> copies) {
-        this.id = id;
-        this.copies = copies;
-        calculateTotalCopies();
+    public StoreStock() {
+        copies = new ArrayList<>();
     }
 
-    private void calculateTotalCopies() {
-        int copies = 0;
-
-        for (MovieCopy copy : this.copies) copies += copy.getCopiesAmount();
-
-        totalCopies = copies;
+    public StoreStock(List<MovieCopy> copies) {
+        this.copies = copies;
+        calculateTotalCopies();
     }
 
     public Long getId() {
@@ -35,21 +28,31 @@ public class StoreStock {
         this.id = id;
     }
 
-    public List<MovieCopy> getCopies() {
-        return copies;
-    }
-
-    public void setCopies(List<MovieCopy> copies) {
-        this.copies = copies;
-        calculateTotalCopies();
-    }
-
     public int getTotalCopies() {
         return totalCopies;
     }
 
-    public void setTotalCopies(int totalCopies) {
-        this.totalCopies = totalCopies;
+    public MovieCopy getCopyFromStock(MovieCopy copy) {
+        return copies.stream().filter(
+                stockCopy -> stockCopy.getMovie().getMovieTitle()
+                        .equals(copy.getMovie().getMovieTitle()))
+                .findFirst().orElse(null);
+    }
+
+    public int checkCopyAmount(MovieCopy copy) {
+        MovieCopy copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
+        if (copyOnStock == null) return -1;
+
+        return copyOnStock.getCopiesAmount();
+    }
+
+    public void addMovieToStock(MovieCopy movieCopy) {
+        copies.add(movieCopy);
+    }
+
+    public void calculateTotalCopies() {
+        totalCopies = 0;
+        for (MovieCopy copy : copies ) totalCopies += copy.getCopiesAmount();
     }
 
     @Override

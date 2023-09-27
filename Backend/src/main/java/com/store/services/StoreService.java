@@ -2,6 +2,7 @@ package com.store.services;
 
 import com.store.models.Store;
 import com.store.repos.StoreRepository;
+import com.store.repos.StoreStockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class StoreService {
     public StoreRepository repo;
 
     @Autowired
-    public StoreService(StoreRepository repo) {
+    public StoreService(StoreRepository repo, StoreStockRepository stockRepository) {
         this.repo = repo;
     }
 
@@ -28,7 +29,7 @@ public class StoreService {
     public Store createStore(Store store) {
         if (store == null) return null;
 
-        store.calculateRevenue();
+        store.calculateStoreRevenue();
         return repo.save(store);
     }
 
@@ -36,7 +37,7 @@ public class StoreService {
         if (store == null) return null;
         if (!repo.existsById(store.getId())) return null;
 
-        store.calculateRevenue();
+        store.calculateStoreRevenue();
         return repo.save(store);
     }
 

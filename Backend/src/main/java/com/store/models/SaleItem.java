@@ -7,16 +7,15 @@ import java.util.Objects;
 @Entity
 public class SaleItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne private Movie movie;
-    @ManyToOne private Sale sale;
+    @ManyToOne private MovieCopy movieCopy;
     private int copiesSold;
     private double itemTotalPrice;
 
 
     public SaleItem() { }
 
-    public SaleItem(Movie movie, int copiesSold) {
-        this.movie = movie;
+    public SaleItem(MovieCopy movieCopy, int copiesSold) {
+        this.movieCopy = movieCopy;
         this.copiesSold = copiesSold;
         calculateTotalPrice();
     }
@@ -29,20 +28,12 @@ public class SaleItem {
         this.id = id;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public MovieCopy getMovieCopy() {
+        return movieCopy;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    public Sale getSale() {
-        return sale;
-    }
-
-    public void setSale(Sale sale) {
-        this.sale = sale;
+    public void setMovieCopy(MovieCopy movie) {
+        this.movieCopy = movie;
     }
 
     public int getCopiesSold() {
@@ -58,7 +49,7 @@ public class SaleItem {
     }
 
     public void calculateTotalPrice() {
-        this.itemTotalPrice = movie.getPrice() * copiesSold;
+        this.itemTotalPrice = movieCopy.getPrice() * copiesSold;
     }
 
     @Override
@@ -66,11 +57,11 @@ public class SaleItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SaleItem saleItem = (SaleItem) o;
-        return copiesSold == saleItem.copiesSold && Double.compare(itemTotalPrice, saleItem.itemTotalPrice) == 0 && Objects.equals(id, saleItem.id) && Objects.equals(movie, saleItem.movie) && Objects.equals(sale, saleItem.sale);
+        return copiesSold == saleItem.copiesSold && Double.compare(itemTotalPrice, saleItem.itemTotalPrice) == 0 && Objects.equals(id, saleItem.id) && Objects.equals(movieCopy, saleItem.movieCopy);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movie, sale, copiesSold, itemTotalPrice);
+        return Objects.hash(id, movieCopy, copiesSold, itemTotalPrice);
     }
 }

@@ -8,22 +8,26 @@ import java.util.Objects;
 
 @Entity
 public class Store {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-    @OneToOne private StoreStock stock;
-    @OneToMany(cascade = CascadeType.ALL)  private List<Sale> sales;
+    @OneToOne(cascade = CascadeType.ALL) @MapsId
+    private StoreStock stock;
+    @OneToMany(cascade = CascadeType.ALL) @JoinTable(name = "store_makes_sales")
+    private List<Sale> sales;
     private double totalRevenue;
 
 
     public Store() {
         sales = new ArrayList<>();
+        stock  = new StoreStock();
     }
 
-    public Store(String name, StoreStock stock, List<Sale> sales) {
+    public Store(String name, StoreStock stock) {
         this.name = name;
         this.stock = stock;
-        this.sales = sales;
-        calculateRevenue();
+        sales = new ArrayList<>();
+        calculateStoreRevenue();
     }
 
     public Long getId() {
@@ -36,10 +40,6 @@ public class Store {
 
     public StoreStock getStock() {
         return stock;
-    }
-
-    public void setStock(StoreStock stock) {
-        this.stock = stock;
     }
 
     public List<Sale> getSales() {
@@ -62,7 +62,22 @@ public class Store {
         return totalRevenue;
     }
 
-    public void calculateRevenue() {
+    public boolean makeSale(List<SaleItem> soldItems, Customer customer) {
+        for (SaleItem item : soldItems) {
+            MovieCopy movieOnStock = stock.getCopyFromStock(item.getMovieCopy());
+            if (movieOnStock == null) return false;
+            if (!movieOnStock.takeCopies(item.getCopiesSold())) return false;
+            stock.calculateTotalCopies();
+        }
+
+        Sale newSale = new Sale(soldItems, customer, this);
+        sales.add(newSale);
+        calculateStoreRevenue();
+        return true;
+    }
+
+    public void calculateStoreRevenue() {
+        totalRevenue = 0;
         for (Sale sale : sales) totalRevenue += sale.getRevenue();
     }
 

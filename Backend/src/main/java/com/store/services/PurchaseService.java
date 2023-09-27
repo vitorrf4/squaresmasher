@@ -7,6 +7,7 @@ import com.store.models.Store;
 import com.store.repos.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class PurchaseService {
     public SaleItemService saleItemService;
 
     @Autowired
-    public PurchaseService(StoreService storeService, CustomerService customerService, MovieService movieService, SaleService saleService, SaleItemService saleItemService, SaleRepository saleRepo) {
+    public PurchaseService(StoreService storeService, CustomerService customerService, MovieService movieService, SaleService saleService, SaleItemService saleItemService) {
         this.storeService = storeService;
         this.customerService = customerService;
         this.movieService = movieService;
@@ -27,10 +28,10 @@ public class PurchaseService {
         this.saleItemService = saleItemService;
     }
 
+    @Transactional
     public void makePurchase(List<SaleItem> purchases, Customer customer, Store store) {
         Sale sale = new Sale(purchases, customer, store);
 
-        saleService.makeSale(sale);
         store.getSales().add(sale);
         storeService.changeStore(store);
     }

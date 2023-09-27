@@ -4,7 +4,6 @@ import com.store.models.Sale;
 import com.store.repos.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +24,10 @@ public class SaleService {
         return repo.findById(id).orElse(null);
     }
 
-    public Sale makeSale(Sale customer) {
-        if (customer == null) return null;
-        return repo.save(customer);
+    public Sale makeSale(Sale sale) {
+        if (sale == null) return null;
+
+        return repo.save(sale);
     }
 
     public Sale updateSale(Sale sale) {

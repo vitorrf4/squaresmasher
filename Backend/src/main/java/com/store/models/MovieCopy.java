@@ -13,8 +13,7 @@ public class MovieCopy {
 
     public MovieCopy() { }
 
-    public MovieCopy(Long id, Movie movie, int copiesAmount) {
-        this.id = id;
+    public MovieCopy(Movie movie, int copiesAmount) {
         this.movie = movie;
         this.copiesAmount = copiesAmount;
     }

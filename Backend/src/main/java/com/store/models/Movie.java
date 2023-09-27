@@ -11,23 +11,19 @@ public class Movie {
     private String movieTitle;
     private Date releaseDate;
     @ElementCollection private List<String> genres;
-
+    private double price;
 
     public Movie() { }
 
-    public Movie(Long id, String movieTitle, Date releaseDate, List<String> genres) {
-        this.id = id;
+    public Movie(String movieTitle, Date releaseDate, List<String> genres, double price) {
         this.movieTitle = movieTitle;
         this.releaseDate = releaseDate;
         this.genres = genres;
+        this.price = price;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getMovieTitle() {
@@ -52,6 +48,15 @@ public class Movie {
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

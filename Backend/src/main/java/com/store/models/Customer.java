@@ -13,8 +13,7 @@ public class Customer {
 
     public Customer() { }
 
-    public Customer(Long id, String name) {
-        this.id = id;
+    public Customer(String name) {
         this.name = name;
     }
 

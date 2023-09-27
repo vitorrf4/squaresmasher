@@ -28,6 +28,7 @@ public class StoreService {
     public Store createStore(Store store) {
         if (store == null) return null;
 
+        store.calculateRevenue();
         return repo.save(store);
     }
 
@@ -35,6 +36,7 @@ public class StoreService {
         if (store == null) return null;
         if (!repo.existsById(store.getId())) return null;
 
+        store.calculateRevenue();
         return repo.save(store);
     }
 

@@ -15,12 +15,10 @@ public class SaleItem {
 
     public SaleItem() { }
 
-    public SaleItem(Long id, Movie movie, Sale sale, int copiesSold, double itemTotalPrice) {
-        this.id = id;
+    public SaleItem(Movie movie, int copiesSold) {
         this.movie = movie;
-        this.sale = sale;
         this.copiesSold = copiesSold;
-        this.itemTotalPrice = itemTotalPrice;
+        calculateTotalPrice();
     }
 
     public Long getId() {
@@ -59,8 +57,8 @@ public class SaleItem {
         return itemTotalPrice;
     }
 
-    public void setItemTotalPrice(double itemTotalPrice) {
-        this.itemTotalPrice = itemTotalPrice;
+    public void calculateTotalPrice() {
+        this.itemTotalPrice = movie.getPrice() * copiesSold;
     }
 
     @Override

@@ -1,26 +1,29 @@
 package com.store.models;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Store {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToOne private StoreStock stock;
-    @OneToMany private List<Sale> sales;
     private String name;
+    @OneToOne private StoreStock stock;
+    @OneToMany(cascade = CascadeType.ALL)  private List<Sale> sales;
     private double totalRevenue;
 
 
-    public Store() { }
+    public Store() {
+        sales = new ArrayList<>();
+    }
 
-    public Store(Long id, StoreStock stock, List<Sale> sales, String name, double totalRevenue) {
-        this.id = id;
+    public Store(String name, StoreStock stock, List<Sale> sales) {
+        this.name = name;
         this.stock = stock;
         this.sales = sales;
-        this.name = name;
-        this.totalRevenue = totalRevenue;
+        calculateRevenue();
     }
 
     public Long getId() {
@@ -59,8 +62,8 @@ public class Store {
         return totalRevenue;
     }
 
-    public void setTotalRevenue(double totalRevenue) {
-        this.totalRevenue = totalRevenue;
+    public void calculateRevenue() {
+        for (Sale sale : sales) totalRevenue += sale.getRevenue();
     }
 
     @Override

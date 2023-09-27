@@ -13,7 +13,7 @@ public class StoreStock {
 
     public StoreStock() { }
 
-    public StoreStock(Long id, List<MovieCopy> copies) {
+    public StoreStock(List<MovieCopy> copies) {
         this.id = id;
         this.copies = copies;
         calculateTotalCopies();

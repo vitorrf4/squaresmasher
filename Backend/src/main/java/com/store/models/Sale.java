@@ -1,28 +1,29 @@
 package com.store.models;
 
 import jakarta.persistence.*;
-import java.util.Date;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.DoubleStream;
 
 @Entity
 public class Sale {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @OneToOne private Customer customer;
     @OneToMany private List<SaleItem> items;
-    @OneToOne private Store store;
-    private Date saleDate;
+    @ManyToOne(cascade = CascadeType.ALL) private Store store;
+    private LocalDate saleDate;
     private double revenue;
 
 
     public Sale() { }
 
-    public Sale(List<SaleItem> items, Customer customer, Date saleDate, double revenue) {
+    public Sale(List<SaleItem> items, Customer customer, Store store) {
         this.items = items;
         this.customer = customer;
-        this.saleDate = saleDate;
-        this.revenue = revenue;
+        this.store = store;
+        saleDate = LocalDate.now();
+        calculateSaleRevenue();
     }
 
     public Long getId() {
@@ -45,25 +46,25 @@ public class Sale {
         this.customer = customer;
     }
 
-    public Date getSaleDate() {
+    public LocalDate getSaleDate() {
         return saleDate;
-    }
-
-    public void setSaleDate(Date saleDate) {
-        this.saleDate = saleDate;
     }
 
     public double getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(double revenue) {
-        this.revenue = revenue;
+    public Store getStore() {
+        return store;
     }
 
-    private void calculateRevenue() {
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    private void calculateSaleRevenue() {
         double revenue = 0;
-        for (SaleItem item : items) revenue += item.getItemTotalPrice() * item.getCopiesSold();
+        for (SaleItem item : items) revenue += item.getItemTotalPrice();
 
         this.revenue = revenue;
     }
@@ -80,4 +81,5 @@ public class Sale {
     public int hashCode() {
         return Objects.hash(id, items, customer, saleDate, revenue);
     }
+
 }

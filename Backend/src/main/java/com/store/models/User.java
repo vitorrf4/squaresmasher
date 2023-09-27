@@ -13,8 +13,7 @@ public class User {
 
     public User() { }
 
-    public User(Long id, String name, String password, Store store) {
-        this.id = id;
+    public User(String name, String password, Store store) {
         this.name = name;
         this.password = password;
         this.store = store;

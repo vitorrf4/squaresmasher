@@ -48,19 +48,19 @@ public class DatabaseInserter implements CommandLineRunner {
 //        if (userRepo.existsById(1L)) return;
 
 
-        Movie movie1 = new Movie("House of Leaves", Date.valueOf("2000-08-01"),List.of("Horror"));
-        MovieCopy copy1 = new MovieCopy(movie1, 5, 20);
-        StoreStock stock1 = new StoreStock();
-        stock1.addMovieToStock(copy1);
-
-        Store store1 = new Store("test store", stock1);
-
-        List<SaleItem> items = new ArrayList<>();
-        items.add(new SaleItem(copy1, 5));
-
-
-        Customer customer = new Customer("david");
-        storeService.createStore(store1);
+//        Movie movie1 = new Movie("House of Leaves", Date.valueOf("2000-08-01"),List.of("Horror"));
+//        MovieCopy copy1 = new MovieCopy(movie1, 5, 20);
+//        StoreStock stock1 = new StoreStock();
+//        stock1.addMovieToStock(copy1);
+//
+//        Store store1 = new Store("test store", stock1);
+//
+//        List<SaleItem> items = new ArrayList<>();
+//        items.add(new SaleItem(copy1, 5));
+//
+//
+//        Customer customer = new Customer("david");
+//        storeService.createStore(store1);
 
 //        if (customer.makePurchase(items, store1))
 //            System.out.println("initial sale successfull");

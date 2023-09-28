@@ -71,10 +71,14 @@ public class Store {
             stock.calculateTotalCopies();
         }
 
-        Sale newSale = new Sale(soldItems, customer, this);
+        Sale newSale = new Sale(soldItems, customer);
         sales.add(newSale);
         calculateStoreRevenue();
         return newSale;
+    }
+
+    public Sale getLastSale() {
+        return sales.get(sales.size() - 1);
     }
 
     public void calculateStoreRevenue() {

@@ -49,7 +49,7 @@ public class CustomerTest {
         items.add(new SaleItem(copy1, 5));
 
         Sale actualPurchase = customer.makePurchase(items, store);
-        Sale expectedPurchase = new Sale(items, customer, store);
+        Sale expectedPurchase = new Sale(items, customer);
         assertThat(actualPurchase).isEqualTo(expectedPurchase);
     }
 

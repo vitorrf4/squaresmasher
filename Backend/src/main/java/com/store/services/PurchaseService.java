@@ -4,7 +4,6 @@ import com.store.models.Customer;
 import com.store.models.Sale;
 import com.store.models.SaleItem;
 import com.store.models.Store;
-import com.store.repos.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +29,7 @@ public class PurchaseService {
 
     @Transactional
     public void makePurchase(List<SaleItem> purchases, Customer customer, Store store) {
-        Sale sale = new Sale(purchases, customer, store);
+        Sale sale = new Sale(purchases, customer);
 
         store.getSales().add(sale);
         storeService.changeStore(store);

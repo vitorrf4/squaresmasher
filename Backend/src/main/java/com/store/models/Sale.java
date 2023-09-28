@@ -14,17 +14,14 @@ public class Sale {
     private Customer customer;
     @OneToMany(cascade = CascadeType.ALL) @JoinTable(name = "sale_has_items")
     private List<SaleItem> items;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Store store;
     private LocalDate saleDate;
     private double revenue;
 
     public Sale() { }
 
-    public Sale(List<SaleItem> items, Customer customer, Store store) {
+    public Sale(List<SaleItem> items, Customer customer) {
         this.items = items;
         this.customer = customer;
-        this.store = store;
         saleDate = LocalDate.now();
         calculateSaleRevenue();
     }
@@ -55,14 +52,6 @@ public class Sale {
 
     public double getRevenue() {
         return revenue;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
     }
 
     private void calculateSaleRevenue() {

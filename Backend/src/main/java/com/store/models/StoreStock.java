@@ -50,6 +50,7 @@ public class StoreStock {
 
     public void addMovieToStock(MovieCopy movieCopy) {
         copies.add(movieCopy);
+        calculateTotalCopies();
     }
 
     public void calculateTotalCopies() {

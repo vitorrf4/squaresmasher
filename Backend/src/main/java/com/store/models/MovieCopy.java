@@ -36,7 +36,6 @@ public class MovieCopy {
         this.movie = movie;
     }
 
-
     public double getPrice() {
         return price;
     }
@@ -48,7 +47,7 @@ public class MovieCopy {
     public int getCopiesAmount() {
         return copiesAmount;
     }
-    //TODO documentation
+
     public void addCopies(int copiesAdded) {
         copiesAmount += copiesAdded;
     }

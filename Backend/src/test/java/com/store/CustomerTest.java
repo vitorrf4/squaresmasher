@@ -14,16 +14,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @TestComponent
 public class CustomerTest {
     @Test
-    @DisplayName("Customer creation - Exception")
+    @DisplayName("Customer Creation - Exception")
     public void whenCreateUser_givenNullName_thenException() {
         assertThrows(InvalidParameterException.class, () -> new Customer(null));
     }
 
     @Test
-    @DisplayName("Customer set name - Exception")
+    @DisplayName("Customer Set Name - Exception")
     public void whenSetNameToNull_thenException() {
         Customer customer = new Customer();
         assertThrows(InvalidParameterException.class, () -> customer.setName(null));
+    }
+
+    @Test
+    @DisplayName("Customer Purchase With Null Parameters - Fail")
+    public void whenMakePurhcase_givenNullParameters_thenFail() {
+        Customer customer = new Customer("test");
+        boolean expectedPurchaseBool = customer.makePurchase(null, null);
+        assertThat(expectedPurchaseBool).isFalse();
     }
 
     @Test
@@ -40,8 +48,8 @@ public class CustomerTest {
         List<SaleItem> items = new ArrayList<>();
         items.add(new SaleItem(copy1, 5));
 
-        var expectedPurhcase = customer.makePurchase(items, store);
-        assertThat(expectedPurhcase).isTrue();
+        boolean expectedPurchaseBool = customer.makePurchase(items, store);
+        assertThat(expectedPurchaseBool).isTrue();
     }
 
 }

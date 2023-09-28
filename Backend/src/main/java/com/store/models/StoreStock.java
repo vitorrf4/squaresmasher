@@ -36,10 +36,12 @@ public class StoreStock {
         return copies.stream().filter(
                 stockCopy -> stockCopy.getMovie().getMovieTitle()
                         .equals(copy.getMovie().getMovieTitle()))
-                .findFirst().orElse(null);
+                        .findFirst().orElse(null);
     }
 
     public int checkCopyAmount(MovieCopy copy) {
+        if (copy.getId() == null) return -1;
+
         MovieCopy copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
         if (copyOnStock == null) return -1;
 

@@ -62,10 +62,10 @@ public class DatabaseInserter implements CommandLineRunner {
         Customer customer = new Customer("david");
         storeService.createStore(store1);
 
-        if (customer.makePurchase(items, store1))
-            System.out.println("initial sale successfull");
-        else
-            System.out.println("initial sale failed");
+//        if (customer.makePurchase(items, store1))
+//            System.out.println("initial sale successfull");
+//        else
+//            System.out.println("initial sale failed");
 
         //TODO check that stock has only one movie_copy of a given movie
 //        Movie movie1 = new Movie("House of Leaves", Date.valueOf("2000-08-01"),List.of("Horror"));

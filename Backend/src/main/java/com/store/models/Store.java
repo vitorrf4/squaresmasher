@@ -62,19 +62,19 @@ public class Store {
         return totalRevenue;
     }
 
-    public boolean makeSale(List<SaleItem> soldItems, Customer customer) {
+    public Sale makeSale(List<SaleItem> soldItems, Customer customer) {
         for (SaleItem item : soldItems) {
-            if (item.getCopiesSold() <= 0) return false;
+            if (item.getCopiesSold() <= 0) return null;
             MovieCopy movieOnStock = stock.getCopyFromStock(item.getMovieCopy());
-            if (movieOnStock == null) return false;
-            if (!movieOnStock.takeCopies(item.getCopiesSold())) return false;
+            if (movieOnStock == null) return null;
+            if (!movieOnStock.takeCopies(item.getCopiesSold())) return null;
             stock.calculateTotalCopies();
         }
 
         Sale newSale = new Sale(soldItems, customer, this);
         sales.add(newSale);
         calculateStoreRevenue();
-        return true;
+        return newSale;
     }
 
     public void calculateStoreRevenue() {

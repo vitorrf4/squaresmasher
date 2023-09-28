@@ -41,8 +41,8 @@ public class Customer {
         this.name = name;
     }
 
-    public boolean makePurchase(List<SaleItem> purchasedItems, Store store) {
-        if (store == null) return false;
+    public Sale makePurchase(List<SaleItem> purchasedItems, Store store) {
+        if (store == null) return null;
 
         return store.makeSale(purchasedItems, this);
     }

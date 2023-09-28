@@ -58,6 +58,10 @@ public class StoreStock {
         for (MovieCopy copy : copies ) totalCopies += copy.getCopiesAmount();
     }
 
+    public List<MovieCopy> getAllCopies() {
+        return copies.parallelStream().toList();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

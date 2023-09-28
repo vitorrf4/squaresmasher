@@ -30,8 +30,8 @@ public class CustomerTest {
     @DisplayName("Customer Purchase With Null Parameters - Fail")
     public void whenMakePurhcase_givenNullParameters_thenFail() {
         Customer customer = new Customer("test");
-        boolean expectedPurchaseBool = customer.makePurchase(null, null);
-        assertThat(expectedPurchaseBool).isFalse();
+        Sale expectedPurchaseBool = customer.makePurchase(null, null);
+        assertThat(expectedPurchaseBool).isNull();
     }
 
     @Test
@@ -48,8 +48,9 @@ public class CustomerTest {
         List<SaleItem> items = new ArrayList<>();
         items.add(new SaleItem(copy1, 5));
 
-        boolean expectedPurchaseBool = customer.makePurchase(items, store);
-        assertThat(expectedPurchaseBool).isTrue();
+        Sale actualPurchase = customer.makePurchase(items, store);
+        Sale expectedPurchase = new Sale(items, customer, store);
+        assertThat(actualPurchase).isEqualTo(expectedPurchase);
     }
 
 }

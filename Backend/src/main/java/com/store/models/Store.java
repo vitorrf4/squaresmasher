@@ -64,6 +64,7 @@ public class Store {
 
     public boolean makeSale(List<SaleItem> soldItems, Customer customer) {
         for (SaleItem item : soldItems) {
+            if (item.getCopiesSold() <= 0) return false;
             MovieCopy movieOnStock = stock.getCopyFromStock(item.getMovieCopy());
             if (movieOnStock == null) return false;
             if (!movieOnStock.takeCopies(item.getCopiesSold())) return false;

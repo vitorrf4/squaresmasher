@@ -7,12 +7,14 @@ import { AddusersComponent } from './add-user/add-user.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
+import { GenerateSaleComponent } from './generate-sale/generate-sale.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListUsersComponent,
-    AddusersComponent
+    AddusersComponent,
+    GenerateSaleComponent
   ],
   imports: [
     BrowserModule,

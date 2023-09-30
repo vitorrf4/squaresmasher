@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
-public class RandomSaleTest {
+public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
     @Autowired private RandomSaleService service;
     @Autowired private StoreRepository storeRepository;
@@ -34,7 +33,7 @@ public class RandomSaleTest {
     Store store;
 
     @Autowired
-    public RandomSaleTest(RandomSaleController controller) {
+    public RandomSaleIntegrationTest(RandomSaleController controller) {
         this.controller = controller;
     }
 

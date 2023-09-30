@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class RandomSaleService {
@@ -36,10 +37,12 @@ public class RandomSaleService {
         Store userStore = user.get().getStore();
         List<MovieCopy> moviesInStock = stockRepository.findById(userStore.getStock().getId()).get().getAllCopies();
 
+        int randomCopyIndex = getRandomint(0, moviesInStock.size() -1);
 
-        int randomCopyIndex = (int)(Math.random() + (moviesInStock.size() - 1));
+        MovieCopy randomCopy = moviesInStock.get(randomCopyIndex);
+        int randomCopiesAmount = getRandomint(1, randomCopy.getCopiesAmount());
 
-        SaleItem randomMovie = new SaleItem(moviesInStock.get(randomCopyIndex), 1);
+        SaleItem randomMovie = new SaleItem(randomCopy,  randomCopiesAmount);
 
         List<SaleItem> items = new ArrayList<>();
         items.add(randomMovie);
@@ -50,5 +53,9 @@ public class RandomSaleService {
         sale = userStore.getLastSale();
 
         return sale;
+    }
+
+    public int getRandomint(int min, int max) {
+        return (int)(Math.random() * (max - min)) + min;
     }
 }

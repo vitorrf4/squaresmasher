@@ -26,9 +26,6 @@ public class DatabaseInserter implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         //TODO rollback failed initializations
-//        if (userRepo.existsById(1L)) return;
-
-
         Movie movie1 = new Movie("House of Leaves", Date.valueOf("2000-08-01"),List.of("Horror"));
         MovieCopy copy1 = new MovieCopy(movie1, 5, 20);
         StoreStock stock1 = new StoreStock();

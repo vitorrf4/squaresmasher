@@ -1,17 +1,22 @@
 package com.store.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String password;
-    @OneToOne private Store store;
+    @OneToOne(cascade = CascadeType.PERSIST) @JsonIgnore
+    private Store store;
 
-    public User() { }
+    public User() {
+        store = new Store();
+    }
 
     public User(String name, String password, Store store) {
         this.name = name;

@@ -11,7 +11,6 @@ public class SaleItem {
     private int copiesSold;
     private double itemTotalPrice;
 
-
     public SaleItem() { }
 
     public SaleItem(MovieCopy movieCopy, int copiesSold) {

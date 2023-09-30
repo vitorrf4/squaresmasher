@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @CrossOrigin // only allow origin from deployed frontend server
 public class UserController {
     public UserService service;
-    public Logger logger = Logger.getLogger("USER_CONTROLLER_DEBUG");
+    public Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     public UserController(UserService service) {

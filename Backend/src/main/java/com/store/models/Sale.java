@@ -2,7 +2,7 @@ package com.store.models;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,18 +14,15 @@ public class Sale {
     private Customer customer;
     @OneToMany(cascade = CascadeType.ALL) @JoinTable(name = "sale_has_items")
     private List<SaleItem> items;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Store store;
-    private LocalDate saleDate;
+    private LocalDateTime saleDate;
     private double revenue;
 
     public Sale() { }
 
-    public Sale(List<SaleItem> items, Customer customer, Store store) {
+    public Sale(List<SaleItem> items, Customer customer) {
         this.items = items;
         this.customer = customer;
-        this.store = store;
-        saleDate = LocalDate.now();
+        saleDate = LocalDateTime.now();
         calculateSaleRevenue();
     }
 
@@ -49,20 +46,12 @@ public class Sale {
         this.customer = customer;
     }
 
-    public LocalDate getSaleDate() {
+    public LocalDateTime getSaleDate() {
         return saleDate;
     }
 
     public double getRevenue() {
         return revenue;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public void setStore(Store store) {
-        this.store = store;
     }
 
     private void calculateSaleRevenue() {

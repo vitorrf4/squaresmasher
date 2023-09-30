@@ -6,8 +6,10 @@ import java.util.Objects;
 
 @Entity
 public class MovieCopy {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne(cascade = CascadeType.ALL) private Movie movie;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
+    private Movie movie;
     private int copiesAmount;
     private double price;
 

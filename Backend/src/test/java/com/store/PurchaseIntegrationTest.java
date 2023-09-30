@@ -39,10 +39,10 @@ public class PurchaseIntegrationTest {
     public void whenMakePurchase_thenSuccess(int copiesBought) {
         itemsBought.add(new SaleItem(movieCopy, copiesBought));
 
-        boolean expectedPurchaseBool = customer.makePurchase(itemsBought, store);
+        Sale actualPurchase = customer.makePurchase(itemsBought, store);
         double expectedSaleRevenue = store.getSales().get(0).getRevenue();
 
-        assertThat(expectedPurchaseBool).isTrue();
+        assertThat(actualPurchase).isInstanceOf(Sale.class);
         assertThat(movieCopy.getCopiesAmount()).isEqualTo(5 - copiesBought);
         assertThat(expectedSaleRevenue).isEqualTo(copiesBought * movieCopy.getPrice());
         assertThat(stock.getTotalCopies()).isEqualTo(5 - copiesBought);
@@ -56,9 +56,9 @@ public class PurchaseIntegrationTest {
     public void whenMakePurchase_givenNotEnoughCopies_thenFailure(int copiesSold) {
         itemsBought.add(new SaleItem(movieCopy, copiesSold));
 
-        boolean expectedPurchaseBool = customer.makePurchase(itemsBought, store);
+        Sale actualPurchase = customer.makePurchase(itemsBought, store);
 
-        assertThat(expectedPurchaseBool).isFalse();
+        assertThat(actualPurchase).isNull();
         assertThat(movieCopy.getCopiesAmount()).isEqualTo(5);
         assertThat(stock.getTotalCopies()).isEqualTo(5);
         assertThat(store.getSales().size()).isEqualTo(0);

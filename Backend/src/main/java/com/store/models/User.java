@@ -18,12 +18,6 @@ public class User {
         store = new Store();
     }
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-        store = new Store();
-    }
-
     public User(String name, String password, Store store) {
         this.name = name;
         this.password = password;

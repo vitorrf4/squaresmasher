@@ -1,15 +1,15 @@
 package com.store.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class SaleDTO {
     private String customerName;
     private Map<String, Integer> moviesBought;
     private double saleTotalPrice;
-    private LocalDate saleDate;
+    private LocalDateTime saleDate;
 
-    public SaleDTO(String customerName, Map<String, Integer> moviesBought, double saleTotalPrice, LocalDate saleDate) {
+    public SaleDTO(String customerName, Map<String, Integer> moviesBought, double saleTotalPrice, LocalDateTime saleDate) {
         this.customerName = customerName;
         this.moviesBought = moviesBought;
         this.saleTotalPrice = saleTotalPrice;
@@ -32,11 +32,11 @@ public class SaleDTO {
         this.saleTotalPrice = saleTotalPrice;
     }
 
-    public LocalDate getSaleDate() {
+    public LocalDateTime getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(LocalDate saleDate) {
+    public void setSaleDate(LocalDateTime saleDate) {
         this.saleDate = saleDate;
     }
 

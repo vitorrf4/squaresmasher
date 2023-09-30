@@ -1,14 +1,9 @@
 package com.store.dto;
 
-import com.store.models.Movie;
 import com.store.models.Sale;
-import com.store.models.SaleItem;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SaleMapper {
@@ -26,7 +21,7 @@ public class SaleMapper {
         });
 
         double saleTotalPrice = domainSale.getRevenue();
-        LocalDate saleDate = domainSale.getSaleDate();
+        LocalDateTime saleDate = domainSale.getSaleDate();
 
         return new SaleDTO(customerName, movies, saleTotalPrice, saleDate);
     }

@@ -1,16 +1,17 @@
 package com.store.controllers;
 
+import com.store.dto.SaleDTO;
+import com.store.dto.SaleMapper;
 import com.store.models.Sale;
 import com.store.models.User;
 import com.store.services.RandomSaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController(value = "RandomSale")
+@CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
 
@@ -19,11 +20,13 @@ public class RandomSaleController {
         this.saleService = saleService;
     }
 
-    @GetMapping("purchase/generate")
-    public ResponseEntity<Sale> generateSale(@RequestBody User user) {
-        Sale sale = saleService.generateSale(user);
+    @GetMapping("purchase/generate/{id}")
+    public ResponseEntity<SaleDTO> generateSale(@PathVariable Long id) {
+        Sale sale = saleService.generateSale(id);
         if (sale == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        return ResponseEntity.ok(sale);
+        SaleDTO saleDTO = SaleMapper.toDTO(sale);
+
+        return ResponseEntity.ok(saleDTO);
     }
 }

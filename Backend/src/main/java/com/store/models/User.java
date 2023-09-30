@@ -9,9 +9,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)  private Long id;
     private String name;
     private String password;
-    @OneToOne private Store store;
+    @OneToOne(cascade = CascadeType.PERSIST) private Store store;
 
-    public User() { }
+    public User() {
+        store = new Store();
+    }
 
     public User(String name, String password, Store store) {
         this.name = name;

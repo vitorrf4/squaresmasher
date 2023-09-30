@@ -39,7 +39,6 @@ public class RandomSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        // John has bought 3 copies of Brick, and 2 copies of Raw | Sale Total: $20.00 | 11:22 - 28/09/2023
         Movie movie1 = new Movie("movie 1", Date.valueOf("2000-01-01"), List.of("genre 1"));
         Movie movie2 = new Movie("movie 2", Date.valueOf("2000-02-02"), List.of("genre 2"));
         Movie movie3 = new Movie("movie 3", Date.valueOf("2000-03-03"), List.of("genre 3"));

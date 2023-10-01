@@ -7,6 +7,9 @@ import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +32,7 @@ public class RandomSaleService {
         List<MovieCopy> moviesInStock = userStore.getStock().getAllCopies();
 
         SaleItem randomMovie = getRandomSaleItem(moviesInStock);
+        if (randomMovie == null) return null;
 
         List<SaleItem> itemsBought = new ArrayList<>();
         itemsBought.add(randomMovie);
@@ -51,12 +55,16 @@ public class RandomSaleService {
     }
 
     public SaleItem getRandomSaleItem(List<MovieCopy> moviesInStock) {
+        int quantityInStock = 0;
+        for (int i = 0; i < moviesInStock.size(); i++) {
+            quantityInStock += moviesInStock.get(i).getCopiesAmount();
+            if (i == moviesInStock.size() - 1 && quantityInStock == 0) {
+                return null;
+            }
+        }
+
         int randomCopyIndex = getRandomint(0, moviesInStock.size());
-
-        MovieCopy randomCopy;
-
-        do randomCopy = moviesInStock.get(randomCopyIndex);
-        while (randomCopy.getCopiesAmount() == 0);
+        MovieCopy randomCopy = moviesInStock.get(randomCopyIndex);
 
         int randomCopiesAmount = getRandomint(1, randomCopy.getCopiesAmount());
 

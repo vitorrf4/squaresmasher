@@ -36,9 +36,9 @@ public class DatabaseInserter implements CommandLineRunner {
         List<SaleItem> items = new ArrayList<>();
         items.add(new SaleItem(copy1, 5));
 
-        User user = userRepo.findById(13L).get();
-        user.setStore(store1);
-        userRepo.save(user);
+//        User user = userRepo.findById(13L).get();
+//        user.setStore(store1);
+//        userRepo.save(user);
 
         //TODO check that stock has only one movie_copy of a given movie
     }

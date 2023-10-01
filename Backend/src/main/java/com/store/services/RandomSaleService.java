@@ -25,6 +25,7 @@ public class RandomSaleService {
     @Transactional
     public Sale generateSale(Long id) {
         Store userStore = getUserStore(id);
+        if (userStore == null) return null;
         List<MovieCopy> moviesInStock = userStore.getStock().getAllCopies();
 
         SaleItem randomMovie = getRandomSaleItem(moviesInStock);

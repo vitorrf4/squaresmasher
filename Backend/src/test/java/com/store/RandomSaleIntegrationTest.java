@@ -1,9 +1,11 @@
 package com.store;
 
 import com.store.controllers.RandomSaleController;
+import com.store.dto.SaleDTO;
 import com.store.models.*;
 import com.store.repos.SaleRepository;
 import com.store.repos.StoreRepository;
+import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +27,12 @@ import static org.mockito.ArgumentMatchers.any;
 @SpringBootTest
 public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
-    @Autowired private RandomSaleService service;
-    @Autowired private StoreRepository storeRepository;
-    @Autowired private SaleRepository saleRepository;
+    @Autowired private UserRepository userRepository;
 
     List<MovieCopy> copies;
     StoreStock stock;
     Store store;
+    User user;
 
     @Autowired
     public RandomSaleIntegrationTest(RandomSaleController controller) {
@@ -52,28 +54,31 @@ public class RandomSaleIntegrationTest {
         stock = new StoreStock(copies);
         store = new Store("test store", stock);
 
-        storeRepository.save(store);
+        user = new User("test user", "test password", store);
+
+        user = userRepository.save(user);
     }
 
     @Test
     @DisplayName("Generate Purchase - Success")
     public void whenGenerateRandomPurhcase_thenSuccess() {
-        User user = new User("test user", "test password", store);
 
-        ResponseEntity<Sale> actualSale = controller.generateSale(user);
-
-        double expectedRevenue = saleRepository.findById(actualSale.getBody().getId()).get().getRevenue();
-        var expectedItemsSize = saleRepository.getSaleWithItems(actualSale.getBody().getId()).getItems().size();
+        ResponseEntity<SaleDTO> actualSale = controller.generateSale(user.getId());
 
         assertThat(actualSale.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actualSale.getBody()).isInstanceOf(Sale.class);
-        assertThat(actualSale.getBody().getRevenue()).isEqualTo(expectedRevenue);
-        assertThat(actualSale.getBody().getItems().size()).isEqualTo(expectedItemsSize);
+        assertThat(actualSale.getBody()).isInstanceOf(SaleDTO.class);
+        assertThat(actualSale.getBody().saleDate().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
+        assertThat(actualSale.getBody().movieTitle())
+                .isIn(
+                copies.get(0).getMovie().getMovieTitle(),
+                copies.get(1).getMovie().getMovieTitle(),
+                copies.get(2).getMovie().getMovieTitle()
+        );
     }
 
     @AfterEach
     public void removeTestStoreFromDb() {
-        storeRepository.deleteById(store.getId());
-        System.out.println("Test store " + stock.getId() + " removed");
+        userRepository.deleteById(user.getId());
+        System.out.println("Test user " + user.getId() + " removed");
     }
 }

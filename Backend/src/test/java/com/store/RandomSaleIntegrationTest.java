@@ -3,10 +3,7 @@ package com.store;
 import com.store.controllers.RandomSaleController;
 import com.store.dto.SaleDTO;
 import com.store.models.*;
-import com.store.repos.SaleRepository;
-import com.store.repos.StoreRepository;
 import com.store.repos.UserRepository;
-import com.store.services.RandomSaleService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -67,7 +64,7 @@ public class RandomSaleIntegrationTest {
 
         assertThat(actualSale.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actualSale.getBody()).isInstanceOf(SaleDTO.class);
-        assertThat(actualSale.getBody().saleDate().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
+        assertThat(actualSale.getBody().saleDateTime().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
         assertThat(actualSale.getBody().movieTitle())
                 .isIn(
                 copies.get(0).getMovie().getMovieTitle(),

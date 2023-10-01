@@ -7,6 +7,6 @@ public record SaleDTO (
         String movieTitle,
         int quantityBought,
         double saleTotalPrice,
-        LocalDateTime saleDate
+        LocalDateTime saleDateTime
 ) { }
 

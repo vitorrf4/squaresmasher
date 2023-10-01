@@ -74,8 +74,8 @@ public class RandomSaleIntegrationTest {
     }
 
     @Test
-    @DisplayName("No Movie Copies - BadRequest")
-    public void whenGenerateRandomPurchase_thenNoMovieCopies_thenNotFound() {
+    @DisplayName("No Movie Copies - NotFound")
+    public void whenGenerateRandomPurchase_givenNoMovieCopies_thenNotFound() {
         int copiesInStock = 0;
         for (MovieCopy copy : copies) {
             copy.takeCopies(copy.getCopiesAmount());
@@ -89,6 +89,18 @@ public class RandomSaleIntegrationTest {
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(saleResponse.getBody().toString()).isEqualTo("No movie copies in stock");
         assertThat(copiesInStock).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("Null Store - BadRequest")
+    public void whenGenerateRandomPurchase_givenNullStore_thenBadRequest() {
+        user.setStore(null);
+        userRepository.save(user);
+
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
+
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(saleResponse.getBody().toString()).isEqualTo("Invalid user store");
     }
 
     @AfterEach

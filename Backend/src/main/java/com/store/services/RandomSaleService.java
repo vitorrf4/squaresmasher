@@ -39,9 +39,10 @@ public class RandomSaleService {
 
     public Store getUserStore(Long id) {
         Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) return null;
+        if (user.isEmpty() || user.get().getStore() == null) return null;
+        Optional<Store> store = storeRepository.findById(user.get().getStore().getId());
 
-        return storeRepository.findById(user.get().getStore().getStock().getId()).orElse(null);
+        return store.orElse(null);
     }
 
     public SaleItem getRandomSaleItem(List<MovieCopy> moviesInStock) {

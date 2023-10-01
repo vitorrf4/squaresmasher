@@ -4,20 +4,27 @@ import com.store.dto.SaleDTO;
 import com.store.dto.SaleMapper;
 import com.store.models.Sale;
 import com.store.models.User;
+import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @RestController(value = "RandomSale")
 @CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RandomSaleController(RandomSaleService saleService) {
+    public RandomSaleController(RandomSaleService saleService, UserRepository userRepository) {
         this.saleService = saleService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("purchase/generate/{id}")
@@ -28,5 +35,18 @@ public class RandomSaleController {
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
 
         return ResponseEntity.ok(saleDTO);
+    }
+
+    @GetMapping("purchase/from-user/{id}")
+    public ResponseEntity<List<SaleDTO>> getAllSalesByUser(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<SaleDTO> salesDTO = new ArrayList<>();
+
+        for (Sale sale : user.get().getStore().getSales()) {
+            salesDTO.add(SaleMapper.toDTO(sale));
+        }
+        return ResponseEntity.ok(salesDTO);
     }
 }

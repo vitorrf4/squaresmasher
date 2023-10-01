@@ -14,6 +14,7 @@ export class GenerateSaleComponent implements OnInit   {
   constructor(private saleService: SaleService ) { }
 
   ngOnInit() {
+    this.saleService.getAllSales();
     this.sales = this.saleService.sales
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Sale} from "../models/sale";
-import {HttpClient, HttpResponse, HttpStatusCode} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,13 @@ export class SaleService {
   constructor(private httpClient : HttpClient) { }
 
   public getRandomSale() {
-    this.httpClient.get<Sale>(`${this.purchaseUrl}/generate/1`).subscribe(data => {
-      console.log(data);
-      this.sales.getValue().push(new Sale(data));
-    })
+    this.httpClient.get<Sale>(`${this.purchaseUrl}/generate/1`).subscribe({
+      next: data => {
+        console.log(data);
+        this.sales.getValue().push(new Sale(data));
+      },
+      error: err => alert(new HttpErrorResponse(err).error)
+    });
   }
 
   public getAllSales() : BehaviorSubject<Sale[]> {

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestComponent
-public class CustomerTest {
+public class CustomerClassTest {
     @Test
     @DisplayName("Customer Creation - Exception")
     public void whenCreateUser_givenNullName_thenException() {

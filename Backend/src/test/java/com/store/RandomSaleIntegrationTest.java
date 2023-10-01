@@ -26,10 +26,8 @@ public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
     @Autowired private UserRepository userRepository;
 
-    List<MovieCopy> copies;
-    StoreStock stock;
-    Store store;
-    User user;
+    private List<MovieCopy> copies;
+    private User user;
 
     @Autowired
     public RandomSaleIntegrationTest(RandomSaleController controller) {
@@ -48,8 +46,8 @@ public class RandomSaleIntegrationTest {
                 new MovieCopy(movie3, 1, 30.5)
         ));
 
-        stock = new StoreStock(copies);
-        store = new Store("test store", stock);
+        StoreStock stock = new StoreStock(copies);
+        Store store = new Store("test store", stock);
 
         user = new User("test user", "test password", store);
 

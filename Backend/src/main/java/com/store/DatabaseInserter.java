@@ -2,8 +2,6 @@ package com.store;
 
 import com.store.models.*;
 import com.store.repos.*;
-import com.store.services.*;
-import com.store.services.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

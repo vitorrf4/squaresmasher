@@ -45,7 +45,7 @@ public class SaleDTOTest {
         dto = SaleMapper.toDTO(sale);
         System.out.println(dto);
 
-        assertThat(dto.getCustomerName()).isEqualTo(customer.getName());
+        assertThat(dto.customerName()).isEqualTo(customer.getName());
     }
 
 }

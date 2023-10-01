@@ -11,7 +11,7 @@ public class User {
     private Long id;
     private String name;
     private String password;
-    @OneToOne(cascade = CascadeType.PERSIST) @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL) @JsonIgnore
     private Store store;
 
     public User() {

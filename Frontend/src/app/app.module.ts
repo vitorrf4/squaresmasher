@@ -8,13 +8,15 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { GenerateSaleComponent } from './generate-sale/generate-sale.component';
+import { RestockComponent } from './restock/restock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListUsersComponent,
     AddusersComponent,
-    GenerateSaleComponent
+    GenerateSaleComponent,
+    RestockComponent
   ],
   imports: [
     BrowserModule,

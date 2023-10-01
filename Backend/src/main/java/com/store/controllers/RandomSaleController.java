@@ -2,6 +2,7 @@ package com.store.controllers;
 
 import com.store.dto.SaleDTO;
 import com.store.dto.SaleMapper;
+import com.store.models.MovieCopy;
 import com.store.models.Sale;
 import com.store.models.User;
 import com.store.repos.UserRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController(value = "RandomSale")
+@RequestMapping(name = "/purchases")
 @CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
@@ -27,7 +29,7 @@ public class RandomSaleController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("purchase/generate/{id}")
+    @GetMapping("/generate/{id}")
     public ResponseEntity<SaleDTO> generateSale(@PathVariable Long id) {
         Sale sale = saleService.generateSale(id);
         if (sale == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -37,16 +39,29 @@ public class RandomSaleController {
         return ResponseEntity.ok(saleDTO);
     }
 
-    @GetMapping("purchase/from-user/{id}")
+    @GetMapping("/from-user/{id}")
     public ResponseEntity<List<SaleDTO>> getAllSalesByUser(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
         List<SaleDTO> salesDTO = new ArrayList<>();
 
-        for (Sale sale : user.get().getStore().getSales()) {
+        for (Sale sale : user.get().getStore().getSales())
             salesDTO.add(SaleMapper.toDTO(sale));
-        }
+
         return ResponseEntity.ok(salesDTO);
+    }
+
+    @GetMapping("/restock/{id}")
+    public ResponseEntity<?> restockMovieCopies(@PathVariable Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
+        for (MovieCopy copy : user.get().getStore().getStock().getAllCopies()) {
+            copy.addCopies(100);
+        }
+        user.get().getStore().getStock().calculateTotalCopies();
+
+        return ResponseEntity.noContent().build();
     }
 }

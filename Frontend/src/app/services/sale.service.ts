@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class SaleService {
-  private readonly purchaseUrl: string = 'http://localhost:8080/purchase';
+  private readonly purchaseUrl: string = 'http://localhost:8080/purchases';
   public sales = new BehaviorSubject<Sale[]>([]);
 
   constructor(private httpClient : HttpClient) { }
@@ -24,6 +24,12 @@ export class SaleService {
       console.log(data);
       this.sales.next(data);
     })
+  }
+
+  public restockCopies() {
+    this.httpClient.get(`${this.purchaseUrl}/restock/1`).subscribe(
+      data => console.log(data)
+    )
   }
 
 }

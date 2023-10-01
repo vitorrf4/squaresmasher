@@ -13,10 +13,10 @@ import {Router} from "@angular/router";
 export class ListUsersComponent implements OnInit {
 	@Input() users!: BehaviorSubject<User[]>;
 
-	constructor(private service: UserService, private router: Router) { }
+	constructor(private service: UserService) { }
 
 	ngOnInit() {
-        this.users = this.service.getList();
+		this.users = this.service.getList();
 	}
 
 	deleteUser(id : number) {

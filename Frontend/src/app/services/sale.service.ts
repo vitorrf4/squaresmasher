@@ -13,10 +13,14 @@ export class SaleService {
   constructor(private httpClient : HttpClient) { }
 
   public getRandomSale() {
-    this.httpClient.get(`${this.userUrl}/13`).subscribe(data => {
+    this.httpClient.get<Sale>(`${this.userUrl}/2`).subscribe(data => {
       console.log(data);
-      this.sales.getValue().push(data);
+      this.sales.getValue().push(new Sale(data));
     })
+  }
+
+  public getAllSales() {
+
   }
 
 }

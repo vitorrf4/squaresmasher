@@ -1,1 +1,7 @@
 <button (click)="generateSale()">GENERATE SALE</button>
+<br>
+<table *ngFor="let sale of sales | async">
+    <tr>
+        <td>{{sale.customerName}} bought {{sale.quantityBought}} copy of {{sale.movieTitle}} | Sale Total:{{sale.salePrice}} | {{sale.saleDateTime}}</td>
+    </tr>
+</table>

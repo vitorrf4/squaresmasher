@@ -53,8 +53,11 @@ public class RandomSaleService {
             }
         }
 
-        int randomCopyIndex = getRandomint(0, moviesInStock.size());
-        MovieCopy randomCopy = moviesInStock.get(randomCopyIndex);
+        MovieCopy randomCopy;
+        do {
+            int randomCopyIndex = getRandomint(0, moviesInStock.size());
+            randomCopy = moviesInStock.get(randomCopyIndex);
+        } while(randomCopy.getCopiesAmount() == 0);
 
         int randomCopiesAmount = getRandomint(1, randomCopy.getCopiesAmount());
 

@@ -25,7 +25,7 @@ class UserControllerUnitTests {
 
 	@Nested
 	class GetTests {
-		@Test @DisplayName("GET /users - Success")
+		@Test @DisplayName("GET /users - Ok")
 		public void whenGetUsers_thenSuccess() {
 			given(service.getAllUsers()).willReturn(new ArrayList<>(List.of(new User(), new User())));
 
@@ -33,7 +33,7 @@ class UserControllerUnitTests {
 			assertThat(controller.callGetAllUsers().getBody().size()).isEqualTo(2);
 		}
 
-		@Test @DisplayName("GET /users/1 - Success")
+		@Test @DisplayName("GET /users/1 - Ok")
 		public void whenGetUserById_thenSuccess() {
 			User user1 = new User();
 			user1.setName("test name");
@@ -89,7 +89,7 @@ class UserControllerUnitTests {
 
 	@Nested
 	class PutTests {
-		@Test @DisplayName("PUT /users/1 - Success")
+		@Test @DisplayName("PUT /users/1 - Ok")
 		public void whenPutUser_thenSuccess() {
 			User u1 = new User();
 			u1.setName("test name");

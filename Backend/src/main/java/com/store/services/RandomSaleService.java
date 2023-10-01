@@ -51,9 +51,13 @@ public class RandomSaleService {
     }
 
     public SaleItem getRandomSaleItem(List<MovieCopy> moviesInStock) {
-        int randomCopyIndex = getRandomint(0, moviesInStock.size() -1);
+        int randomCopyIndex = getRandomint(0, moviesInStock.size());
 
-        MovieCopy randomCopy = moviesInStock.get(randomCopyIndex);
+        MovieCopy randomCopy;
+
+        do randomCopy = moviesInStock.get(randomCopyIndex);
+        while (randomCopy.getCopiesAmount() == 0);
+
         int randomCopiesAmount = getRandomint(1, randomCopy.getCopiesAmount());
 
         return new SaleItem(randomCopy,  randomCopiesAmount);

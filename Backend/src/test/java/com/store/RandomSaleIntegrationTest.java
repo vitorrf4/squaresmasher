@@ -73,8 +73,26 @@ public class RandomSaleIntegrationTest {
         );
     }
 
+    @Test
+    @DisplayName("No Movie Copies - BadRequest")
+    public void whenGenerateRandomPurchase_thenNoMovieCopies_thenNotFound() {
+        int copiesInStock = 0;
+        for (MovieCopy copy : copies) {
+            copy.takeCopies(copy.getCopiesAmount());
+            copiesInStock += copy.getCopiesAmount();
+        }
+
+        userRepository.save(user);
+
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
+
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(saleResponse.getBody().toString()).isEqualTo("No movie copies in stock");
+        assertThat(copiesInStock).isEqualTo(0);
+    }
+
     @AfterEach
-    public void removeTestStoreFromDb() {
+    public void removeTestUserFromDb() {
         userRepository.deleteById(user.getId());
         System.out.println("Test user " + user.getId() + " removed");
     }

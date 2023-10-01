@@ -40,7 +40,7 @@ public class RandomSaleController {
         if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movie copies in stock"), HttpStatus.NOT_FOUND);
 
         Sale sale = saleService.generateSale(randomSale, store);
-        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.NOT_FOUND);
+        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.BAD_REQUEST);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
 

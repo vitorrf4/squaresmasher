@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Sale} from "../models/sale";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse, HttpStatusCode} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +27,10 @@ export class SaleService {
   }
 
   public restockCopies() {
-    this.httpClient.get(`${this.purchaseUrl}/restock/1`).subscribe(
+    this.httpClient.get<HttpStatusCode>(`${this.purchaseUrl}/restock/1`).subscribe(
       data => console.log(data)
     )
+    this.getAllSales();
   }
 
 }

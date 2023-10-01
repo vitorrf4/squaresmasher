@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController(value = "RandomSale")
-@RequestMapping(name = "/purchases")
+@RequestMapping(path = "/purchases")
 @CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
@@ -61,6 +61,7 @@ public class RandomSaleController {
             copy.addCopies(100);
         }
         user.get().getStore().getStock().calculateTotalCopies();
+        userRepository.save(user.get());
 
         return ResponseEntity.noContent().build();
     }

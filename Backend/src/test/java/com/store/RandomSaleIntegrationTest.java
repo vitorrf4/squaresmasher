@@ -59,17 +59,17 @@ public class RandomSaleIntegrationTest {
     @Test
     @DisplayName("Generate Purchase - Success")
     public void whenGenerateRandomPurhcase_thenSuccess() {
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
 
-        ResponseEntity<SaleDTO> actualSale = controller.generateSale(user.getId());
+        SaleDTO actualSale = (SaleDTO) saleResponse.getBody();
 
-        assertThat(actualSale.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actualSale.getBody()).isInstanceOf(SaleDTO.class);
-        assertThat(actualSale.getBody().saleDateTime().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
-        assertThat(actualSale.getBody().movieTitle())
-                .isIn(
-                copies.get(0).getMovie().getMovieTitle(),
-                copies.get(1).getMovie().getMovieTitle(),
-                copies.get(2).getMovie().getMovieTitle()
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actualSale).isInstanceOf(SaleDTO.class);
+        assertThat(actualSale.saleDateTime().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
+        assertThat(actualSale.movieTitle()).isIn(
+            copies.get(0).getMovie().getMovieTitle(),
+            copies.get(1).getMovie().getMovieTitle(),
+            copies.get(2).getMovie().getMovieTitle()
         );
     }
 

@@ -10,6 +10,7 @@ import {formatDate} from "@angular/common";
   styleUrls: ['./generate-sale.component.css']
 })
 export class GenerateSaleComponent implements OnInit   {
+  protected readonly Number = Number;
   @Input() sales!: BehaviorSubject<Sale[]>;
 
   constructor(private saleService: SaleService ) { }
@@ -23,10 +24,11 @@ export class GenerateSaleComponent implements OnInit   {
   }
 
   public formatData(date : Date) {
-    const myDate = date.toString();
-    const format = 'HH:mm | dd/MM/yyyy'
-    const locale = 'en-US'
-    return formatDate(myDate, format, locale);
+    return formatDate(date, 'HH:mm | dd/MM/yyyy', 'en-US');
+  }
+
+  public floatToTwoPrecisionPoints(number : Number) : string {
+    return Number.parseFloat(number.toString()).toFixed(2);
   }
 
 }

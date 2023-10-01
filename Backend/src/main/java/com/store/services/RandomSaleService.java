@@ -26,19 +26,9 @@ public class RandomSaleService {
     }
 
     @Transactional
-    public Sale generateSale(Long id) {
-        Store userStore = getUserStore(id);
-        if (userStore == null) return null;
-        List<MovieCopy> moviesInStock = userStore.getStock().getAllCopies();
-
-        SaleItem randomMovie = getRandomSaleItem(moviesInStock);
-        if (randomMovie == null) return null;
-
-        List<SaleItem> itemsBought = new ArrayList<>();
-        itemsBought.add(randomMovie);
-
+    public Sale generateSale(SaleItem itemsBought, Store userStore) {
         Customer customer = new Customer( new Faker().name().firstName());
-        Sale sale = customer.makePurchase(itemsBought, userStore);
+        Sale sale = customer.makePurchase(List.of(itemsBought), userStore);
         if (sale == null) return null;
 
         userStore = storeRepository.save(userStore);

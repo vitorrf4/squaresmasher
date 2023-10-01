@@ -2,9 +2,7 @@ package com.store.controllers;
 
 import com.store.dto.SaleDTO;
 import com.store.dto.SaleMapper;
-import com.store.models.MovieCopy;
-import com.store.models.Sale;
-import com.store.models.User;
+import com.store.models.*;
 import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,17 @@ public class RandomSaleController {
     }
 
     @GetMapping("/generate/{id}")
-    public ResponseEntity<SaleDTO> generateSale(@PathVariable Long id) {
-        Sale sale = saleService.generateSale(id);
-        if (sale == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    public ResponseEntity<?> generateSale(@PathVariable Long id) {
+        Store store = saleService.getUserStore(id);
+        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), HttpStatus.BAD_REQUEST);
+
+        List<MovieCopy> moviesInStock = store.getStock().getAllCopies();
+
+        SaleItem randomSale = saleService.getRandomSaleItem(moviesInStock);
+        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movie copies in stock"), HttpStatus.NOT_FOUND);
+
+        Sale sale = saleService.generateSale(randomSale, store);
+        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.NOT_FOUND);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
 

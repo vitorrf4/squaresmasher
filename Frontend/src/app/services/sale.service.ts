@@ -19,15 +19,16 @@ export class SaleService {
     })
   }
 
-  public getAllSales() {
+  public getAllSales() : BehaviorSubject<Sale[]> {
     this.httpClient.get<Sale[]>(`${this.purchaseUrl}/from-user/1`).subscribe(data => {
       console.log(data);
       this.sales.next(data);
     })
+    return this.sales;
   }
 
   public restockCopies() {
-    this.httpClient.get<HttpStatusCode>(`${this.purchaseUrl}/restock/1`).subscribe(
+    this.httpClient.get(`${this.purchaseUrl}/restock/1`).subscribe(
       data => console.log(data)
     )
     this.getAllSales();

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {SaleService} from "../services/sale.service";
 import {Sale} from "../models/sale";
 import {BehaviorSubject} from "rxjs";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-generate-sale',
@@ -14,13 +15,18 @@ export class GenerateSaleComponent implements OnInit   {
   constructor(private saleService: SaleService ) { }
 
   ngOnInit() {
-    this.saleService.getAllSales();
-    this.sales = this.saleService.sales
+    this.sales = this.saleService.getAllSales();
   }
 
   public generateSale() {
     this.saleService.getRandomSale();
-    this.sales = this.saleService.sales
+  }
+
+  public formatData(date : Date) {
+    const myDate = date.toString();
+    const format = 'HH:mm | dd/MM/yyyy'
+    const locale = 'en-US'
+    return formatDate(myDate, format, locale);
   }
 
 }

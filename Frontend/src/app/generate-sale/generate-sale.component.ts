@@ -10,7 +10,6 @@ import {formatDate} from "@angular/common";
   styleUrls: ['./generate-sale.component.css']
 })
 export class GenerateSaleComponent implements OnInit   {
-  protected readonly Number = Number;
   @Input() sales!: BehaviorSubject<Sale[]>;
 
   constructor(private saleService: SaleService ) { }

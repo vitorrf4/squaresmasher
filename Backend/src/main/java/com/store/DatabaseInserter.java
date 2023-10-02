@@ -1,15 +1,10 @@
 package com.store;
 
-import com.store.models.*;
-import com.store.repos.*;
+import com.store.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DatabaseInserter implements CommandLineRunner {

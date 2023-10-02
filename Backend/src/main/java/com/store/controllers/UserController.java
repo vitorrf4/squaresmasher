@@ -16,8 +16,7 @@ import java.util.logging.Logger;
 @RequestMapping(path = "/users")
 @CrossOrigin // only allow origin from deployed frontend server
 public class UserController {
-    public UserService service;
-    public Logger logger = Logger.getLogger(this.getClass().getName());
+    public final UserService service;
 
     @Autowired
     public UserController(UserService service) {

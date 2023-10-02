@@ -3,7 +3,6 @@ package com.store.models;
 import jakarta.persistence.*;
 
 import java.security.InvalidParameterException;
-import java.util.List;
 import java.util.Objects;
 
 @Entity

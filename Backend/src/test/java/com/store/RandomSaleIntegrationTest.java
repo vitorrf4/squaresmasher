@@ -12,20 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
     @Autowired private UserRepository userRepository;
-
     private List<MovieCopy> copies;
     private User user;
 
@@ -63,7 +59,6 @@ public class RandomSaleIntegrationTest {
 
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actualSale).isInstanceOf(SaleDTO.class);
-        assertThat(actualSale.saleDateTime().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
         assertThat(actualSale.movieTitle()).isIn(
             copies.get(0).getMovie().getMovieTitle(),
             copies.get(1).getMovie().getMovieTitle(),

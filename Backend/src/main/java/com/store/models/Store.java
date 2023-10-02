@@ -46,10 +46,6 @@ public class Store {
         return sales;
     }
 
-    public void setSales(List<Sale> sales) {
-        this.sales = sales;
-    }
-
     public String getName() {
         return name;
     }

@@ -33,7 +33,7 @@ public class SaleDTOTest {
 
     @Test
     @DisplayName("Sale to SaleDTO - Success")
-    public void whenToDto_thenSuccess() {
+    public void whenToDto_givenValidSaleObject_thenSuccess() {
         SaleDTO dto = SaleMapper.toDTO(sale);
 
         assertThat(dto.customerName()).isEqualTo(customer.getName());

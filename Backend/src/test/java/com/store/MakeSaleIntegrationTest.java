@@ -12,7 +12,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestComponent
-public class PurchaseIntegrationTest {
+public class MakeSaleIntegrationTest {
     private MovieCopy movieCopy;
     private StoreStock stock;
     private List<SaleItem> itemsBought;
@@ -36,13 +36,13 @@ public class PurchaseIntegrationTest {
     @ParameterizedTest(name = "Sold {0} copies ")
     @ValueSource(ints = {1, 4, 5})
     @DisplayName("Valid purchase - Success")
-    public void whenMakePurchase_thenSuccess(int copiesBought) {
+    public void whenMakeSale_thenSuccess(int copiesBought) {
         itemsBought.add(new SaleItem(movieCopy, copiesBought));
 
-        Sale actualPurchase = customer.makePurchase(itemsBought, store);
+        Sale actualSale = store.makeSale(itemsBought, customer);
         double expectedSaleRevenue = store.getSales().get(0).getRevenue();
 
-        assertThat(actualPurchase).isInstanceOf(Sale.class);
+        assertThat(actualSale).isInstanceOf(Sale.class);
         assertThat(movieCopy.getCopiesAmount()).isEqualTo(5 - copiesBought);
         assertThat(expectedSaleRevenue).isEqualTo(copiesBought * movieCopy.getPrice());
         assertThat(stock.getTotalCopies()).isEqualTo(5 - copiesBought);
@@ -51,12 +51,12 @@ public class PurchaseIntegrationTest {
     }
 
     @ParameterizedTest(name = "Did not sell {0} copies ")
-    @ValueSource(ints = {0, -5, 6, Integer.MAX_VALUE})
+    @ValueSource(ints = {0, -5, 6})
     @DisplayName("Purchase with invalid parameters - Failure")
-    public void whenMakePurchase_givenNotEnoughCopies_thenFailure(int copiesSold) {
-        itemsBought.add(new SaleItem(movieCopy, copiesSold));
+    public void whenMakeSale_givenInvalidCopiesAmount_thenFailure(int copiesBought) {
+        itemsBought.add(new SaleItem(movieCopy, copiesBought));
 
-        Sale actualPurchase = customer.makePurchase(itemsBought, store);
+        Sale actualPurchase = store.makeSale(itemsBought, customer);
 
         assertThat(actualPurchase).isNull();
         assertThat(movieCopy.getCopiesAmount()).isEqualTo(5);

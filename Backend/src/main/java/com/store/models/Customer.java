@@ -12,7 +12,6 @@ public class Customer {
     private Long id;
     private String name;
 
-
     public Customer() { }
 
     public Customer(String name) {
@@ -39,12 +38,6 @@ public class Customer {
             throw new InvalidParameterException();
 
         this.name = name;
-    }
-
-    public Sale makePurchase(List<SaleItem> purchasedItems, Store store) {
-        if (store == null) return null;
-
-        return store.makeSale(purchasedItems, this);
     }
 
     @Override

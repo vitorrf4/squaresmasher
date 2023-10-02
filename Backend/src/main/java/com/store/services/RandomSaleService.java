@@ -7,10 +7,6 @@ import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +23,8 @@ public class RandomSaleService {
 
     @Transactional
     public Sale generateSale(SaleItem itemBought, Store userStore) {
-        Customer customer = new Customer( new Faker().name().firstName());
-        Sale sale = customer.makePurchase(List.of(itemBought), userStore);
+        Customer customer = new Customer(new Faker().name().firstName());
+        Sale sale = userStore.makeSale(List.of(itemBought), customer);
         if (sale == null) return null;
 
         userStore = storeRepository.save(userStore);

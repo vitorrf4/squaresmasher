@@ -51,6 +51,7 @@ public class MovieCopy {
     }
 
     public void addCopies(int copiesAdded) {
+        //TODO test for negative numbers
         copiesAmount += copiesAdded;
     }
 

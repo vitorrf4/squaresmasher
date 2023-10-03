@@ -21,7 +21,7 @@ public class MakeSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        Movie movie1 = new Movie("test movie", Date.valueOf("2000-08-01"), List.of("Horror"));
+        Movie movie1 = new Movie("test movie", 2000);
         movieCopy = new MovieCopy(movie1, 5, 20);
         stock = new StoreStock();
         stock.addMovieToStock(movieCopy);

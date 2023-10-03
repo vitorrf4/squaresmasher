@@ -1,23 +1,25 @@
 package com.store.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @JsonProperty("title")
     private String movieTitle;
-    private Date releaseDate;
-    @ElementCollection private List<String> genres;
+    @JsonProperty("release_date")
+    private int releaseYear;
 
     public Movie() { }
 
-    public Movie(String movieTitle, Date releaseDate, List<String> genres) {
+    public Movie(String movieTitle, int releaseYear) {
         this.movieTitle = movieTitle;
-        this.releaseDate = releaseDate;
-        this.genres = genres;
+        this.releaseYear = releaseYear;
     }
 
     public Long getId() {
@@ -32,20 +34,12 @@ public class Movie {
         this.movieTitle = movieTitle;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    public void setReleaseYear(int releaseDate) {
+        this.releaseYear = releaseDate;
     }
 
     @Override
@@ -53,11 +47,20 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && Objects.equals(movieTitle, movie.movieTitle) && Objects.equals(releaseDate, movie.releaseDate) && Objects.equals(genres, movie.genres);
+        return Objects.equals(id, movie.id) && Objects.equals(movieTitle, movie.movieTitle) && Objects.equals(releaseYear, movie.releaseYear);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movieTitle, releaseDate, genres);
+        return Objects.hash(id, movieTitle, releaseYear);
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", releaseYear=" + releaseYear +
+                '}';
     }
 }

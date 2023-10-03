@@ -22,7 +22,7 @@ public class SaleDTOTest {
 
     @BeforeEach
     public void setup() {
-        movie = new Movie("test title", Date.valueOf(LocalDate.now()), List.of("genre 1"));
+        movie = new Movie("test title", 2023);
         MovieCopy copy = new MovieCopy(movie, 3, 10);
 
         item = new SaleItem(copy, 2);

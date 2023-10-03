@@ -32,9 +32,9 @@ public class RandomSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        Movie movie1 = new Movie("movie 1", Date.valueOf("2000-01-01"), List.of("genre 1"));
-        Movie movie2 = new Movie("movie 2", Date.valueOf("2000-02-02"), List.of("genre 2"));
-        Movie movie3 = new Movie("movie 3", Date.valueOf("2000-03-03"), List.of("genre 3"));
+        Movie movie1 = new Movie("movie 1", 2000);
+        Movie movie2 = new Movie("movie 2", 2001);
+        Movie movie3 = new Movie("movie 3", 2000);
 
         copies = new ArrayList<>(List.of(
                 new MovieCopy(movie1, 2, 10),

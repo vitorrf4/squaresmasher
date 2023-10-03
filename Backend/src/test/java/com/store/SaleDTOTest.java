@@ -7,8 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.TestComponent;
-import java.sql.Date;
-import java.time.LocalDate;
+
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,14 +15,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestComponent
 public class SaleDTOTest {
     private Sale sale;
-    private Movie movie;
     private SaleItem item;
     private Customer customer;
+    private MovieCopy copy;
 
     @BeforeEach
     public void setup() {
-        movie = new Movie("test title", 2023);
-        MovieCopy copy = new MovieCopy(movie, 3, 10);
+        copy = new MovieCopy("test movie", 3, 10);
 
         item = new SaleItem(copy, 2);
 
@@ -37,7 +35,7 @@ public class SaleDTOTest {
         SaleDTO dto = SaleMapper.toDTO(sale);
 
         assertThat(dto.customerName()).isEqualTo(customer.getName());
-        assertThat(dto.movieTitle()).isEqualTo(movie.getMovieTitle());
+        assertThat(dto.movieTitle()).isEqualTo(copy.getMovieTitle());
         assertThat(dto.quantityBought()).isEqualTo(item.getCopiesSold());
         assertThat(dto.saleTotalPrice()).isEqualTo(item.getItemTotalPrice());
         assertThat(dto.saleDateTime()).isEqualTo(sale.getSaleDate());

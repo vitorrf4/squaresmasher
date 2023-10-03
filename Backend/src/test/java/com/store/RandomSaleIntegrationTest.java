@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +32,10 @@ public class RandomSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        Movie movie1 = new Movie("movie 1", 2000);
-        Movie movie2 = new Movie("movie 2", 2001);
-        Movie movie3 = new Movie("movie 3", 2000);
-
         copies = new ArrayList<>(List.of(
-                new MovieCopy(movie1, 2, 10),
-                new MovieCopy(movie2, 5, 30),
-                new MovieCopy(movie3, 1, 30.5)
+                new MovieCopy("movie1", 2, 10),
+                new MovieCopy("movie2", 5, 30),
+                new MovieCopy("movie3", 1, 30.5)
         ));
 
         StoreStock stock = new StoreStock(copies);
@@ -60,9 +56,9 @@ public class RandomSaleIntegrationTest {
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actualSale).isInstanceOf(SaleDTO.class);
         assertThat(actualSale.movieTitle()).isIn(
-            copies.get(0).getMovie().getMovieTitle(),
-            copies.get(1).getMovie().getMovieTitle(),
-            copies.get(2).getMovie().getMovieTitle()
+            copies.get(0).getMovieTitle(),
+            copies.get(1).getMovieTitle(),
+            copies.get(2).getMovieTitle()
         );
     }
 

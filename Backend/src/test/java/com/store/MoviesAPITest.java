@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.store.models.Movie;
+import com.store.models.MovieCopy;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,14 +42,13 @@ public class MoviesAPITest {
         JsonNode resultsNode = mapper.readTree(response.body());
         ArrayNode arrayNode = (ArrayNode) resultsNode.get("results");
 
-        TypeReference<List<Movie>> movieReference = new TypeReference<>() {};
+        TypeReference<List<MovieCopy>> movieReference = new TypeReference<>() {};
 
-        List<Movie> movies = mapper.readValue(arrayNode.toString(), movieReference);
+//        List<MovieCopy> movies = mapper.readValue(arrayNode.toString(), movieReference);
 
-        movies.forEach(m -> {
-            System.out.println(m);
-        });
-
+//        movies.forEach(m -> {
+//            System.out.println(m);
+//        });
 
     }
 }

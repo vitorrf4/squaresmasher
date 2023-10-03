@@ -8,16 +8,15 @@ import java.util.Objects;
 public class MovieCopy {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST})
-    private Movie movie;
+    private String movieTitle;
     private int copiesAmount;
     private double price;
 
 
     public MovieCopy() { }
 
-    public MovieCopy(Movie movie, int copiesAmount, double price) {
-        this.movie = movie;
+    public MovieCopy(String movieTitle, int copiesAmount, double price) {
+        this.movieTitle = movieTitle;
         this.copiesAmount = copiesAmount;
         this.price = price;
     }
@@ -30,12 +29,12 @@ public class MovieCopy {
         this.id = id;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public String getMovieTitle() {
+        return movieTitle;
     }
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public void setMovieTitle(String movie) {
+        this.movieTitle = movie;
     }
 
     public double getPrice() {
@@ -67,11 +66,11 @@ public class MovieCopy {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MovieCopy movieCopy = (MovieCopy) o;
-        return copiesAmount == movieCopy.copiesAmount && Objects.equals(id, movieCopy.id) && Objects.equals(movie, movieCopy.movie);
+        return copiesAmount == movieCopy.copiesAmount && Objects.equals(id, movieCopy.id) && Objects.equals(movieTitle, movieCopy.movieTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movie, copiesAmount);
+        return Objects.hash(id, movieTitle, copiesAmount);
     }
 }

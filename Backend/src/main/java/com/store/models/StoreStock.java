@@ -34,8 +34,8 @@ public class StoreStock {
 
     public MovieCopy getCopyFromStock(MovieCopy copy) {
         return copies.stream().filter(
-                stockCopy -> stockCopy.getMovie().getMovieTitle()
-                        .equals(copy.getMovie().getMovieTitle()))
+                stockCopy -> stockCopy.getMovieTitle()
+                        .equals(copy.getMovieTitle()))
                         .findFirst().orElse(null);
     }
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.TestComponent;
-import java.sql.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,8 +21,7 @@ public class MakeSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        Movie movie1 = new Movie("test movie", 2000);
-        movieCopy = new MovieCopy(movie1, 5, 20);
+        movieCopy = new MovieCopy("test movie", 5, 20);
         stock = new StoreStock();
         stock.addMovieToStock(movieCopy);
 

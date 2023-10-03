@@ -9,11 +9,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.store.models.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class MoviesAPIService {
 
     public List<Movie> searchMovie(String query) {
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
-                "&query=" + query);
+                "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)

@@ -13,7 +13,7 @@ public class Movie {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonProperty("title")
-    private String movieTitle;
+    private String movieTitle; //TODO change to title
     private int copiesAmount;
     private double unitPrice;
     private Year releaseYear;

@@ -32,6 +32,7 @@ public class MoviesAPIService {
     private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
 
     public List<Movie> searchMovie(String query) {
+        //TODO split functions
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
                 "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
 

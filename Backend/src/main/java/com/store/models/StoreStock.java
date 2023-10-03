@@ -7,7 +7,7 @@ import java.util.*;
 @Entity
 public class StoreStock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToMany(cascade = CascadeType.ALL) private List<MovieCopy> copies;
+    @OneToMany(cascade = CascadeType.ALL) private List<Movie> copies;
     private int totalCopies;
 
 
@@ -15,7 +15,7 @@ public class StoreStock {
         copies = new ArrayList<>();
     }
 
-    public StoreStock(List<MovieCopy> copies) {
+    public StoreStock(List<Movie> copies) {
         this.copies = copies;
         calculateTotalCopies();
     }
@@ -32,33 +32,33 @@ public class StoreStock {
         return totalCopies;
     }
 
-    public MovieCopy getCopyFromStock(MovieCopy copy) {
+    public Movie getCopyFromStock(Movie copy) {
         return copies.stream().filter(
                 stockCopy -> stockCopy.getMovieTitle()
                         .equals(copy.getMovieTitle()))
                         .findFirst().orElse(null);
     }
 
-    public int checkCopyAmount(MovieCopy copy) {
+    public int checkCopyAmount(Movie copy) {
         if (copy.getId() == null) return -1;
 
-        MovieCopy copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
+        Movie copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
         if (copyOnStock == null) return -1;
 
         return copyOnStock.getCopiesAmount();
     }
 
-    public void addMovieToStock(MovieCopy movieCopy) {
-        copies.add(movieCopy);
+    public void addMovieToStock(Movie movie) {
+        copies.add(movie);
         calculateTotalCopies();
     }
 
     public void calculateTotalCopies() {
         totalCopies = 0;
-        for (MovieCopy copy : copies ) totalCopies += copy.getCopiesAmount();
+        for (Movie copy : copies ) totalCopies += copy.getCopiesAmount();
     }
 
-    public List<MovieCopy> getAllCopies() {
+    public List<Movie> getAllCopies() {
         return copies.parallelStream().toList();
     }
 

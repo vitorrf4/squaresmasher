@@ -17,11 +17,11 @@ public class SaleDTOTest {
     private Sale sale;
     private SaleItem item;
     private Customer customer;
-    private MovieCopy copy;
+    private Movie copy;
 
     @BeforeEach
     public void setup() {
-        copy = new MovieCopy("test movie", 3, 10);
+        copy = new Movie("test movie", 3, 10);
 
         item = new SaleItem(copy, 2);
 

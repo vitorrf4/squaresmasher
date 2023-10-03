@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @TestComponent
 public class MakeSaleIntegrationTest {
-    private MovieCopy movieCopy;
+    private Movie movie;
     private StoreStock stock;
     private List<SaleItem> itemsBought;
     private Store store;
@@ -21,9 +21,9 @@ public class MakeSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        movieCopy = new MovieCopy("test movie", 5, 20);
+        movie = new Movie("test movie", 5, 20);
         stock = new StoreStock();
-        stock.addMovieToStock(movieCopy);
+        stock.addMovieToStock(movie);
 
         store = new Store("test store", stock);
 
@@ -36,14 +36,14 @@ public class MakeSaleIntegrationTest {
     @ValueSource(ints = {1, 4, 5})
     @DisplayName("Valid purchase - Success")
     public void whenMakeSale_thenSuccess(int copiesBought) {
-        itemsBought.add(new SaleItem(movieCopy, copiesBought));
+        itemsBought.add(new SaleItem(movie, copiesBought));
 
         Sale actualSale = store.makeSale(itemsBought, customer);
         double expectedSaleRevenue = store.getSales().get(0).getRevenue();
 
         assertThat(actualSale).isInstanceOf(Sale.class);
-        assertThat(movieCopy.getCopiesAmount()).isEqualTo(5 - copiesBought);
-        assertThat(expectedSaleRevenue).isEqualTo(copiesBought * movieCopy.getPrice());
+        assertThat(movie.getCopiesAmount()).isEqualTo(5 - copiesBought);
+        assertThat(expectedSaleRevenue).isEqualTo(copiesBought * movie.getPrice());
         assertThat(stock.getTotalCopies()).isEqualTo(5 - copiesBought);
         assertThat(store.getSales().size()).isEqualTo(1);
         assertThat(store.getTotalRevenue()).isEqualTo(copiesBought * 20);
@@ -53,12 +53,12 @@ public class MakeSaleIntegrationTest {
     @ValueSource(ints = {0, -5, 6})
     @DisplayName("Purchase with invalid parameters - Failure")
     public void whenMakeSale_givenInvalidCopiesAmount_thenFailure(int copiesBought) {
-        itemsBought.add(new SaleItem(movieCopy, copiesBought));
+        itemsBought.add(new SaleItem(movie, copiesBought));
 
         Sale actualPurchase = store.makeSale(itemsBought, customer);
 
         assertThat(actualPurchase).isNull();
-        assertThat(movieCopy.getCopiesAmount()).isEqualTo(5);
+        assertThat(movie.getCopiesAmount()).isEqualTo(5);
         assertThat(stock.getTotalCopies()).isEqualTo(5);
         assertThat(store.getSales().size()).isEqualTo(0);
         assertThat(store.getTotalRevenue()).isEqualTo(0);

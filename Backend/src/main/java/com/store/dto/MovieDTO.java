@@ -1,4 +1,10 @@
 package com.store.dto;
 
-public class MovieDTO {
-}
+import java.time.Year;
+
+public record MovieDTO(
+    String movieTitle,
+    int copiesAmount,
+    String posterPath,
+    Year releaseYear
+) { }

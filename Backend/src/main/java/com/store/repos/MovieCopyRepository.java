@@ -1,7 +1,7 @@
 package com.store.repos;
 
-import com.store.models.MovieCopy;
+import com.store.models.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MovieCopyRepository extends JpaRepository<MovieCopy, Long> {
+public interface MovieCopyRepository extends JpaRepository<Movie, Long> {
 }

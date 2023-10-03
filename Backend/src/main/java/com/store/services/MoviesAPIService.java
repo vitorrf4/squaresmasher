@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.store.models.MovieCopy;
+import com.store.models.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class MoviesAPIService {
     private String apiKey;
     private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
 
-    public List<MovieCopy> searchMovie(String query) {
+    public List<Movie> searchMovie(String query) {
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
                 "&query=" + query);
 
@@ -38,7 +38,7 @@ public class MoviesAPIService {
         try {
             var response = responseTask.get();
 
-            List<MovieCopy> copies = parseResponseToMovieList(response.body());
+            List<Movie> copies = parseResponseToMovieList(response.body());
 
             return copies;
         } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
@@ -47,10 +47,10 @@ public class MoviesAPIService {
 
     }
 
-    public List<MovieCopy> parseResponseToMovieList(String response) throws JsonProcessingException {
+    public List<Movie> parseResponseToMovieList(String response) throws JsonProcessingException {
         ArrayNode arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
 
-        TypeReference<List<MovieCopy>> movieReference = new TypeReference<>() {};
+        TypeReference<List<Movie>> movieReference = new TypeReference<>() {};
 
         return mapper.readValue(arrayNode.toString(), movieReference);
     }

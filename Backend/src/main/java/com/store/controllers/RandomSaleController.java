@@ -34,7 +34,7 @@ public class RandomSaleController {
         Store store = saleService.getUserStore(id);
         if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), HttpStatus.BAD_REQUEST);
 
-        List<MovieCopy> moviesInStock = store.getStock().getAllCopies();
+        List<Movie> moviesInStock = store.getStock().getAllCopies();
 
         SaleItem randomSale = saleService.getRandomSaleItem(moviesInStock);
         if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movie copies in stock"), HttpStatus.NOT_FOUND);
@@ -65,7 +65,7 @@ public class RandomSaleController {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
-        for (MovieCopy copy : user.get().getStore().getStock().getAllCopies()) {
+        for (Movie copy : user.get().getStore().getStock().getAllCopies()) {
             copy.addCopies(100);
         }
         user.get().getStore().getStock().calculateTotalCopies();

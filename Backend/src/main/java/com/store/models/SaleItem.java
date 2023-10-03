@@ -7,14 +7,14 @@ import java.util.Objects;
 @Entity
 public class SaleItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @ManyToOne private MovieCopy movieCopy;
+    @ManyToOne private Movie movie;
     private int copiesSold;
     private double itemTotalPrice;
 
     public SaleItem() { }
 
-    public SaleItem(MovieCopy movieCopy, int copiesSold) {
-        this.movieCopy = movieCopy;
+    public SaleItem(Movie movie, int copiesSold) {
+        this.movie = movie;
         this.copiesSold = copiesSold;
         calculateTotalPrice();
     }
@@ -27,12 +27,12 @@ public class SaleItem {
         this.id = id;
     }
 
-    public MovieCopy getMovieCopy() {
-        return movieCopy;
+    public Movie getMovieCopy() {
+        return movie;
     }
 
-    public void setMovieCopy(MovieCopy movie) {
-        this.movieCopy = movie;
+    public void setMovieCopy(Movie movie) {
+        this.movie = movie;
     }
 
     public int getCopiesSold() {
@@ -48,7 +48,7 @@ public class SaleItem {
     }
 
     public void calculateTotalPrice() {
-        this.itemTotalPrice = movieCopy.getPrice() * copiesSold;
+        this.itemTotalPrice = movie.getPrice() * copiesSold;
     }
 
     @Override
@@ -56,11 +56,11 @@ public class SaleItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SaleItem saleItem = (SaleItem) o;
-        return copiesSold == saleItem.copiesSold && Double.compare(itemTotalPrice, saleItem.itemTotalPrice) == 0 && Objects.equals(id, saleItem.id) && Objects.equals(movieCopy, saleItem.movieCopy);
+        return copiesSold == saleItem.copiesSold && Double.compare(itemTotalPrice, saleItem.itemTotalPrice) == 0 && Objects.equals(id, saleItem.id) && Objects.equals(movie, saleItem.movie);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movieCopy, copiesSold, itemTotalPrice);
+        return Objects.hash(id, movie, copiesSold, itemTotalPrice);
     }
 }

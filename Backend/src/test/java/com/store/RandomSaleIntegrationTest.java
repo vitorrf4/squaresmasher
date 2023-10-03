@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
     @Autowired private UserRepository userRepository;
-    private List<MovieCopy> copies;
+    private List<Movie> copies;
     private User user;
 
     @Autowired
@@ -33,9 +33,9 @@ public class RandomSaleIntegrationTest {
     @BeforeEach
     public void setup() {
         copies = new ArrayList<>(List.of(
-                new MovieCopy("movie1", 2, 10),
-                new MovieCopy("movie2", 5, 30),
-                new MovieCopy("movie3", 1, 30.5)
+                new Movie("movie1", 2, 10),
+                new Movie("movie2", 5, 30),
+                new Movie("movie3", 1, 30.5)
         ));
 
         StoreStock stock = new StoreStock(copies);
@@ -66,7 +66,7 @@ public class RandomSaleIntegrationTest {
     @DisplayName("No Movie Copies - NotFound")
     public void whenGenerateRandomPurchase_givenNoMovieCopies_thenNotFound() {
         int copiesInStock = 0;
-        for (MovieCopy copy : copies) {
+        for (Movie copy : copies) {
             copy.takeCopies(copy.getCopiesAmount());
             copiesInStock += copy.getCopiesAmount();
         }

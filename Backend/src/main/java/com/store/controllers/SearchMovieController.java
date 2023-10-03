@@ -1,9 +1,8 @@
 package com.store.controllers;
 
-import com.store.models.MovieCopy;
+import com.store.models.Movie;
 import com.store.services.MoviesAPIService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,8 @@ public class SearchMovieController {
     }
 
     @GetMapping("/movies/search/{query}")
-    public ResponseEntity<List<MovieCopy>> searchMovie(@PathVariable String query) {
-        List<MovieCopy> responseMovies = apiService.searchMovie(query);
+    public ResponseEntity<List<Movie>> searchMovie(@PathVariable String query) {
+        List<Movie> responseMovies = apiService.searchMovie(query);
 
         if (responseMovies == null) return ResponseEntity.internalServerError().build();
 

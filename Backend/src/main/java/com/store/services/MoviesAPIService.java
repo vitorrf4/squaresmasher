@@ -14,6 +14,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -38,9 +42,7 @@ public class MoviesAPIService {
         try {
             var response = responseTask.get();
 
-            List<Movie> copies = parseResponseToMovieList(response.body());
-
-            return copies;
+            return parseResponseToMovieList(response.body());
         } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
             return null;
         }
@@ -50,8 +52,29 @@ public class MoviesAPIService {
     public List<Movie> parseResponseToMovieList(String response) throws JsonProcessingException {
         ArrayNode arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
 
-        TypeReference<List<Movie>> movieReference = new TypeReference<>() {};
+        List<Movie> movies = new ArrayList<>();
 
-        return mapper.readValue(arrayNode.toString(), movieReference);
+        arrayNode.forEach(node -> {
+            Movie movie = createMovieWithJsonNode(node);
+            if (movie != null) movies.add(movie);
+        });
+
+        return movies;
+    }
+
+    public Movie createMovieWithJsonNode(JsonNode node) {
+        String title = node.get("title").textValue();
+
+        if (node.get("release_date").textValue().isEmpty() ||
+                LocalDate.parse(node.get("release_date").textValue()).isAfter(LocalDate.now())) {
+            System.out.println(title + " has an invalid date or has not yet been released");
+            return null;
+        }
+
+        Year releaseYear  = Year.parse(node.get("release_date").textValue().substring(0, 4));
+
+        String posterUrl = node.get("poster_path").textValue();
+
+        return new Movie(title, 0, releaseYear, posterUrl);
     }
 }

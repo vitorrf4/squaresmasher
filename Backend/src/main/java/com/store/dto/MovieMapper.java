@@ -4,12 +4,13 @@ import com.store.models.Movie;
 import java.time.Year;
 
 public class MovieMapper {
-    public static MovieDTO toDTO(Movie domainMovie, String sentPosterPath) {
+    public static MovieDTO toDTO(Movie domainMovie) {
         String movieTitle = domainMovie.getMovieTitle();
         int copiesAmount = domainMovie.getCopiesAmount();
         double unitPrice = domainMovie.getUnitPrice();
         Year releaseyear = domainMovie.getReleaseYear();
+        String posterUrl = domainMovie.getPosterUrl();
 
-        return new MovieDTO(movieTitle, releaseyear, unitPrice, copiesAmount, sentPosterPath);
+        return new MovieDTO(movieTitle, releaseyear, unitPrice, copiesAmount, posterUrl);
     }
 }

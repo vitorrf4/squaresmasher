@@ -17,6 +17,9 @@ public class Movie {
     private int copiesAmount;
     private double unitPrice;
     private Year releaseYear;
+    @JsonProperty("poster_path")
+    private String posterUrl;
+
 
     public Movie() { }
 
@@ -24,7 +27,15 @@ public class Movie {
         this.movieTitle = movieTitle;
         this.copiesAmount = copiesAmount;
         this.releaseYear = releaseYear;
-        calculatePrice();
+        calculateUnitPrice();
+    }
+
+    public Movie(String movieTitle, int copiesAmount, Year releaseYear, String posterUrl) {
+        this.movieTitle = movieTitle;
+        this.copiesAmount = copiesAmount;
+        this.releaseYear = releaseYear;
+        this.posterUrl = posterUrl;
+        calculateUnitPrice();
     }
 
     public Long getId() {
@@ -47,15 +58,15 @@ public class Movie {
         return unitPrice;
     }
 
-    public void calculatePrice() {
+    public void calculateUnitPrice() {
         String currentYear = Year.now().toString();
         if (currentYear.equals(releaseYear.toString())) {
             unitPrice = 20; // if it's a new release(year of release is the current year) price is a fixed $20
             return;
         }
 
-        int currentDecade = Integer.parseInt(currentYear.substring(0, 2));
-        int movieReleaseDecade = Integer.parseInt(releaseYear.toString().substring(0, 2));
+        int currentDecade = Integer.parseInt(currentYear.substring(0, 3));
+        int movieReleaseDecade = Integer.parseInt(releaseYear.toString().substring(0, 3));
 
         int decadePrice = currentDecade - movieReleaseDecade;
 
@@ -86,6 +97,13 @@ public class Movie {
         return true;
     }
 
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

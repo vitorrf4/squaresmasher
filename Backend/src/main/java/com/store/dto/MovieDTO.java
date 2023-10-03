@@ -7,5 +7,5 @@ public record MovieDTO(
     Year releaseYear,
     double unitPrice,
     int copiesAmount,
-    String posterPath
+    String posterUrl
 ) { }

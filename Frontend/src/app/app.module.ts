@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { GenerateSaleComponent } from './generate-sale/generate-sale.component';
 import { RestockComponent } from './restock/restock.component';
+import { SearchMovieComponent } from './search-movie/search-movie.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RestockComponent } from './restock/restock.component';
     ListUsersComponent,
     AddusersComponent,
     GenerateSaleComponent,
-    RestockComponent
+    RestockComponent,
+    SearchMovieComponent
   ],
   imports: [
     BrowserModule,

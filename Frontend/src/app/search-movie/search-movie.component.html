@@ -1,2 +1,9 @@
 <label for="movieQuery">Search Movie:</label>
-<input type="text" name="movieQuery" id="movieQuery">
+<input type="text" name="movieQuery" id="movieQuery" [(ngModel)]="query">
+<button (click)="searchMovie()">SEARCH</button>
+
+<ng-container *ngIf="movies != undefined">
+  <table *ngFor="let movie of movies | async">
+    {{movie}}
+  </table>
+</ng-container>

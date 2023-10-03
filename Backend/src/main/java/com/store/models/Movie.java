@@ -15,7 +15,7 @@ public class Movie {
     @JsonProperty("title")
     private String movieTitle;
     private int copiesAmount;
-    private double price;
+    private double unitPrice;
     private Year releaseYear;
 
     public Movie() { }
@@ -43,14 +43,14 @@ public class Movie {
         this.movieTitle = movie;
     }
 
-    public double getPrice() {
-        return price;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
     public void calculatePrice() {
         String currentYear = Year.now().toString();
         if (currentYear.equals(releaseYear.toString())) {
-            price = 20; // if it's a new release(year of release is the current year) price is a fixed $20
+            unitPrice = 20; // if it's a new release(year of release is the current year) price is a fixed $20
             return;
         }
 
@@ -59,7 +59,7 @@ public class Movie {
 
         int decadePrice = currentDecade - movieReleaseDecade;
 
-        price = 5 + decadePrice;
+        unitPrice = 5 + decadePrice;
     }
 
     public Year getReleaseYear() {

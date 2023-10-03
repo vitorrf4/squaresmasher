@@ -48,7 +48,7 @@ public class SaleItem {
     }
 
     public void calculateTotalPrice() {
-        this.itemTotalPrice = movie.getPrice() * copiesSold;
+        this.itemTotalPrice = movie.getUnitPrice() * copiesSold;
     }
 
     @Override

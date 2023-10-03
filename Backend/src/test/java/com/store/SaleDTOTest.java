@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.time.Year;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ public class SaleDTOTest {
 
     @BeforeEach
     public void setup() {
-        copy = new Movie("test movie", 3, 10);
+        copy = new Movie("test movie", 3, Year.of(2023));
 
         item = new SaleItem(copy, 2);
 

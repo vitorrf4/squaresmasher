@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.TestComponent;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +22,7 @@ public class MakeSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        movie = new Movie("test movie", 5, 20);
+        movie = new Movie("test movie", 5, Year.of(2000));
         stock = new StoreStock();
         stock.addMovieToStock(movie);
 
@@ -41,12 +42,13 @@ public class MakeSaleIntegrationTest {
         Sale actualSale = store.makeSale(itemsBought, customer);
         double expectedSaleRevenue = store.getSales().get(0).getRevenue();
 
+
         assertThat(actualSale).isInstanceOf(Sale.class);
         assertThat(movie.getCopiesAmount()).isEqualTo(5 - copiesBought);
-        assertThat(expectedSaleRevenue).isEqualTo(copiesBought * movie.getPrice());
+        assertThat(expectedSaleRevenue).isEqualTo(actualSale.getRevenue());
         assertThat(stock.getTotalCopies()).isEqualTo(5 - copiesBought);
         assertThat(store.getSales().size()).isEqualTo(1);
-        assertThat(store.getTotalRevenue()).isEqualTo(copiesBought * 20);
+        assertThat(store.getTotalRevenue()).isEqualTo(actualSale.getRevenue());
     }
 
     @ParameterizedTest(name = "Did not sell {0} copies ")

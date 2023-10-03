@@ -20,18 +20,11 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(Long id, String movieTitle, int copiesAmount, Year releaseYear) {
-        this.id = id;
+    public Movie(String movieTitle, int copiesAmount, Year releaseYear) {
         this.movieTitle = movieTitle;
         this.copiesAmount = copiesAmount;
         this.releaseYear = releaseYear;
         calculatePrice();
-    }
-
-    public Movie(String movieTitle, int copiesAmount, double price) {
-        this.movieTitle = movieTitle;
-        this.copiesAmount = copiesAmount;
-        this.price = price;
     }
 
     public Long getId() {

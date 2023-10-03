@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,9 @@ public class RandomSaleIntegrationTest {
     @BeforeEach
     public void setup() {
         copies = new ArrayList<>(List.of(
-                new Movie("movie1", 2, 10),
-                new Movie("movie2", 5, 30),
-                new Movie("movie3", 1, 30.5)
+                new Movie("movie1", 2, Year.of(2019)),
+                new Movie("movie2", 5, Year.of(1995)),
+                new Movie("movie3", 1, Year.of(1963))
         ));
 
         StoreStock stock = new StoreStock(copies);

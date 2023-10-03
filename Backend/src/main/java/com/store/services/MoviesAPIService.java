@@ -2,6 +2,7 @@ package com.store.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -20,13 +21,9 @@ import java.util.concurrent.ExecutionException;
 public class MoviesAPIService {
     @Value("${tmdb.api.key}")
     private String apiKey;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
 
-    public void getMovies() {
-
-    }
-
-    public String searchMovie(String query) {
+    public List<MovieCopy> searchMovie(String query) {
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
                 "&query=" + query);
 
@@ -40,13 +37,21 @@ public class MoviesAPIService {
 
         try {
             var response = responseTask.get();
-            JsonNode node = mapper.readTree(response.body()).get("results");
-            System.out.println("Node:" + node);
-            System.out.println("Node text value:" + node.toString());
-            return node.toString();
+
+            List<MovieCopy> copies = parseResponseToMovieList(response.body());
+
+            return copies;
         } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return null;
         }
 
+    }
+
+    public List<MovieCopy> parseResponseToMovieList(String response) throws JsonProcessingException {
+        ArrayNode arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
+
+        TypeReference<List<MovieCopy>> movieReference = new TypeReference<>() {};
+
+        return mapper.readValue(arrayNode.toString(), movieReference);
     }
 }

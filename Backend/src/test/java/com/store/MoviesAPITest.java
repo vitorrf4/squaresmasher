@@ -22,33 +22,7 @@ public class MoviesAPITest {
     public String apiKey;
 
     @Test
-    public void whenCallApi_thenSuccess() throws JsonProcessingException, ExecutionException, InterruptedException {
-        int randomPage = (int)(Math.random() * 99) + 1;
-        URI uri = URI.create("https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US" +
-                "&page=" + randomPage +
-                "&sort_by=vote_count.desc");
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Authorization", "Bearer " + apiKey)
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-
-        var responseTask = HttpClient.newHttpClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
-        var response = responseTask.get();
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        JsonNode resultsNode = mapper.readTree(response.body());
-        ArrayNode arrayNode = (ArrayNode) resultsNode.get("results");
-
-        TypeReference<List<MovieCopy>> movieReference = new TypeReference<>() {};
-
-//        List<MovieCopy> movies = mapper.readValue(arrayNode.toString(), movieReference);
-
-//        movies.forEach(m -> {
-//            System.out.println(m);
-//        });
+    public void whenCallApi_thenSuccess() {
 
     }
 }

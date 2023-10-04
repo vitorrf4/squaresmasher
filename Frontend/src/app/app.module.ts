@@ -12,6 +12,7 @@ import { SearchMovieComponent } from './search-movie/search-movie.component';
 import { NgOptimizedImage} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from "@angular/material/card";
+import { StoreComponent } from './store/store.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { MatCardModule} from "@angular/material/card";
     ListUsersComponent,
     AddusersComponent,
     GenerateSaleComponent,
-    SearchMovieComponent
+    SearchMovieComponent,
+    StoreComponent
   ],
   imports: [
     BrowserModule,

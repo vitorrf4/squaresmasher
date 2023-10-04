@@ -18,4 +18,10 @@ export class SearchService {
       this.movies.next(data);
     })
   }
+
+  public restockMovies(movies : Movie[]) {
+    this.httpClient.post(`${this.searchUrl}/purchases/restock/1`, movies).subscribe(data => {
+      console.log(data);
+    })
+  }
 }

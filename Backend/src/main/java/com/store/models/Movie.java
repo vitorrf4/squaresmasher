@@ -116,4 +116,16 @@ public class Movie {
     public int hashCode() {
         return Objects.hash(id, movieTitle, copiesAmount);
     }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", copiesAmount=" + copiesAmount +
+                ", unitPrice=" + unitPrice +
+                ", releaseYear=" + releaseYear +
+                ", posterUrl='" + posterUrl + '\'' +
+                '}';
+    }
 }

@@ -33,6 +33,7 @@ public class MoviesAPIService {
 
     public List<Movie> searchMovie(String query) {
         //TODO split functions
+        //TODO fix 404 for empty posterUrl
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
                 "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
 

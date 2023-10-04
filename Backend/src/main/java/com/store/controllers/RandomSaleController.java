@@ -84,17 +84,16 @@ public class RandomSaleController {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
-        int quantityAddedToStock = 0;
 
         for (MovieDTO dto : movieDTOS) {
-            logger.info(dto.toString());
+            logger.info("DTO: " + dto.toString());
             Movie movie = MovieMapper.toMovie(dto);
+            logger.info("DTO: " + movie);
             user.get().getStore().getStock().addMovieToStock(movie);
-            quantityAddedToStock++;
         }
 
         userRepository.save(user.get());
-        return ResponseEntity.ok(quantityAddedToStock + " movies added to stock");
+        return ResponseEntity.ok().build();
 
     }
 }

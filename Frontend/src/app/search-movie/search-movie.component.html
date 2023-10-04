@@ -3,33 +3,24 @@
 <button (click)="searchMovie()">SEARCH</button>
 
 <ng-container *ngIf="movies != undefined">
-
-<!--    <div *ngFor="let movie of movies | async" class="card">-->
-
-<!--      <img class="card-img-top" ngSrc="https://image.tmdb.org/t/p/w500/{{movie.posterUrl}}" alt="" width="150" height="300"><br>-->
-<!--      <p class="card-title">Title: {{movie.movieTitle}}</p>-->
-<!--      <div class="card-body">-->
-<!--        <p class="card-text">Unit Price:{{movie.unitPrice}} </p>-->
-<!--        <label>Copies:</label>-->
-<!--        <input type="number">-->
-
-<!--      </div>-->
-
-
   <div class="container mt-4">
     <div class="row">
       <div *ngFor="let movie of movies | async" class="col-md-3">
         <div  class="card">
           <img ngSrc="https://image.tmdb.org/t/p/w500/{{movie.posterUrl}}" width="150" height="300" class="card-img-top" alt="Card Image">
-          <p class="card-title">Title: {{movie.movieTitle}}</p>
           <div class="card-body">
-            <h5 class="card-title">Card 1</h5>
+            <h5 class="card-title">{{movie.movieTitle}}</h5>
+            <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
             <p class="card-text">Unit Price:{{movie.unitPrice}} </p>
-            <label>Copies:</label>
-            <input type="number">
+            <label class="card-text" for="copiesQuantity">Copies:</label>
+            <input type="number" name="copiesQuantity" id="copiesQuantity" [(ngModel)]="movie.copiesAmount">
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <br>
+
+  <button (click)="restockMovies()">RESTOCK</button>
 </ng-container>

@@ -12,11 +12,22 @@ export class SearchMovieComponent {
   @Input() movies! : BehaviorSubject<Movie[]>;
   query : String = "";
 
-  constructor(private service: SearchService) {
-  }
+  constructor(private service: SearchService) { }
 
   public searchMovie() {
     this.service.searchMovie(this.query);
     this.movies = this.service.movies;
+  }
+
+  public restockMovies() {
+    let moviesToAdd : Movie[] = [];
+
+    for (let movie of this.movies.value) {
+      if (movie.copiesAmount > 0){
+        console.log(`movie: ${movie.movieTitle} | copies: ${movie.copiesAmount}`);
+        moviesToAdd.push(movie)
+      }
+    }
+    this.service.restockMovies(moviesToAdd);
   }
 }

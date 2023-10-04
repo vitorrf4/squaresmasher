@@ -2,9 +2,7 @@
 <br>
 <table *ngFor="let sale of sales.getValue().slice().reverse()">
     <tr>
-        <td>{{sale.customerName}} bought</td>
-        <td>{{sale.quantityBought}} copies of</td>
-        <td>{{sale.movieTitle}} --</td>
+        <td>{{sale.customerName}} bought {{sale.quantityBought}} copies of {{sale.movieTitle}} --</td>
         <td>Sale Total: ${{floatToTwoPrecisionPoints(sale.saleTotalPrice)}} -- </td>
         <td>{{formatData(sale.saleDateTime)}}</td>
     </tr>

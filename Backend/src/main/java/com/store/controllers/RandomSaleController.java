@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController(value = "RandomSale")
-@RequestMapping(path = "/purchases")
+@RequestMapping(path = "/sales")
 @CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
@@ -40,7 +40,7 @@ public class RandomSaleController {
         List<Movie> moviesInStock = store.getStock().getAllCopies();
 
         SaleItem randomSale = saleService.getRandomSaleItem(moviesInStock);
-        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movie copies in stock"), HttpStatus.NOT_FOUND);
+        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
 
         Sale sale = saleService.generateSale(randomSale, store);
         if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.BAD_REQUEST);
@@ -61,20 +61,6 @@ public class RandomSaleController {
             salesDTO.add(SaleMapper.toDTO(sale));
 
         return ResponseEntity.ok(salesDTO);
-    }
-
-    @GetMapping("/restock/{id}")
-    public ResponseEntity<?> restockMovieCopies(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) return ResponseEntity.notFound().build();
-
-        for (Movie copy : user.get().getStore().getStock().getAllCopies()) {
-            copy.addCopies(100);
-        }
-        user.get().getStore().getStock().calculateTotalCopies();
-        userRepository.save(user.get());
-
-        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/restock/{userId}")

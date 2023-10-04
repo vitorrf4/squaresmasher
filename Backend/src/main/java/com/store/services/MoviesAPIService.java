@@ -1,7 +1,6 @@
 package com.store.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,9 +8,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.store.models.Movie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriUtils;
-
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -21,17 +17,18 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 @Service
 public class MoviesAPIService {
     @Value("${tmdb.api.key}")
     private String apiKey;
     private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public List<Movie> searchMovie(String query) {
+    public HttpResponse<String> callQueryOnApi(String query) {
         //TODO split functions
         //TODO fix 404 for empty posterUrl
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
@@ -48,15 +45,22 @@ public class MoviesAPIService {
         try {
             var response = responseTask.get();
 
-            return parseResponseToMovieList(response.body());
-        } catch (InterruptedException | ExecutionException | JsonProcessingException e) {
+            return response;
+        } catch (InterruptedException | ExecutionException e) {
+            logger.warning(e.toString());
             return null;
         }
 
     }
 
-    public List<Movie> parseResponseToMovieList(String response) throws JsonProcessingException {
-        ArrayNode arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
+    public List<Movie> parseResponseToMovieList(String response)  {
+        ArrayNode arrayNode = null;
+        try {
+            arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
+        } catch (JsonProcessingException e) {
+            logger.warning(e.toString());
+            return null;
+        }
 
         List<Movie> movies = new ArrayList<>();
 
@@ -68,7 +72,7 @@ public class MoviesAPIService {
         return movies;
     }
 
-    public Movie createMovieWithJsonNode(JsonNode node) {
+    private Movie createMovieWithJsonNode(JsonNode node) {
         String title = node.get("title").textValue();
 
         if (node.get("release_date").textValue().isEmpty() ||

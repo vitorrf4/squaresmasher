@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,15 +27,15 @@ public class SearchMovieController {
 
     @GetMapping("/movies/search/{query}")
     public ResponseEntity<List<MovieDTO>> searchMovie(@PathVariable String query) {
-        List<Movie> responseMovies = apiService.searchMovie(query);
+        HttpResponse<String> response = apiService.callQueryOnApi(query);
+        if (response == null) return ResponseEntity.internalServerError().build();
 
-        if (responseMovies == null) return ResponseEntity.internalServerError().build();
+        List<Movie> movies =  apiService.parseResponseToMovieList(response.body());
+        if (movies == null) return ResponseEntity.notFound().build();
 
         List<MovieDTO> moviesDTOs = new ArrayList<>();
 
-        responseMovies.forEach(movie -> {
-            moviesDTOs.add(MovieMapper.toDTO(movie));
-        });
+        movies.forEach(movie -> moviesDTOs.add(MovieMapper.toDTO(movie)));
 
         return ResponseEntity.ok(moviesDTOs);
     }

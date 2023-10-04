@@ -1,14 +1,13 @@
 package com.store;
 
-import com.store.models.*;
+import com.store.models.Store;
+import com.store.models.StoreStock;
+import com.store.models.User;
 import com.store.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DatabaseInserter implements CommandLineRunner {
@@ -24,14 +23,8 @@ public class DatabaseInserter implements CommandLineRunner {
     public void run(String... args) {
         if (userRepo.existsById(1L)) return;
 
-        StoreStock stock1 = new StoreStock();
-        Movie movie = new Movie("test movie", 100, Year.of(2000));
-        stock1.addMovieToStock(movie);
 
-        Store store1 = new Store("test store", stock1);
-
-        List<SaleItem> items = new ArrayList<>();
-        items.add(new SaleItem(movie, 5));
+        Store store1 = new Store("test store", new StoreStock());
 
         User user = new User("user 1", "passwordd 1", store1);
         user = userRepo.save(user);

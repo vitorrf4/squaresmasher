@@ -20,7 +20,7 @@ export class SearchService {
   }
 
   public restockMovies(movies : Movie[]) {
-    this.httpClient.post(`${this.searchUrl}/purchases/restock/1`, movies).subscribe(data => {
+    this.httpClient.post(`${this.searchUrl}/sales/restock/1`, movies).subscribe(data => {
       console.log(data);
     })
   }

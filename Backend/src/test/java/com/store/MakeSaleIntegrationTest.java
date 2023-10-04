@@ -46,7 +46,7 @@ public class MakeSaleIntegrationTest {
         assertThat(actualSale).isInstanceOf(Sale.class);
         assertThat(movie.getCopiesAmount()).isEqualTo(5 - copiesBought);
         assertThat(expectedSaleRevenue).isEqualTo(actualSale.getRevenue());
-        assertThat(stock.getTotalCopies()).isEqualTo(5 - copiesBought);
+        assertThat(stock.getCopiesTotal()).isEqualTo(5 - copiesBought);
         assertThat(store.getSales().size()).isEqualTo(1);
         assertThat(store.getTotalRevenue()).isEqualTo(actualSale.getRevenue());
     }
@@ -61,7 +61,7 @@ public class MakeSaleIntegrationTest {
 
         assertThat(actualPurchase).isNull();
         assertThat(movie.getCopiesAmount()).isEqualTo(5);
-        assertThat(stock.getTotalCopies()).isEqualTo(5);
+        assertThat(stock.getCopiesTotal()).isEqualTo(5);
         assertThat(store.getSales().size()).isEqualTo(0);
         assertThat(store.getTotalRevenue()).isEqualTo(0);
     }

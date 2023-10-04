@@ -8,7 +8,7 @@ import java.util.*;
 public class StoreStock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @OneToMany(cascade = CascadeType.ALL) private List<Movie> movies;
-    private int totalCopies;
+    private int copiesTotal;
 
 
     public StoreStock() {
@@ -28,8 +28,8 @@ public class StoreStock {
         this.id = id;
     }
 
-    public int getTotalCopies() {
-        return totalCopies;
+    public int getCopiesTotal() {
+        return copiesTotal;
     }
 
     public Movie getCopyFromStockByName(Movie copy) {
@@ -37,15 +37,6 @@ public class StoreStock {
                 stockCopy -> stockCopy.getMovieTitle()
                         .equals(copy.getMovieTitle()))
                         .findFirst().orElse(null);
-    }
-
-    public int checkCopyAmount(Movie copy) {
-        if (copy.getId() == null) return -1;
-
-        Movie copyOnStock = movies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
-        if (copyOnStock == null) return -1;
-
-        return copyOnStock.getCopiesAmount();
     }
 
     public void addMovieToStock(Movie movie) {
@@ -61,8 +52,8 @@ public class StoreStock {
     }
 
     public void calculateTotalCopies() {
-        totalCopies = 0;
-        for (Movie copy : movies) totalCopies += copy.getCopiesAmount();
+        copiesTotal = 0;
+        for (Movie copy : movies) copiesTotal += copy.getCopiesAmount();
     }
 
     public List<Movie> getAllCopies() {
@@ -74,11 +65,11 @@ public class StoreStock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StoreStock that = (StoreStock) o;
-        return totalCopies == that.totalCopies && Objects.equals(id, that.id) && Objects.equals(movies, that.movies);
+        return copiesTotal == that.copiesTotal && Objects.equals(id, that.id) && Objects.equals(movies, that.movies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movies, totalCopies);
+        return Objects.hash(id, movies, copiesTotal);
     }
 }

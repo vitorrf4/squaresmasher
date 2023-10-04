@@ -23,7 +23,6 @@ import java.util.logging.Logger;
 public class RandomSaleController {
     private final RandomSaleService saleService;
     private final UserRepository userRepository;
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     public RandomSaleController(RandomSaleService saleService, UserRepository userRepository) {

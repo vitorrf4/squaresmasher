@@ -24,6 +24,7 @@ public class DatabaseInserter implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         //TODO rollback failed initializations
+        if (userRepo.existsById(1L)) return;
 
         StoreStock stock1 = new StoreStock();
         Movie movie = new Movie("test movie", 100, Year.of(2000));
@@ -35,8 +36,8 @@ public class DatabaseInserter implements CommandLineRunner {
         items.add(new SaleItem(movie, 5));
 
         User user = new User("user 1", "passwordd 1", store1);
-//        user = userRepo.save(user);
-//        System.out.println("Initiliazed user " + user.getId());
+        user = userRepo.save(user);
+        System.out.println("Initiliazed user " + user.getId());
 
 
         //TODO check that stock has only one movie_copy of a given movie

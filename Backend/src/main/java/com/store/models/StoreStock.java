@@ -32,7 +32,7 @@ public class StoreStock {
         return totalCopies;
     }
 
-    public Movie getCopyFromStock(Movie copy) {
+    public Movie getCopyFromStockByName(Movie copy) {
         return movies.stream().filter(
                 stockCopy -> stockCopy.getMovieTitle()
                         .equals(copy.getMovieTitle()))
@@ -49,6 +49,13 @@ public class StoreStock {
     }
 
     public void addMovieToStock(Movie movie) {
+        if (getCopyFromStockByName(movie) != null) {
+            System.out.println("movie " + movie.getMovieTitle() + " already in stock");
+            getCopyFromStockByName(movie).addCopies(movie.getCopiesAmount());
+            calculateTotalCopies();
+            return;
+        }
+
         movies.add(movie);
         calculateTotalCopies();
     }

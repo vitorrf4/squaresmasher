@@ -7,7 +7,6 @@ import com.store.dto.SaleMapper;
 import com.store.models.*;
 import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,20 +79,23 @@ public class RandomSaleController {
     }
 
     @PostMapping("/restock/{userId}")
-    public ResponseEntity<?> restockMovies(@PathVariable Long userId, @RequestBody List<MovieDTO> movieDTOS) {
+    public ResponseEntity<Integer> restockMovies(@PathVariable Long userId, @RequestBody List<MovieDTO> movieDTOS) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
+        int copiesInStockBefore = user.get().getStore().getStock().getTotalCopies();
 
         for (MovieDTO dto : movieDTOS) {
             logger.info("DTO: " + dto.toString());
             Movie movie = MovieMapper.toMovie(dto);
-            logger.info("DTO: " + movie);
+            logger.info("Movie: " + movie);
             user.get().getStore().getStock().addMovieToStock(movie);
         }
 
         userRepository.save(user.get());
-        return ResponseEntity.ok().build();
+        int copiesInStockAfter = user.get().getStore().getStock().getTotalCopies() - copiesInStockBefore;
+
+        return ResponseEntity.ok(copiesInStockAfter);
 
     }
 }

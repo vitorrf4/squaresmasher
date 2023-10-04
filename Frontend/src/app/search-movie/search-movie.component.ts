@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {SearchService} from "../services/search.service";
 import {Movie} from "../models/movie";
 import {StoreService} from "../services/store.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-movie',
@@ -13,7 +14,9 @@ export class SearchMovieComponent {
   @Input() movies! : BehaviorSubject<Movie[]>;
   query : String = "";
 
-  constructor(private searchService: SearchService, private storeService: StoreService) { }
+  constructor(private searchService: SearchService,
+              private storeService: StoreService) { }
+
 
   public searchMovie() {
     this.searchService.searchMovie(this.query);

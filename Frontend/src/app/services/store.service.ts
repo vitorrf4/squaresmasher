@@ -16,13 +16,11 @@ export class StoreService {
 
   public getStoreInformation() {
     this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(data => {
-      console.log(data);
+      this.store.next(data);
     })
   }
 
   public restockMovies(movies : Movie[]) {
-    this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies).subscribe(data => {
-      console.log(data);
-    })
+    this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies).subscribe();
   }
 }

@@ -13,4 +13,14 @@ public class MovieMapper {
 
         return new MovieDTO(movieTitle, releaseyear, unitPrice, copiesAmount, posterUrl);
     }
+
+    public static Movie toMovie(MovieDTO dto) {
+        String movieTitle = dto.movieTitle();
+        int copiesAmount = dto.copiesAmount();
+        Year releaseyear = dto.releaseYear();
+        String posterUrl = dto.posterUrl();
+
+        return new Movie(movieTitle, copiesAmount, releaseyear, posterUrl);
+
+    }
 }

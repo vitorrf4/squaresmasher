@@ -13,6 +13,7 @@ import { NgOptimizedImage} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from "@angular/material/card";
 import { StoreComponent } from './store/store.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { StoreComponent } from './store/store.component';
     FormsModule,
     NgOptimizedImage,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    ScrollingModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

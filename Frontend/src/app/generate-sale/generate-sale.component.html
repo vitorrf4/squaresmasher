@@ -1,9 +1,12 @@
 <button (click)="generateSale()">GENERATE SALE</button>
 <br>
-<table *ngFor="let sale of sales.getValue().slice().reverse()">
+
+<cdk-virtual-scroll-viewport itemSize="18" style="height:65vh">
+  <table *cdkVirtualFor="let sale of sales.value.slice().reverse()">
     <tr>
-        <td>{{sale.customerName}} bought {{sale.quantityBought}} copies of {{sale.movieTitle}} --</td>
-        <td>Sale Total: ${{floatToTwoPrecisionPoints(sale.saleTotalPrice)}} -- </td>
-        <td>{{formatData(sale.saleDateTime)}}</td>
+      <td>{{sale.customerName}} bought {{sale.quantityBought}} copies of {{sale.movieTitle}} --</td>
+      <td>Sale Total: ${{floatToTwoPrecisionPoints(sale.saleTotalPrice)}} -- </td>
+      <td>{{formatData(sale.saleDateTime)}}</td>
     </tr>
-</table>
+  </table>
+</cdk-virtual-scroll-viewport>

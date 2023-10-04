@@ -1,10 +1,13 @@
 package com.store.controllers;
 
+import com.store.dto.MovieDTO;
+import com.store.dto.MovieMapper;
 import com.store.dto.SaleDTO;
 import com.store.dto.SaleMapper;
 import com.store.models.*;
 import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @RestController(value = "RandomSale")
 @RequestMapping(path = "/purchases")
@@ -21,6 +25,7 @@ import java.util.Optional;
 public class RandomSaleController {
     private final RandomSaleService saleService;
     private final UserRepository userRepository;
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     public RandomSaleController(RandomSaleService saleService, UserRepository userRepository) {
@@ -72,5 +77,24 @@ public class RandomSaleController {
         userRepository.save(user.get());
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/restock/{userId}")
+    public ResponseEntity<?> restockMovies(@PathVariable Long userId, @RequestBody List<MovieDTO> movieDTOS) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
+
+        int quantityAddedToStock = 0;
+
+        for (MovieDTO dto : movieDTOS) {
+            logger.info(dto.toString());
+            Movie movie = MovieMapper.toMovie(dto);
+            user.get().getStore().getStock().addMovieToStock(movie);
+            quantityAddedToStock++;
+        }
+
+        userRepository.save(user.get());
+        return ResponseEntity.ok(quantityAddedToStock + " movies added to stock");
+
     }
 }

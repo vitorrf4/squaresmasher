@@ -7,16 +7,16 @@ import java.util.*;
 @Entity
 public class StoreStock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToMany(cascade = CascadeType.ALL) private List<Movie> copies;
+    @OneToMany(cascade = CascadeType.ALL) private List<Movie> movies;
     private int totalCopies;
 
 
     public StoreStock() {
-        copies = new ArrayList<>();
+        movies = new ArrayList<>();
     }
 
-    public StoreStock(List<Movie> copies) {
-        this.copies = copies;
+    public StoreStock(List<Movie> movies) {
+        this.movies = movies;
         calculateTotalCopies();
     }
 
@@ -33,7 +33,7 @@ public class StoreStock {
     }
 
     public Movie getCopyFromStock(Movie copy) {
-        return copies.stream().filter(
+        return movies.stream().filter(
                 stockCopy -> stockCopy.getMovieTitle()
                         .equals(copy.getMovieTitle()))
                         .findFirst().orElse(null);
@@ -42,24 +42,24 @@ public class StoreStock {
     public int checkCopyAmount(Movie copy) {
         if (copy.getId() == null) return -1;
 
-        Movie copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
+        Movie copyOnStock = movies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
         if (copyOnStock == null) return -1;
 
         return copyOnStock.getCopiesAmount();
     }
 
     public void addMovieToStock(Movie movie) {
-        copies.add(movie);
+        movies.add(movie);
         calculateTotalCopies();
     }
 
     public void calculateTotalCopies() {
         totalCopies = 0;
-        for (Movie copy : copies ) totalCopies += copy.getCopiesAmount();
+        for (Movie copy : movies) totalCopies += copy.getCopiesAmount();
     }
 
     public List<Movie> getAllCopies() {
-        return copies.parallelStream().toList();
+        return movies.parallelStream().toList();
     }
 
     @Override
@@ -67,11 +67,11 @@ public class StoreStock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StoreStock that = (StoreStock) o;
-        return totalCopies == that.totalCopies && Objects.equals(id, that.id) && Objects.equals(copies, that.copies);
+        return totalCopies == that.totalCopies && Objects.equals(id, that.id) && Objects.equals(movies, that.movies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, copies, totalCopies);
+        return Objects.hash(id, movies, totalCopies);
     }
 }

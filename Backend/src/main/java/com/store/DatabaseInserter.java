@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,20 +25,16 @@ public class DatabaseInserter implements CommandLineRunner {
     public void run(String... args) {
         //TODO rollback failed initializations
 
-//        MovieCopy copy1 = new MovieCopy("lord of flies", 100, 25);
-//        MovieCopy copy2 = new MovieCopy("the lobster", 100, 20);
-//        MovieCopy copy3 = new MovieCopy("alps", 100, 30);
-//        StoreStock stock1 = new StoreStock();
-//        stock1.addMovieToStock(copy1);
-//        stock1.addMovieToStock(copy2);
-//        stock1.addMovieToStock(copy3);
-//
-//        Store store1 = new Store("test store", stock1);
-//
-//        List<SaleItem> items = new ArrayList<>();
-//        items.add(new SaleItem(copy1, 5));
-//
-//        User user = new User("user 1", "passwordd 1", store1);
+        StoreStock stock1 = new StoreStock();
+        Movie movie = new Movie("test movie", 100, Year.of(2000));
+        stock1.addMovieToStock(movie);
+
+        Store store1 = new Store("test store", stock1);
+
+        List<SaleItem> items = new ArrayList<>();
+        items.add(new SaleItem(movie, 5));
+
+        User user = new User("user 1", "passwordd 1", store1);
 //        user = userRepo.save(user);
 //        System.out.println("Initiliazed user " + user.getId());
 

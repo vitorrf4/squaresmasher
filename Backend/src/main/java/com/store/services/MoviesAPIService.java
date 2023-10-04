@@ -29,7 +29,6 @@ public class MoviesAPIService {
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public HttpResponse<String> callQueryOnApi(String query) {
-        //TODO split functions
         //TODO fix 404 for empty posterUrl
         URI uri = URI.create("https://api.themoviedb.org/3/search/movie?&include_adult=false&language=en-US&page=1" +
                 "&query=" + URLEncoder.encode(query, StandardCharsets.UTF_8));
@@ -43,9 +42,7 @@ public class MoviesAPIService {
         var responseTask = HttpClient.newHttpClient().sendAsync(request, HttpResponse.BodyHandlers.ofString());
 
         try {
-            var response = responseTask.get();
-
-            return response;
+            return responseTask.get();
         } catch (InterruptedException | ExecutionException e) {
             logger.warning(e.toString());
             return null;
@@ -54,7 +51,7 @@ public class MoviesAPIService {
     }
 
     public List<Movie> parseResponseToMovieList(String response)  {
-        ArrayNode arrayNode = null;
+        ArrayNode arrayNode;
         try {
             arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
         } catch (JsonProcessingException e) {

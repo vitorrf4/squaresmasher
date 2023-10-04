@@ -26,7 +26,6 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> callGetAllUsers() {
         List<User> users = service.getAllUsers();
-
         if (users == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
         return ResponseEntity.ok(users);
@@ -37,7 +36,6 @@ public class UserController {
         if (service.isIdInvalid(id)) return ResponseEntity.badRequest().build();
 
         Optional<User> user = service.getUser(id);
-
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(user.get());
@@ -48,7 +46,6 @@ public class UserController {
         if (service.isUserInvalid(user)) return ResponseEntity.badRequest().build();
 
         User savedUser = service.createUser(user);
-
         if (savedUser == null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         return ResponseEntity.created(URI.create("/users/" + savedUser.getId())).body(savedUser); // change created uri for deployed server
@@ -59,7 +56,6 @@ public class UserController {
         if (service.isUserInvalid(user)) return ResponseEntity.badRequest().build();
 
         User modifiedUser = service.changeUser(user);
-
         if (modifiedUser == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.ok(modifiedUser);
@@ -70,7 +66,6 @@ public class UserController {
         if (service.isIdInvalid(id)) return ResponseEntity.badRequest().build();
 
         boolean isDeleted = service.deleteUser(id);
-
         if (!isDeleted) return ResponseEntity.notFound().build();
 
         return ResponseEntity.noContent().build();

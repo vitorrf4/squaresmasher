@@ -63,24 +63,4 @@ public class RandomSaleController {
         return ResponseEntity.ok(salesDTO);
     }
 
-    @PostMapping("/restock/{userId}")
-    public ResponseEntity<Integer> restockMovies(@PathVariable Long userId, @RequestBody List<MovieDTO> movieDTOS) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) return ResponseEntity.notFound().build();
-
-        int copiesInStockBefore = user.get().getStore().getStock().getTotalCopies();
-
-        for (MovieDTO dto : movieDTOS) {
-            logger.info("DTO: " + dto.toString());
-            Movie movie = MovieMapper.toMovie(dto);
-            logger.info("Movie: " + movie);
-            user.get().getStore().getStock().addMovieToStock(movie);
-        }
-
-        userRepository.save(user.get());
-        int copiesInStockAfter = user.get().getStore().getStock().getTotalCopies() - copiesInStockBefore;
-
-        return ResponseEntity.ok(copiesInStockAfter);
-
-    }
 }

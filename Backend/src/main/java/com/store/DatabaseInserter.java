@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public class DatabaseInserter implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        //TODO rollback failed initializations
         if (userRepo.existsById(1L)) return;
 
         StoreStock stock1 = new StoreStock();
@@ -39,7 +37,5 @@ public class DatabaseInserter implements CommandLineRunner {
         user = userRepo.save(user);
         System.out.println("Initiliazed user " + user.getId());
 
-
-        //TODO check that stock has only one movie_copy of a given movie
     }
 }

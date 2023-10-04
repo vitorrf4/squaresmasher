@@ -8,7 +8,6 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
 import { GenerateSaleComponent } from './generate-sale/generate-sale.component';
-import { RestockComponent } from './restock/restock.component';
 import { SearchMovieComponent } from './search-movie/search-movie.component';
 import { NgOptimizedImage} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +19,6 @@ import { MatCardModule} from "@angular/material/card";
     ListUsersComponent,
     AddusersComponent,
     GenerateSaleComponent,
-    RestockComponent,
     SearchMovieComponent
   ],
   imports: [

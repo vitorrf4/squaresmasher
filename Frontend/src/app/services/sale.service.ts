@@ -15,7 +15,6 @@ export class SaleService {
   public getRandomSale() {
     this.httpClient.get<Sale>(`${this.saleUrl}/generate/1`).subscribe({
       next: data => {
-        console.log(data);
         this.sales.getValue().push(new Sale(data));
       },
       error: err => alert(new HttpErrorResponse(err).error)
@@ -24,7 +23,6 @@ export class SaleService {
 
   public getAllSales() : BehaviorSubject<Sale[]> {
     this.httpClient.get<Sale[]>(`${this.saleUrl}/from-user/1`).subscribe(data => {
-      console.log(data);
       this.sales.next(data);
     })
     return this.sales;

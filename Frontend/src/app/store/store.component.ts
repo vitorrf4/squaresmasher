@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "../models/store";
 import {StoreService} from "../services/store.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-store',
@@ -8,11 +9,11 @@ import {StoreService} from "../services/store.service";
   styleUrls: ['./store.component.css']
 })
 export class StoreComponent implements OnInit {
-  private store!: Store;
+  @Input() store!: BehaviorSubject<Store>;
 
   constructor(private service: StoreService) { }
 
   ngOnInit() {
-    this.service.getStoreInformation();
+    this.store = this.service.getStoreInformation();
   }
 }

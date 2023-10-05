@@ -1,7 +1,5 @@
 package com.store.controllers;
 
-import com.store.dto.MovieDTO;
-import com.store.dto.MovieMapper;
 import com.store.dto.SaleDTO;
 import com.store.dto.SaleMapper;
 import com.store.models.*;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController(value = "RandomSale")
 @RequestMapping(path = "/sales")

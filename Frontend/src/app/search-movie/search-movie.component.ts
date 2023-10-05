@@ -32,6 +32,9 @@ export class SearchMovieComponent {
     }
 
     this.storeService.restockMovies(moviesToAdd);
-    this.storeService.getStoreInformation();
+
+    setTimeout(()=> {
+      this.storeService.getStoreInformation();
+    }, 500)
   }
 }

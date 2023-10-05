@@ -104,6 +104,7 @@ public class Movie {
     public void setPosterUrl(String posterUrl) {
         this.posterUrl = posterUrl;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

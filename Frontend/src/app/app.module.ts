@@ -7,7 +7,7 @@ import { AddusersComponent } from './add-user/add-user.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './services/user.service';
-import { GenerateSaleComponent } from './generate-sale/generate-sale.component';
+import { SaleComponent } from './sale/sale-component';
 import { SearchMovieComponent } from './search-movie/search-movie.component';
 import { NgOptimizedImage} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     AppComponent,
     ListUsersComponent,
     AddusersComponent,
-    GenerateSaleComponent,
+    SaleComponent,
     SearchMovieComponent,
     StoreComponent
   ],

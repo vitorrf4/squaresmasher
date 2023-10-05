@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "../models/store";
 import {StoreService} from "../services/store.service";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-store',
@@ -13,7 +13,8 @@ export class StoreComponent implements OnInit {
 
   constructor(private service: StoreService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.store = this.service.getStoreInformation();
   }
+
 }

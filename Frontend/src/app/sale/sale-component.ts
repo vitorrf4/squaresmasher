@@ -3,16 +3,18 @@ import {SaleService} from "../services/sale.service";
 import {Sale} from "../models/sale";
 import {BehaviorSubject} from "rxjs";
 import {formatDate} from "@angular/common";
+import {StoreService} from "../services/store.service";
 
 @Component({
   selector: 'app-generate-sale',
-  templateUrl: './generate-sale.component.html',
-  styleUrls: ['./generate-sale.component.css']
+  templateUrl: './sale-component.html',
+  styleUrls: ['./sale-component.css']
 })
-export class GenerateSaleComponent implements OnInit   {
+export class SaleComponent implements OnInit   {
   @Input() sales!: BehaviorSubject<Sale[]>;
 
-  constructor(private saleService: SaleService ) { }
+  constructor(private saleService: SaleService,
+              private storeService: StoreService) { }
 
   ngOnInit() {
     this.sales = this.saleService.getAllSales();
@@ -20,6 +22,10 @@ export class GenerateSaleComponent implements OnInit   {
 
   public generateSale() {
     this.saleService.getRandomSale();
+
+    setTimeout(() => {
+      this.storeService.getStoreInformation();
+    }, 500);
   }
 
   public formatData(date : Date) {
@@ -27,7 +33,7 @@ export class GenerateSaleComponent implements OnInit   {
   }
 
   public floatToTwoPrecisionPoints(number : Number) : string {
-    return Number.parseFloat(number.toString()).toFixed(2);
+    return number.toFixed(2);
   }
 
 }

@@ -1,51 +1,108 @@
 package com.store.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.List;
+
+import java.time.Year;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    private String movieTitle;
-    private Date releaseDate;
-    @ElementCollection private List<String> genres;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @JsonProperty("title")
+    private String movieTitle; //TODO change to title
+    private int copiesAmount;
+    private double unitPrice;
+    private Year releaseYear;
+    @JsonProperty("poster_path")
+    private String posterUrl;
+
 
     public Movie() { }
 
-    public Movie(String movieTitle, Date releaseDate, List<String> genres) {
+    public Movie(String movieTitle, int copiesAmount, Year releaseYear) {
         this.movieTitle = movieTitle;
-        this.releaseDate = releaseDate;
-        this.genres = genres;
+        this.copiesAmount = copiesAmount;
+        this.releaseYear = releaseYear;
+        calculateUnitPrice();
+    }
+
+    public Movie(String movieTitle, int copiesAmount, Year releaseYear, String posterUrl) {
+        this.movieTitle = movieTitle;
+        this.copiesAmount = copiesAmount;
+        this.releaseYear = releaseYear;
+        this.posterUrl = posterUrl;
+        calculateUnitPrice();
     }
 
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getMovieTitle() {
         return movieTitle;
     }
 
-    public void setMovieTitle(String movieTitle) {
-        this.movieTitle = movieTitle;
+    public void setMovieTitle(String movie) {
+        this.movieTitle = movie;
     }
 
-    public Date getReleaseDate() {
-        return releaseDate;
+    public double getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setReleaseDate(Date releaseDate) {
-        this.releaseDate = releaseDate;
+    public void calculateUnitPrice() {
+        String currentYear = Year.now().toString();
+        if (currentYear.equals(releaseYear.toString())) {
+            unitPrice = 20; // if it's a new release(year of release is the current year) price is a fixed $20
+            return;
+        }
+
+        int currentDecade = Integer.parseInt(currentYear.substring(0, 3));
+        int movieReleaseDecade = Integer.parseInt(releaseYear.toString().substring(0, 3));
+
+        int decadePrice = currentDecade - movieReleaseDecade;
+
+        unitPrice = 5 + decadePrice;
     }
 
-    public List<String> getGenres() {
-        return genres;
+    public Year getReleaseYear() {
+        return releaseYear;
     }
 
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    public void setReleaseYear(Year releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public int getCopiesAmount() {
+        return copiesAmount;
+    }
+
+    public void addCopies(int copiesAdded) {
+        //TODO test for negative numbers
+        copiesAmount += copiesAdded;
+    }
+
+    public boolean takeCopies(int copiesTaken) {
+        if (copiesTaken > copiesAmount) return false;
+
+        copiesAmount -= copiesTaken;
+        return true;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
     @Override
@@ -53,11 +110,23 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && Objects.equals(movieTitle, movie.movieTitle) && Objects.equals(releaseDate, movie.releaseDate) && Objects.equals(genres, movie.genres);
+        return copiesAmount == movie.copiesAmount && Objects.equals(id, movie.id) && Objects.equals(movieTitle, movie.movieTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movieTitle, releaseDate, genres);
+        return Objects.hash(id, movieTitle, copiesAmount);
+    }
+
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", movieTitle='" + movieTitle + '\'' +
+                ", copiesAmount=" + copiesAmount +
+                ", unitPrice=" + unitPrice +
+                ", releaseYear=" + releaseYear +
+                ", posterUrl='" + posterUrl + '\'' +
+                '}';
     }
 }

@@ -28,7 +28,7 @@ export class UserService {
 
     public deleteUser(id : Number){
         this.http.delete(`${this.userUrl}/${id}`).subscribe({
-            next: res => {
+            next: () => {
                 const listWithoutDeletedUser = this.users.value.filter(u => u.id != id);
                 this.users.next(listWithoutDeletedUser);
             },

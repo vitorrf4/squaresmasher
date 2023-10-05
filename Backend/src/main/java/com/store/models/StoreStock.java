@@ -7,16 +7,16 @@ import java.util.*;
 @Entity
 public class StoreStock {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
-    @OneToMany(cascade = CascadeType.ALL) private List<MovieCopy> copies;
-    private int totalCopies;
+    @OneToMany(cascade = CascadeType.ALL) private List<Movie> movies;
+    private int copiesTotal;
 
 
     public StoreStock() {
-        copies = new ArrayList<>();
+        movies = new ArrayList<>();
     }
 
-    public StoreStock(List<MovieCopy> copies) {
-        this.copies = copies;
+    public StoreStock(List<Movie> movies) {
+        this.movies = movies;
         calculateTotalCopies();
     }
 
@@ -28,38 +28,36 @@ public class StoreStock {
         this.id = id;
     }
 
-    public int getTotalCopies() {
-        return totalCopies;
+    public int getCopiesTotal() {
+        return copiesTotal;
     }
 
-    public MovieCopy getCopyFromStock(MovieCopy copy) {
-        return copies.stream().filter(
-                stockCopy -> stockCopy.getMovie().getMovieTitle()
-                        .equals(copy.getMovie().getMovieTitle()))
+    public Movie getCopyFromStockByName(Movie copy) {
+        return movies.stream().filter(
+                stockCopy -> stockCopy.getMovieTitle()
+                        .equals(copy.getMovieTitle()))
                         .findFirst().orElse(null);
     }
 
-    public int checkCopyAmount(MovieCopy copy) {
-        if (copy.getId() == null) return -1;
+    public void addMovieToStock(Movie movie) {
+        if (getCopyFromStockByName(movie) != null) {
+            System.out.println("movie " + movie.getMovieTitle() + " already in stock");
+            getCopyFromStockByName(movie).addCopies(movie.getCopiesAmount());
+            calculateTotalCopies();
+            return;
+        }
 
-        MovieCopy copyOnStock = copies.stream().filter(stockCopy -> stockCopy.getId().equals(copy.getId())).findFirst().orElse(null);
-        if (copyOnStock == null) return -1;
-
-        return copyOnStock.getCopiesAmount();
-    }
-
-    public void addMovieToStock(MovieCopy movieCopy) {
-        copies.add(movieCopy);
+        movies.add(movie);
         calculateTotalCopies();
     }
 
     public void calculateTotalCopies() {
-        totalCopies = 0;
-        for (MovieCopy copy : copies ) totalCopies += copy.getCopiesAmount();
+        copiesTotal = 0;
+        for (Movie copy : movies) copiesTotal += copy.getCopiesAmount();
     }
 
-    public List<MovieCopy> getAllCopies() {
-        return copies.parallelStream().toList();
+    public List<Movie> getAllCopies() {
+        return movies.parallelStream().toList();
     }
 
     @Override
@@ -67,11 +65,11 @@ public class StoreStock {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StoreStock that = (StoreStock) o;
-        return totalCopies == that.totalCopies && Objects.equals(id, that.id) && Objects.equals(copies, that.copies);
+        return copiesTotal == that.copiesTotal && Objects.equals(id, that.id) && Objects.equals(movies, that.movies);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, copies, totalCopies);
+        return Objects.hash(id, movies, copiesTotal);
     }
 }

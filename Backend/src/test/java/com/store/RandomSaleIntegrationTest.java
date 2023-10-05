@@ -13,23 +13,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class RandomSaleIntegrationTest {
     @Autowired private RandomSaleController controller;
     @Autowired private UserRepository userRepository;
-
-    List<MovieCopy> copies;
-    StoreStock stock;
-    Store store;
-    User user;
+    private List<Movie> copies;
+    private User user;
 
     @Autowired
     public RandomSaleIntegrationTest(RandomSaleController controller) {
@@ -38,18 +33,14 @@ public class RandomSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        Movie movie1 = new Movie("movie 1", Date.valueOf("2000-01-01"), List.of("genre 1"));
-        Movie movie2 = new Movie("movie 2", Date.valueOf("2000-02-02"), List.of("genre 2"));
-        Movie movie3 = new Movie("movie 3", Date.valueOf("2000-03-03"), List.of("genre 3"));
-
         copies = new ArrayList<>(List.of(
-                new MovieCopy(movie1, 2, 10),
-                new MovieCopy(movie2, 5, 30),
-                new MovieCopy(movie3, 1, 30.5)
+                new Movie("movie1", 2, Year.of(2019)),
+                new Movie("movie2", 5, Year.of(1995)),
+                new Movie("movie3", 1, Year.of(1963))
         ));
 
-        stock = new StoreStock(copies);
-        store = new Store("test store", stock);
+        StoreStock stock = new StoreStock(copies);
+        Store store = new Store("test store", stock);
 
         user = new User("test user", "test password", store);
 
@@ -59,22 +50,51 @@ public class RandomSaleIntegrationTest {
     @Test
     @DisplayName("Generate Purchase - Success")
     public void whenGenerateRandomPurhcase_thenSuccess() {
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
 
-        ResponseEntity<SaleDTO> actualSale = controller.generateSale(user.getId());
+        SaleDTO actualSale = (SaleDTO) saleResponse.getBody();
 
-        assertThat(actualSale.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(actualSale.getBody()).isInstanceOf(SaleDTO.class);
-        assertThat(actualSale.getBody().saleDateTime().getSecond()).isEqualTo(LocalDateTime.now().getSecond());
-        assertThat(actualSale.getBody().movieTitle())
-                .isIn(
-                copies.get(0).getMovie().getMovieTitle(),
-                copies.get(1).getMovie().getMovieTitle(),
-                copies.get(2).getMovie().getMovieTitle()
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(actualSale).isInstanceOf(SaleDTO.class);
+        assertThat(actualSale.movieTitle()).isIn(
+            copies.get(0).getMovieTitle(),
+            copies.get(1).getMovieTitle(),
+            copies.get(2).getMovieTitle()
         );
     }
 
+    @Test
+    @DisplayName("No Movie Copies - NotFound")
+    public void whenGenerateRandomPurchase_givenNoMovieCopies_thenNotFound() {
+        int copiesInStock = 0;
+        for (Movie copy : copies) {
+            copy.takeCopies(copy.getCopiesAmount());
+            copiesInStock += copy.getCopiesAmount();
+        }
+
+        userRepository.save(user);
+
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
+
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(saleResponse.getBody().toString()).isEqualTo("No movie copies in stock");
+        assertThat(copiesInStock).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("Null Store - BadRequest")
+    public void whenGenerateRandomPurchase_givenNullStore_thenBadRequest() {
+        user.setStore(null);
+        userRepository.save(user);
+
+        ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
+
+        assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(saleResponse.getBody().toString()).isEqualTo("Invalid user store");
+    }
+
     @AfterEach
-    public void removeTestStoreFromDb() {
+    public void removeTestUserFromDb() {
         userRepository.deleteById(user.getId());
         System.out.println("Test user " + user.getId() + " removed");
     }

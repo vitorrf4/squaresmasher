@@ -46,10 +46,6 @@ public class Store {
         return sales;
     }
 
-    public void setSales(List<Sale> sales) {
-        this.sales = sales;
-    }
-
     public String getName() {
         return name;
     }
@@ -65,9 +61,11 @@ public class Store {
     public Sale makeSale(List<SaleItem> soldItems, Customer customer) {
         for (SaleItem item : soldItems) {
             if (item.getCopiesSold() <= 0) return null;
-            MovieCopy movieOnStock = stock.getCopyFromStock(item.getMovieCopy());
+
+            Movie movieOnStock = stock.getCopyFromStockByName(item.getMovieCopy());
             if (movieOnStock == null) return null;
             if (!movieOnStock.takeCopies(item.getCopiesSold())) return null;
+
             stock.calculateTotalCopies();
         }
 

@@ -8,14 +8,14 @@ import com.store.services.RandomSaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController(value = "RandomSale")
-@RequestMapping(path = "/purchases")
+@RequestMapping(path = "/sales")
 @CrossOrigin
 public class RandomSaleController {
     private final RandomSaleService saleService;
@@ -27,18 +27,19 @@ public class RandomSaleController {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @GetMapping("/generate/{id}")
     public ResponseEntity<?> generateSale(@PathVariable Long id) {
         Store store = saleService.getUserStore(id);
         if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), HttpStatus.BAD_REQUEST);
 
-        List<MovieCopy> moviesInStock = store.getStock().getAllCopies();
+        List<Movie> moviesInStock = store.getStock().getAllCopies();
 
         SaleItem randomSale = saleService.getRandomSaleItem(moviesInStock);
-        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movie copies in stock"), HttpStatus.NOT_FOUND);
+        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
 
         Sale sale = saleService.generateSale(randomSale, store);
-        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.NOT_FOUND);
+        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.BAD_REQUEST);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
 
@@ -58,17 +59,4 @@ public class RandomSaleController {
         return ResponseEntity.ok(salesDTO);
     }
 
-    @GetMapping("/restock/{id}")
-    public ResponseEntity<?> restockMovieCopies(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) return ResponseEntity.notFound().build();
-
-        for (MovieCopy copy : user.get().getStore().getStock().getAllCopies()) {
-            copy.addCopies(100);
-        }
-        user.get().getStore().getStock().calculateTotalCopies();
-        userRepository.save(user.get());
-
-        return ResponseEntity.noContent().build();
-    }
 }

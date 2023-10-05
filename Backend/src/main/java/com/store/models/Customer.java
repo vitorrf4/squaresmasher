@@ -3,7 +3,6 @@ package com.store.models;
 import jakarta.persistence.*;
 
 import java.security.InvalidParameterException;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,7 +10,6 @@ public class Customer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
 
     public Customer() { }
 
@@ -39,12 +37,6 @@ public class Customer {
             throw new InvalidParameterException();
 
         this.name = name;
-    }
-
-    public Sale makePurchase(List<SaleItem> purchasedItems, Store store) {
-        if (store == null) return null;
-
-        return store.makeSale(purchasedItems, this);
     }
 
     @Override

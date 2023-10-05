@@ -4,6 +4,7 @@ import {Sale} from "../models/sale";
 import {BehaviorSubject} from "rxjs";
 import {formatDate} from "@angular/common";
 import {StoreService} from "../services/store.service";
+import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
 
 @Component({
   selector: 'app-generate-sale',
@@ -31,4 +32,5 @@ export class SaleComponent implements OnInit   {
     return formatDate(date, 'HH:mm dd/MM/yyyy', 'en-US');
   }
 
+  protected readonly dateTimestampProvider = dateTimestampProvider;
 }

@@ -21,11 +21,10 @@ export class SaleComponent implements OnInit   {
   }
 
   public generateSale() {
-    this.saleService.getRandomSale();
-
-    setTimeout(() => {
-      this.storeService.getStoreInformation();
-    }, 400);
+    this.saleService.getRandomSale().subscribe(res => {
+      this.sales.value.push(res);
+      this.storeService.getStoreInformation().subscribe();
+    });
   }
 
   public formatData(date : Date) {

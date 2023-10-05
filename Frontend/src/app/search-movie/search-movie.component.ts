@@ -21,7 +21,7 @@ export class SearchMovieComponent {
   public searchMovie() {
     this.searchService.searchMovie(this.query).subscribe(res => {
       this.movies = res;
-    })
+    });
   }
 
   public restockMovies() {

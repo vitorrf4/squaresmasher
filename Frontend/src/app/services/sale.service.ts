@@ -13,12 +13,7 @@ export class SaleService {
   constructor(private httpClient : HttpClient) { }
 
   public getRandomSale() {
-    this.httpClient.get<Sale>(`${this.saleUrl}/generate/1`).subscribe({
-      next: data => {
-        this.sales.getValue().push(new Sale(data));
-      },
-      error: err => alert(new HttpErrorResponse(err).error)
-    });
+    return this.httpClient.get<Sale>(`${this.saleUrl}/generate/1`);
   }
 
   public getAllSales() : BehaviorSubject<Sale[]> {

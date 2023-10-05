@@ -17,7 +17,6 @@ export class StoreService {
   public getStoreInformation() : BehaviorSubject<Store> {
     this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(data => {
       this.store.next(data);
-      console.log(this.store.getValue());
     });
     return this.store;
   }

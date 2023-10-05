@@ -43,8 +43,10 @@ public class RandomSaleService {
 
     public SaleItem getRandomSaleItem(List<Movie> moviesInStock) {
         int quantityInStock = 0;
+
         for (int i = 0; i < moviesInStock.size(); i++) {
             quantityInStock += moviesInStock.get(i).getCopiesAmount();
+
             if (i == moviesInStock.size() - 1 && quantityInStock == 0) {
                 return null;
             }
@@ -52,16 +54,22 @@ public class RandomSaleService {
 
         Movie randomCopy;
         do {
-            int randomCopyIndex = getRandomint(0, moviesInStock.size());
+            int randomCopyIndex = getRandomInt(moviesInStock.size());
             randomCopy = moviesInStock.get(randomCopyIndex);
         } while(randomCopy.getCopiesAmount() == 0);
 
-        int randomCopiesAmount = getRandomint(1, randomCopy.getCopiesAmount());
+        int randomCopiesAmount = getRandomCopy(randomCopy.getCopiesAmount());
 
         return new SaleItem(randomCopy,  randomCopiesAmount);
     }
 
-    public int getRandomint(int min, int max) {
-        return (int)(Math.random() * (max - min)) + min;
+    private int getRandomInt(int max) {
+        return (int) (Math.random() * (max));
+    }
+
+    private int getRandomCopy(int copiesAmount) {
+        int max = Math.min(copiesAmount, 4);
+
+        return (int)(Math.random() * (max - 1)) + 1;
     }
 }

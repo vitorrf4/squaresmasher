@@ -25,15 +25,11 @@ export class SaleComponent implements OnInit   {
 
     setTimeout(() => {
       this.storeService.getStoreInformation();
-    }, 500);
+    }, 400);
   }
 
   public formatData(date : Date) {
     return formatDate(date, 'HH:mm dd/MM/yyyy', 'en-US');
-  }
-
-  public floatToTwoPrecisionPoints(number : Number) : string {
-    return number.toFixed(2);
   }
 
 }

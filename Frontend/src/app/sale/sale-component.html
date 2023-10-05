@@ -10,8 +10,8 @@
     </tr>
     <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
       <td class="col-9">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
-      <td class="col-1">${{floatToTwoPrecisionPoints(sale["saleTotalPrice"])}}</td>
-      <td class="col-1">{{formatData(sale["saleDateTime"])}}</td>
+      <td class="col-1">${{sale["saleTotalPrice"].toFixed(2)}}</td>
+      <td class="col-1 text-right">{{formatData(sale["saleDateTime"])}}</td>
     </tr>
   </table>
 </cdk-virtual-scroll-viewport>

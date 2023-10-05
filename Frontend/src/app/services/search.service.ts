@@ -14,7 +14,6 @@ export class SearchService {
 
   public searchMovie(query: String) {
     this.httpClient.get<Movie[]>(`${this.searchUrl}/movies/search/${query}`).subscribe(data => {
-      console.log(data);
       this.movies.next(data);
     })
   }

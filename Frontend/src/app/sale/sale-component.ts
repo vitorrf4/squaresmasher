@@ -29,7 +29,7 @@ export class SaleComponent implements OnInit   {
   }
 
   public formatData(date : Date) {
-    return formatDate(date, 'HH:mm | dd/MM/yyyy', 'en-US');
+    return formatDate(date, 'HH:mm dd/MM/yyyy', 'en-US');
   }
 
   public floatToTwoPrecisionPoints(number : Number) : string {

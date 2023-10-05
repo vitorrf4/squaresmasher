@@ -1,12 +1,18 @@
 <button (click)="generateSale()">GENERATE SALE</button>
 <br>
 
-<cdk-virtual-scroll-viewport itemSize="18" style="height:70vh">
-  <table *cdkVirtualFor="let sale of sales.value.slice().reverse()">
-    <tr>
-      <td>{{sale.customerName}} bought {{sale.quantityBought}} copies of {{sale.movieTitle}} --</td>
-      <td>Sale Total: ${{floatToTwoPrecisionPoints(sale.saleTotalPrice)}} -- </td>
-      <td>{{formatData(sale.saleDateTime)}}</td>
+<cdk-virtual-scroll-viewport itemSize="18" style="height:70vh" class="virtual-scroll">
+  <table  class="table table-dark">
+    <tr id="table-th">
+      <th>Sale</th>
+      <th>Total</th>
+      <th>Time</th>
+    </tr>
+    <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
+      <td class="col-9">{{sale.customerName}} bought {{sale.quantityBought}} copies of {{sale.movieTitle}}</td>
+      <td class="col-2">${{floatToTwoPrecisionPoints(sale.saleTotalPrice)}}</td>
+      <td class="col-1">{{formatData(sale.saleDateTime)}}</td>
     </tr>
   </table>
 </cdk-virtual-scroll-viewport>
+'

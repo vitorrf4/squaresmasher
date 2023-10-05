@@ -8,14 +8,12 @@ import {Movie} from "../models/movie";
 })
 export class SearchService {
   private readonly searchUrl: string = 'http://localhost:8080';
-  public movies = new BehaviorSubject<Movie[]>([]);
+  // public movies = new BehaviorSubject<Movie[]>([]);
 
   constructor(private httpClient : HttpClient) { }
 
   public searchMovie(query: String) {
-    this.httpClient.get<Movie[]>(`${this.searchUrl}/movies/search/${query}`).subscribe(data => {
-      this.movies.next(data);
-    })
+    return this.httpClient.get<Movie[]>(`${this.searchUrl}/movies/search/${query}`);
   }
 
 }

@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./search-movie.component.css']
 })
 export class SearchMovieComponent {
-  @Input() movies! : BehaviorSubject<Movie[]>;
+  movies! : Movie[];
   query : String = "";
 
   constructor(private searchService: SearchService,
@@ -19,14 +19,15 @@ export class SearchMovieComponent {
 
 
   public searchMovie() {
-    this.searchService.searchMovie(this.query);
-    this.movies = this.searchService.movies;
+    this.searchService.searchMovie(this.query).subscribe(res => {
+      this.movies = res;
+    })
   }
 
   public restockMovies() {
     let moviesToAdd : Movie[] = [];
 
-    for (let movie of this.movies.value) {
+    for (let movie of this.movies) {
       if (movie.copiesAmount > 0)
         moviesToAdd.push(movie)
     }

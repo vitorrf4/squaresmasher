@@ -1,16 +1,28 @@
 .float-container {
-    padding: 20px;
+  padding: 20px;
 }
-
 .float-child-1 {
-    width: 50%;
-    float: left;
-    padding: 20px;
-    border: 2px solid;
+  width: 50%;
+  float: left;
+  padding: 20px;
+  border: 2px solid;
 }
 .float-child-2 {
-    width: 45%;
-    float: right;
-    padding: 20px;
-    border: 2px solid;
+  width: 45%;
+  float: right;
+  padding: 20px;
+  border: 2px solid;
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+header, footer {
+  background: darkgray;
+}
+.content {
+  flex: 1;
+  overflow: auto;
 }

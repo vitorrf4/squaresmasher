@@ -1,15 +1,24 @@
-<h1>STORE</h1>
-<tr>
-  <td><app-store></app-store></td>
-</tr>
+<div class="wrapper">
+  <header class="card-header">
+    <h1 routerLink="home">STORE</h1>
+    <app-store></app-store>
 
-<hr>
+  </header>
 
-<div class="float-container">
-  <app-generate-sale class="float-child-1"></app-generate-sale>
-  <app-search-movie class="float-child-2"></app-search-movie>
-  <!--  <td><button routerLink="/search">RESTOCK</button></td>-->
+  <div class="content">
+    <div class="float-container">
+      <app-generate-sale class="float-child-1"></app-generate-sale>
+      <div class="float-child-2">
+        <button (click)="currentTab = 'stock'">STOCK</button>
+        <button (click)="currentTab = 'price'">SEARCH</button>
+        <br>
+        <app-stock *ngIf="currentTab === 'stock'"></app-stock>
+        <app-search-movie *ngIf="currentTab === 'price'"></app-search-movie>
+      </div>
+    </div>
+  </div>
+  <footer class="card-footer text-center">FOOTER</footer>
+
 </div>
-<br>
 
 

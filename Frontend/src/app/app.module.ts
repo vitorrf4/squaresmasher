@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from "@angular/material/card";
 import { StoreComponent } from './store/store.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { StockComponent } from './stock/stock.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     AddusersComponent,
     SaleComponent,
     SearchMovieComponent,
-    StoreComponent
+    StoreComponent,
+    StockComponent
   ],
   imports: [
     BrowserModule,

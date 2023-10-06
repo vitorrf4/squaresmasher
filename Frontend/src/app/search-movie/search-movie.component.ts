@@ -13,7 +13,9 @@ export class SearchMovieComponent {
   query : String = "";
 
   constructor(private searchService: SearchService,
-              private storeService: StoreService) { }
+              private storeService: StoreService) {
+    console.log("search");
+  }
 
 
   public searchMovie() {

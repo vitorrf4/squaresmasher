@@ -8,13 +8,15 @@
   <div class="content">
     <div class="float-container">
       <app-generate-sale class="float-child-1"></app-generate-sale>
-      <div class="float-child-2">
+
+      <div class="float-child-2" style="height: 78vh">
         <button (click)="currentTab = 'stock'">STOCK</button>
         <button (click)="currentTab = 'price'">SEARCH</button>
-        <br>
+        <br><br>
         <app-stock *ngIf="currentTab === 'stock'"></app-stock>
         <app-search-movie *ngIf="currentTab === 'price'"></app-search-movie>
       </div>
+
     </div>
   </div>
   <footer class="card-footer text-center">FOOTER</footer>

@@ -3,6 +3,7 @@
 }
 .float-child-1 {
   width: 50%;
+  height: 78vh;
   float: left;
   padding: 20px;
   border: 2px solid;

@@ -1,6 +1,10 @@
 .virtual-scroll {
-    /*width: 50%;*/
+    height: 68vh;
 }
 #quantity {
     color: green;
+}
+.center-sale {
+  line-height: 1.5;
+  vertical-align: middle;
 }

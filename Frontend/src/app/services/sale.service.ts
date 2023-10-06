@@ -19,11 +19,7 @@ export class SaleService {
     return this.httpClient.post<Sale>(`${this.saleUrl}/1/generate`, requestOptions);
   }
 
-  public getAllSales() : BehaviorSubject<Sale[]> {
-    this.httpClient.get<Sale[]>(`${this.saleUrl}/from-user/1`).subscribe(data => {
-      this.sales.next(data);
-    })
-    return this.sales;
+  public getAllSales() {
+    return this.httpClient.get<Sale[]>(`${this.saleUrl}/from-user/1`);
   }
-
 }

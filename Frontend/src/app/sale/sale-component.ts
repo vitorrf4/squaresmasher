@@ -1,10 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SaleService} from "../services/sale.service";
 import {Sale} from "../models/sale";
-import {BehaviorSubject} from "rxjs";
+// import {BehaviorSubject} from "rxjs";
 import {formatDate} from "@angular/common";
 import {StoreService} from "../services/store.service";
-import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvider";
 
 @Component({
   selector: 'app-generate-sale',
@@ -12,18 +11,21 @@ import {dateTimestampProvider} from "rxjs/internal/scheduler/dateTimestampProvid
   styleUrls: ['./sale-component.css']
 })
 export class SaleComponent implements OnInit   {
-  @Input() sales!: BehaviorSubject<Sale[]>;
+  sales!: Sale[];
 
   constructor(private saleService: SaleService,
               private storeService: StoreService) { }
 
   ngOnInit() {
-    this.sales = this.saleService.getAllSales();
+    this.saleService.getAllSales().subscribe(res => {
+      console.log(res)
+      this.sales = res;
+    });
   }
 
   public generateSale() {
     this.saleService.generateSale().subscribe(res => {
-      this.sales.value.push(res);
+      // this.sales.value.push(res);
       this.storeService.getStoreInformation().subscribe();
     });
   }
@@ -31,6 +33,4 @@ export class SaleComponent implements OnInit   {
   public formatData(date : Date) {
     return formatDate(date, 'HH:mm dd/MM/yyyy', 'en-US');
   }
-
-  protected readonly dateTimestampProvider = dateTimestampProvider;
 }

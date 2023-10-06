@@ -8,7 +8,7 @@
       <th>Total</th>
       <th>Time</th>
     </tr>
-    <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
+    <tr *cdkVirtualFor="let sale of sales">
       <td class="col-9">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
       <td class="col-1">${{sale["saleTotalPrice"].toFixed(2)}}</td>
       <td class="col-1 text-right">{{formatData(sale["saleDateTime"])}}</td>

@@ -10,10 +10,10 @@ import {StoreService} from "../services/store.service";
 
 export class AppComponent implements OnInit{
 
-	constructor(private service: SaleService, private test : StoreService) { }
+	constructor(private service: SaleService, private storeService : StoreService) { }
 
 	ngOnInit() {
-    this.test.getStoreInformation();
+    this.storeService.getStoreInformation();
 	}
 
 }

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "../models/store";
 import {StoreService} from "../services/store.service";
-import {BehaviorSubject, firstValueFrom} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-store',

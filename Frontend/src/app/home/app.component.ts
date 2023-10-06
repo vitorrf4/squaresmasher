@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {SaleService} from "../services/sale.service";
 import {StoreService} from "../services/store.service";
 
 @Component({
@@ -10,7 +9,7 @@ import {StoreService} from "../services/store.service";
 
 export class AppComponent implements OnInit{
 
-	constructor(private service: SaleService, private storeService : StoreService) { }
+	constructor(private storeService : StoreService) { }
 
 	ngOnInit() {
     this.storeService.getStoreInformation();

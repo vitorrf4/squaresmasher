@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
-import {SearchService} from "../services/search.service";
-import {Movie} from "../models/movie";
-import {StoreService} from "../services/store.service";
+import {SearchService} from "../../services/search.service";
+import {Movie} from "../../models/movie";
+import {StoreService} from "../../services/store.service";
 import {BehaviorSubject} from "rxjs";
 
 @Component({

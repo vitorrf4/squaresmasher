@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {SaleService} from "../services/sale.service";
-import {Sale} from "../models/sale";
+import {SaleService} from "../../services/sale.service";
+import {Sale} from "../../models/sale";
 import {BehaviorSubject} from "rxjs";
 import {formatDate} from "@angular/common";
-import {StoreService} from "../services/store.service";
+import {StoreService} from "../../services/store.service";
 
 @Component({
   selector: 'app-generate-sale',

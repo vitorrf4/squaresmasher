@@ -18,7 +18,6 @@ export class SaleComponent implements OnInit   {
 
   ngOnInit() {
     this.saleService.getAllSales().subscribe(res => {
-      console.log(res)
       this.sales.next(res);
     });
   }
@@ -26,7 +25,7 @@ export class SaleComponent implements OnInit   {
   public generateSale() {
     this.saleService.generateSale().subscribe(res => {
       this.sales.value.push(res);
-      this.storeService.getStoreInformation().subscribe();
+      this.storeService.getStoreInformation();
     });
   }
 

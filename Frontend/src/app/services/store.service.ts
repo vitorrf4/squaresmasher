@@ -14,9 +14,9 @@ export class StoreService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public getStoreInformation() : BehaviorSubject<Store> {
-    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(data => {
-      this.store.next(data);
+  public getStoreInformation() {
+    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
+      this.store.next(res);
     });
     return this.store;
   }

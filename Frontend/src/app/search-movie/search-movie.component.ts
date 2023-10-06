@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {SearchService} from "../services/search.service";
 import {Movie} from "../models/movie";
 import {StoreService} from "../services/store.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-search-movie',
@@ -11,12 +12,10 @@ import {StoreService} from "../services/store.service";
 export class SearchMovieComponent {
   movies! : Movie[];
   query : String = "";
+  @Input() currentTab!: BehaviorSubject<string>
 
   constructor(private searchService: SearchService,
-              private storeService: StoreService) {
-    console.log("search");
-  }
-
+              private storeService: StoreService) { }
 
   public searchMovie() {
     this.searchService.searchMovie(this.query).subscribe(res => {
@@ -36,5 +35,6 @@ export class SearchMovieComponent {
       this.storeService.getStoreInformation();
     });
 
+    this.currentTab.next('stock');
   }
 }

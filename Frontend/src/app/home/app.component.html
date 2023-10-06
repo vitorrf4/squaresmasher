@@ -10,11 +10,11 @@
       <app-generate-sale class="float-child-1"></app-generate-sale>
 
       <div class="float-child-2" style="height: 78vh">
-        <button (click)="currentTab = 'stock'">STOCK</button>
-        <button (click)="currentTab = 'price'">SEARCH</button>
+        <button (click)="currentTab.next('stock')">STOCK</button>
+        <button (click)="currentTab.next('price')">SEARCH</button>
         <br><br>
-        <app-stock *ngIf="currentTab === 'stock'"></app-stock>
-        <app-search-movie *ngIf="currentTab === 'price'"></app-search-movie>
+        <app-stock *ngIf="currentTab.value === 'stock'"></app-stock>
+        <app-search-movie [currentTab]="currentTab" *ngIf="currentTab.value === 'price'"></app-search-movie>
       </div>
 
     </div>

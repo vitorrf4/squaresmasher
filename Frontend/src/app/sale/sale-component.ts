@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SaleService} from "../services/sale.service";
 import {Sale} from "../models/sale";
-// import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {formatDate} from "@angular/common";
 import {StoreService} from "../services/store.service";
 
@@ -11,7 +11,7 @@ import {StoreService} from "../services/store.service";
   styleUrls: ['./sale-component.css']
 })
 export class SaleComponent implements OnInit   {
-  sales!: Sale[];
+  sales = new BehaviorSubject<Sale[]>([]);
 
   constructor(private saleService: SaleService,
               private storeService: StoreService) { }
@@ -19,13 +19,13 @@ export class SaleComponent implements OnInit   {
   ngOnInit() {
     this.saleService.getAllSales().subscribe(res => {
       console.log(res)
-      this.sales = res;
+      this.sales.next(res);
     });
   }
 
   public generateSale() {
     this.saleService.generateSale().subscribe(res => {
-      // this.sales.value.push(res);
+      this.sales.value.push(res);
       this.storeService.getStoreInformation().subscribe();
     });
   }

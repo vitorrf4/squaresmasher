@@ -30,10 +30,9 @@ export class SearchMovieComponent {
         moviesToAdd.push(movie)
     }
 
-    this.storeService.restockMovies(moviesToAdd);
-
-    setTimeout(()=> {
+    this.storeService.restockMovies(moviesToAdd).subscribe(() => {
       this.storeService.getStoreInformation();
-    }, 500)
+    });
+
   }
 }

@@ -4,14 +4,14 @@
 <cdk-virtual-scroll-viewport itemSize="18" style="height:70vh" class="virtual-scroll">
   <table  class="table table-dark">
     <tr id="table-th">
-      <th>Sale</th>
-      <th>Total</th>
-      <th>Time</th>
+      <th  class="col-9">Sale</th>
+      <th class="col-1">Total</th>
+      <th class="col-1">Time</th>
     </tr>
-    <tr *cdkVirtualFor="let sale of sales">
-      <td class="col-9">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
-      <td class="col-1">${{sale["saleTotalPrice"].toFixed(2)}}</td>
-      <td class="col-1 text-right">{{formatData(sale["saleDateTime"])}}</td>
+    <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
+      <td>{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
+      <td>${{sale["saleTotalPrice"].toFixed(2)}}</td>
+      <td class=" text-right">{{formatData(sale["saleDateTime"])}}</td>
     </tr>
   </table>
 </cdk-virtual-scroll-viewport>

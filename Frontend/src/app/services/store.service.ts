@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Store} from "../models/store";
 import {Movie} from "../models/movie";
@@ -21,7 +21,7 @@ export class StoreService {
     return this.store;
   }
 
-  public restockMovies(movies : Movie[]) {
-    this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies).subscribe();
+  public restockMovies(movies : Movie[]) : Observable<Object> {
+    return this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies);
   }
 }

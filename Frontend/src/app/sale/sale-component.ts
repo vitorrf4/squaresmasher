@@ -22,7 +22,7 @@ export class SaleComponent implements OnInit   {
   }
 
   public generateSale() {
-    this.saleService.getRandomSale().subscribe(res => {
+    this.saleService.generateSale().subscribe(res => {
       this.sales.value.push(res);
       this.storeService.getStoreInformation().subscribe();
     });

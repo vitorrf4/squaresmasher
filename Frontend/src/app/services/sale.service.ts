@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Sale} from "../models/sale";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,11 @@ export class SaleService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public getRandomSale() {
-    return this.httpClient.get<Sale>(`${this.saleUrl}/generate/1`);
+  public generateSale() {
+    const headers = new HttpHeaders({'Content-Lenght':"0"});
+    const requestOptions = {headers: headers};
+
+    return this.httpClient.post<Sale>(`${this.saleUrl}/1/generate`, requestOptions);
   }
 
   public getAllSales() : BehaviorSubject<Sale[]> {

@@ -26,20 +26,6 @@ export class SaleComponent implements OnInit {
 
   public generateRandomSale() {
     this.salesIntervalId = setInterval(this.generate.bind(this), this.timeout);
-
-    // timeout = 1000;
-    //
-    // this.salesIntervalId = setInterval(() => {
-    //   if (this.storeService.store.getValue().copiesTotal == 0) {
-    //     clearInterval(this.salesIntervalId)
-    //     return;
-    //   }
-    //   timeout = Math.floor((Math.random() * 5)) + 2;
-    //   console.log(`time: ${timeout}`);
-    //
-    //   this.makeSale();
-    // }, timeout);
-
   }
 
   public generate() {

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SaleService} from "../../services/sale.service";
 import {Sale} from "../../models/sale";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, generate} from "rxjs";
 import {StoreService} from "../../services/store.service";
 
 @Component({
@@ -11,6 +11,8 @@ import {StoreService} from "../../services/store.service";
 })
 export class SaleComponent implements OnInit {
   sales = new BehaviorSubject<Sale[]>([]);
+  salesIntervalId: number = 0;
+  timeout = 2000;
 
   constructor(private saleService: SaleService,
               private storeService: StoreService) { }
@@ -19,9 +21,37 @@ export class SaleComponent implements OnInit {
     this.saleService.getAllSales().subscribe(res => {
       this.sales.next(res);
     });
+    this.generateRandomSale();
   }
 
-  public generateSale() {
+  public generateRandomSale() {
+    this.salesIntervalId = setInterval(this.generate.bind(this), this.timeout);
+
+    // timeout = 1000;
+    //
+    // this.salesIntervalId = setInterval(() => {
+    //   if (this.storeService.store.getValue().copiesTotal == 0) {
+    //     clearInterval(this.salesIntervalId)
+    //     return;
+    //   }
+    //   timeout = Math.floor((Math.random() * 5)) + 2;
+    //   console.log(`time: ${timeout}`);
+    //
+    //   this.makeSale();
+    // }, timeout);
+
+  }
+
+  public generate() {
+    if (this.storeService.store.getValue().copiesTotal == 0) {
+      clearTimeout(this.salesIntervalId);
+      return;
+    }
+
+    this.makeSale();
+  }
+
+  public makeSale() {
     this.saleService.generateSale().subscribe(res => {
       this.sales.value.push(res);
 

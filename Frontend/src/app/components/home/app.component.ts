@@ -7,6 +7,6 @@ import {BehaviorSubject} from "rxjs";
 	styleUrls: ['./app.component.css'],
 })
 
-export class AppComponent{
+export class AppComponent {
   currentTab = new BehaviorSubject<string>("stock")
 }

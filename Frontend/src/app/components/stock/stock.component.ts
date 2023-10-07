@@ -18,7 +18,6 @@ export class StockComponent implements OnInit{
   }
 
   public orderMoviesByCopies() {
-    console.log(this.store.getValue());
     return this.store.getValue().moviesInStock.sort((m1, m2) =>
       m1.copiesAmount < m2.copiesAmount ? 1 :
         m1.copiesAmount == m2.copiesAmount ? 0 : -1

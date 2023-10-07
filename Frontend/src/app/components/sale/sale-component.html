@@ -1,8 +1,14 @@
 <button (click)="generateSale()">GENERATE SALE</button>
 <br><br>
 
-<cdk-virtual-scroll-viewport itemSize="18" class="virtual-scroll">
-  <table  class="table table-dark">
+<table style="height: 68vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
+  <tr>
+    <td class="center-sale text-lg-center text-light">You haven't made any sales yet, add a movie to your stock to start!</td>
+  </tr>
+</table>
+
+<cdk-virtual-scroll-viewport itemSize="18" class="virtual-scroll" *ngIf="sales.value.length > 0">
+  <table class="table table-dark">
     <tr>
       <th class="col-9">Sale</th>
       <th class="col-1">Total</th>

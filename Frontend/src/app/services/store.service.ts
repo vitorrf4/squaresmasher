@@ -15,10 +15,7 @@ export class StoreService {
   constructor(private httpClient : HttpClient) { }
 
   public getStoreInformation() {
-    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
-      this.store.next(res);
-    });
-    return this.store;
+    return this.httpClient.get<Store>(`${this.storeUrl}/store/1`);
   }
 
   public restockMovies(movies : Movie[]) : Observable<Object> {

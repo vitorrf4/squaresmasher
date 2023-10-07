@@ -4,5 +4,5 @@ export class Store {
   name: string = "";
   totalRevenue = 0;
   copiesTotal = 0;
-  movies : Movie[] = [];
+  moviesInStock : Movie[] = [];
 }

@@ -57,9 +57,9 @@ public class RandomSaleIntegrationTest {
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actualSale).isInstanceOf(SaleDTO.class);
         assertThat(actualSale.movieTitle()).isIn(
-            copies.get(0).getMovieTitle(),
-            copies.get(1).getMovieTitle(),
-            copies.get(2).getMovieTitle()
+            copies.get(0).getTitle(),
+            copies.get(1).getTitle(),
+            copies.get(2).getTitle()
         );
     }
 

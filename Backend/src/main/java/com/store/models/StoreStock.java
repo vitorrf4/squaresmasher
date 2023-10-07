@@ -34,14 +34,14 @@ public class StoreStock {
 
     public Movie getCopyFromStockByName(Movie copy) {
         return movies.stream().filter(
-                stockCopy -> stockCopy.getMovieTitle()
-                        .equals(copy.getMovieTitle()))
+                stockCopy -> stockCopy.getTitle()
+                        .equals(copy.getTitle()))
                         .findFirst().orElse(null);
     }
 
     public void addMovieToStock(Movie movie) {
         if (getCopyFromStockByName(movie) != null) {
-            System.out.println("movie " + movie.getMovieTitle() + " already in stock");
+            System.out.println("movie " + movie.getTitle() + " already in stock");
             getCopyFromStockByName(movie).addCopies(movie.getCopiesAmount());
             calculateTotalCopies();
             return;

@@ -1,9 +1,8 @@
-<td>TEST</td>
-<table *ngFor="let movie of store.getValue().movies">
+<table *ngFor="let movie of store.value.moviesInStock">
   <tr>
-    <td>{{movie.movieTitle}}
-    <td>{{movie.copiesAmount}}</td>
-    <td>{{movie.releaseYear}}</td>
-    <td>{{movie.unitPrice}}</td>
+    <td>Title:{{movie.movieTitle}} </td>
+    <td>Copies:{{movie.copiesAmount}}</td>
+    <td>Release Year:{{movie.releaseYear}}</td>
+    <td>Unit Price: {{movie.unitPrice}}</td>
   </tr>
 </table>

@@ -9,12 +9,15 @@ import {StoreService} from "../../services/store.service";
   styleUrls: ['./stock.component.css']
 })
 export class StockComponent implements OnInit{
-  @Input() store!: BehaviorSubject<Store>;
+  store = new BehaviorSubject<Store>(new Store());
 
   constructor(private storeService: StoreService) { }
 
   ngOnInit() {
-    this.store = this.storeService.getStoreInformation();
+    this.storeService.getStoreInformation().subscribe(res => {
+      console.log(res);
+      this.store.next(res);
+    });
   }
 
 }

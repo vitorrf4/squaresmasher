@@ -1,8 +1,8 @@
 .virtual-scroll {
-    height: 68vh;
+  height: 68vh;
 }
 #quantity {
-    color: green;
+  color: green;
 }
 .center-sale {
   line-height: 1.5;

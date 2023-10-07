@@ -36,7 +36,7 @@ public class SaleDTOTest {
         SaleDTO dto = SaleMapper.toDTO(sale);
 
         assertThat(dto.customerName()).isEqualTo(customer.getName());
-        assertThat(dto.movieTitle()).isEqualTo(copy.getMovieTitle());
+        assertThat(dto.movieTitle()).isEqualTo(copy.getTitle());
         assertThat(dto.quantityBought()).isEqualTo(item.getCopiesSold());
         assertThat(dto.saleTotalPrice()).isEqualTo(item.getItemTotalPrice());
         assertThat(dto.saleDateTime()).isEqualTo(sale.getSaleDate());

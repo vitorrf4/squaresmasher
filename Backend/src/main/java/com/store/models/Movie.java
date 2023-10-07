@@ -12,8 +12,8 @@ import java.util.Objects;
 public class Movie {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonProperty("title")
-    private String movieTitle; //TODO change to title
+    @JsonProperty("movieTitle")
+    private String title; //TODO change to movieTitle
     private int copiesAmount;
     private double unitPrice;
     private Year releaseYear;
@@ -23,15 +23,15 @@ public class Movie {
 
     public Movie() { }
 
-    public Movie(String movieTitle, int copiesAmount, Year releaseYear) {
-        this.movieTitle = movieTitle;
+    public Movie(String title, int copiesAmount, Year releaseYear) {
+        this.title = title;
         this.copiesAmount = copiesAmount;
         this.releaseYear = releaseYear;
         calculateUnitPrice();
     }
 
-    public Movie(String movieTitle, int copiesAmount, Year releaseYear, String posterUrl) {
-        this.movieTitle = movieTitle;
+    public Movie(String title, int copiesAmount, Year releaseYear, String posterUrl) {
+        this.title = title;
         this.copiesAmount = copiesAmount;
         this.releaseYear = releaseYear;
         this.posterUrl = posterUrl;
@@ -46,12 +46,12 @@ public class Movie {
         this.id = id;
     }
 
-    public String getMovieTitle() {
-        return movieTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMovieTitle(String movie) {
-        this.movieTitle = movie;
+    public void setTitle(String movie) {
+        this.title = movie;
     }
 
     public double getUnitPrice() {
@@ -110,19 +110,19 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return copiesAmount == movie.copiesAmount && Objects.equals(id, movie.id) && Objects.equals(movieTitle, movie.movieTitle);
+        return copiesAmount == movie.copiesAmount && Objects.equals(id, movie.id) && Objects.equals(title, movie.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, movieTitle, copiesAmount);
+        return Objects.hash(id, title, copiesAmount);
     }
 
     @Override
     public String toString() {
         return "Movie{" +
                 "id=" + id +
-                ", movieTitle='" + movieTitle + '\'' +
+                ", movieTitle='" + title + '\'' +
                 ", copiesAmount=" + copiesAmount +
                 ", unitPrice=" + unitPrice +
                 ", releaseYear=" + releaseYear +

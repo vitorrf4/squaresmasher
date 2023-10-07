@@ -9,12 +9,15 @@ import {BehaviorSubject} from "rxjs";
   styleUrls: ['./store.component.css']
 })
 export class StoreComponent implements OnInit {
-  @Input() store!: BehaviorSubject<Store>;
+  store = new BehaviorSubject<Store>(new Store());
 
   constructor(private service: StoreService) { }
 
   ngOnInit() {
-    this.store = this.service.getStoreInformation();
+    this.service.getStoreInformation().subscribe(res => {
+      console.log("store: " + res.name);
+      this.store.next(res);
+    });
   }
 
 }

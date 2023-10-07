@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "../../models/store";
 import {StoreService} from "../../services/store.service";
 import {BehaviorSubject} from "rxjs";
@@ -15,7 +15,6 @@ export class StoreComponent implements OnInit {
 
   ngOnInit() {
     this.service.getStoreInformation().subscribe(res => {
-      console.log("store: " + res.name);
       this.store.next(res);
     });
   }

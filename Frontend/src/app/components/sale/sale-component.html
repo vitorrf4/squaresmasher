@@ -17,7 +17,7 @@
     <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
       <td class="center-sale">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
       <td class="center-sale">${{sale["saleTotalPrice"].toFixed(2)}}</td>
-      <td class="center-sale text-right">{{formatData(sale["saleDateTime"])}}</td>
+      <td class="center-sale text-right">{{sale["saleDateTime"] | date: "HH:mm dd/MM/yyyy"}}</td>
     </tr>
   </table>
 </cdk-virtual-scroll-viewport>

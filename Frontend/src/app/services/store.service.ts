@@ -21,4 +21,10 @@ export class StoreService {
   public restockMovies(movies : Movie[]) : Observable<Object> {
     return this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies);
   }
+
+  public getChanges() {
+    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
+      this.store.next(res);
+    });
+  }
 }

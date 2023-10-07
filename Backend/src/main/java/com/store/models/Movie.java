@@ -1,5 +1,6 @@
 package com.store.models;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -17,7 +18,7 @@ public class Movie {
     private int copiesAmount;
     private double unitPrice;
     private Year releaseYear;
-    @JsonProperty("poster_path")
+    @JsonAlias("poster_path")
     private String posterUrl;
 
 

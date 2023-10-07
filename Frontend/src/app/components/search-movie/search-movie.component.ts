@@ -31,8 +31,10 @@ export class SearchMovieComponent {
         moviesToAdd.push(movie)
     }
 
-    this.storeService.restockMovies(moviesToAdd).subscribe(() => {
-      this.storeService.getStoreInformation();
+    this.storeService.callRestockMoviesApi(moviesToAdd).subscribe(() => {
+      this.storeService.callGetStoreApi().subscribe(res => {
+        this.storeService.updateStore(res);
+      });
     });
 
     this.currentTab.next('stock');

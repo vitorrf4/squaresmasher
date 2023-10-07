@@ -24,7 +24,10 @@ export class SaleComponent implements OnInit {
   public generateSale() {
     this.saleService.generateSale().subscribe(res => {
       this.sales.value.push(res);
-      this.storeService.getChanges();
+
+      this.storeService.callGetStoreApi().subscribe(res => {
+        this.storeService.updateStore(res);
+      });
     });
   }
 }

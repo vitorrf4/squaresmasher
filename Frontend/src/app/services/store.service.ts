@@ -14,17 +14,22 @@ export class StoreService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public getStoreInformation() {
+  public callGetStoreApi() {
     return this.httpClient.get<Store>(`${this.storeUrl}/store/1`);
   }
 
-  public restockMovies(movies : Movie[]) : Observable<Object> {
+  public callRestockMoviesApi(movies : Movie[]) : Observable<Object> {
     return this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies);
   }
 
-  public getChanges() {
+  public updateStore(store: Store) {
+    this.store.next(store);
+  }
+
+  public getUpdatedStore() {
     this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
       this.store.next(res);
     });
+    return this.store;
   }
 }

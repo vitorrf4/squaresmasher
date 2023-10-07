@@ -12,7 +12,8 @@ import {StoreService} from "../../services/store.service";
 export class SaleComponent implements OnInit {
   sales = new BehaviorSubject<Sale[]>([]);
   salesIntervalId: number = 0;
-  timeout = 2000;
+  timeout = 1000;
+  storeStatus = "closed";
 
   constructor(private saleService: SaleService,
               private storeService: StoreService) { }
@@ -21,7 +22,17 @@ export class SaleComponent implements OnInit {
     this.saleService.getAllSales().subscribe(res => {
       this.sales.next(res);
     });
-    this.generateRandomSale();
+  }
+
+  public changeStoreStatus() {
+    if (this.storeStatus == "closed") {
+      this.storeStatus = "open";
+      this.generateRandomSale();
+    } else {
+      this.storeStatus = "closed";
+      clearInterval(this.salesIntervalId);
+    }
+
   }
 
   public generateRandomSale() {
@@ -30,12 +41,13 @@ export class SaleComponent implements OnInit {
 
   public generate() {
     if (this.storeService.store.getValue().copiesTotal == 0) {
-      clearTimeout(this.salesIntervalId);
+      this.changeStoreStatus();
       return;
     }
 
     this.makeSale();
   }
+
 
   public makeSale() {
     this.saleService.generateSale().subscribe(res => {

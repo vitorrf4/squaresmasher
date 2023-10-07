@@ -1,4 +1,4 @@
-<button (click)="generateRandomSale()">OPEN STORE</button>
+<button (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
 <br><br>
 
 <table style="height: 68vh;" class="table table-dark" *ngIf="sales.value.length <= 0">

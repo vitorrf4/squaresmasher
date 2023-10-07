@@ -1,6 +1,5 @@
 <div class="wrapper">
   <header class="card-header">
-    <h1 routerLink="home">STORE</h1>
     <app-store></app-store>
   </header>
 
@@ -9,8 +8,8 @@
       <app-generate-sale class="float-child-1"></app-generate-sale>
 
       <div class="float-child-2" style="height: 78vh">
-        <button (click)="currentTab.next('stock')">STOCK</button>
-        <button (click)="currentTab.next('price')">SEARCH</button>
+        <button class="btn-lg" (click)="currentTab.next('stock')">MOVIES</button>
+        <button class="btn-lg"  (click)="currentTab.next('price')">RESTOCK</button>
         <br><br>
         <app-stock *ngIf="currentTab.value === 'stock'"></app-stock>
         <app-search-movie [currentTab]="currentTab" *ngIf="currentTab.value === 'price'"></app-search-movie>

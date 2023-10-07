@@ -1,8 +1,36 @@
-<table *ngFor="let movie of store.value.moviesInStock">
-  <tr>
-    <td>Title:{{movie.movieTitle}} </td>
-    <td>Copies:{{movie.copiesAmount}}</td>
-    <td>Release Year:{{movie.releaseYear}}</td>
-    <td>Unit Price: {{movie.unitPrice}}</td>
-  </tr>
-</table>
+
+<ng-container *ngIf="store.getValue().moviesInStock != undefined">
+  <cdk-virtual-scroll-viewport itemSize="18" style="height:60vh" class="border">
+    <div class="container mt-4">
+      <div class="row">
+
+        <div *ngFor="let movie of orderMoviesByCopies() " class="col-md-3">
+          <div  class="card">
+
+            <img ngSrc="https://image.tmdb.org/t/p/w500/{{movie.posterUrl}}"
+                 width="444" height="250" class="card-img-top" alt="{{movie.movieTitle}} poster">
+            <div class="card-body">
+              <h5 class="card-title">{{movie.movieTitle}}</h5>
+              <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
+              <p class="card-text">Unit Price:{{movie.unitPrice}} </p>
+              <p>{{movie.copiesAmount}}</p>
+              <p>Poster: {{movie.posterUrl}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+
+  </cdk-virtual-scroll-viewport>
+</ng-container>
+
+<!--<table *ngFor="let movie of store.value.moviesInStock">-->
+<!--  <tr>-->
+<!--    <td>Title:{{movie.movieTitle}} </td>-->
+<!--    <td>Copies:{{movie.copiesAmount}}</td>-->
+<!--    <td>Release Year:{{movie.releaseYear}}</td>-->
+<!--    <td>Unit Price: {{movie.unitPrice}}</td>-->
+<!--  </tr>-->
+<!--</table>-->

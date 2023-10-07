@@ -1,6 +1,9 @@
-<p>MOVIE</p>
-<p>MOVIE</p>
-<p>MOVIE</p>
-<p>MOVIE</p>
-<p>MOVIE</p>
-<p>MOVIE</p>
+<td>TEST</td>
+<table *ngFor="let movie of store.getValue().movies">
+  <tr>
+    <td>{{movie.movieTitle}}
+    <td>{{movie.copiesAmount}}</td>
+    <td>{{movie.releaseYear}}</td>
+    <td>{{movie.unitPrice}}</td>
+  </tr>
+</table>

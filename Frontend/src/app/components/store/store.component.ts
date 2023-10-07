@@ -13,7 +13,7 @@ export class StoreComponent implements OnInit {
 
   constructor(private service: StoreService) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.store = this.service.getStoreInformation();
   }
 

@@ -3,10 +3,10 @@ import {BehaviorSubject} from "rxjs";
 
 @Component({
 	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css'],
+	templateUrl: './home.component.html',
+	styleUrls: ['./home.component.css'],
 })
 
-export class AppComponent {
+export class HomeComponent {
   currentTab = new BehaviorSubject<string>("stock")
 }

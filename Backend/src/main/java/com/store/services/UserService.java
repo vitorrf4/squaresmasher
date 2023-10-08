@@ -2,6 +2,7 @@ package com.store.services;
 
 import com.store.models.User;
 import com.store.repos.UserRepository;
+import org.apache.commons.validator.routines.IntegerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -23,7 +24,7 @@ public class UserService {
     }
 
     public Optional<User> getUser(Long id) {
-        if (isIdInvalid(id))
+        if (isIdInvalid(id.toString()))
             return Optional.empty();
 
         return repo.findById(id);
@@ -43,7 +44,7 @@ public class UserService {
     }
 
     public boolean deleteUser(Long id) {
-        if (isIdInvalid(id))
+        if (isIdInvalid(id.toString()))
             return false;
 
         Optional<User> userToBeDeleted = repo.findById(id);
@@ -60,7 +61,7 @@ public class UserService {
                 user.getPassword().isEmpty() || user.getPassword().isBlank();
     }
 
-    public boolean isIdInvalid(Long id) {
-        return id == null || id < 1;
+    public boolean isIdInvalid(String id) {
+        return id == null || new IntegerValidator().validate(id) == null || Long.parseLong(id) < 1;
     }
 }

@@ -1,6 +1,6 @@
 package com.store;
 
-import com.store.controllers.RandomSaleController;
+import com.store.controllers.SaleController;
 import com.store.dto.SaleDTO;
 import com.store.models.*;
 import com.store.repos.UserRepository;
@@ -21,13 +21,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class RandomSaleIntegrationTest {
-    @Autowired private RandomSaleController controller;
+    @Autowired private SaleController controller;
     @Autowired private UserRepository userRepository;
     private List<Movie> copies;
     private User user;
 
     @Autowired
-    public RandomSaleIntegrationTest(RandomSaleController controller) {
+    public RandomSaleIntegrationTest(SaleController controller) {
         this.controller = controller;
     }
 

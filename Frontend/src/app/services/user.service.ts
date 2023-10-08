@@ -5,13 +5,13 @@ import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class UserService {
-  private readonly userUrl: string = 'http://localhost:8080/users';
+  private readonly usersApi: string = 'http://localhost:8080/users';
   public users = new BehaviorSubject<User[]>([]);
 
   constructor(private http: HttpClient) { }
 
     public getList(): BehaviorSubject<User[]> {
-        this.http.get<User[]>(this.userUrl).subscribe({
+        this.http.get<User[]>(this.usersApi).subscribe({
             next: res => this.users.next(res),
             error : err => alert(err.message)
         });
@@ -20,14 +20,14 @@ export class UserService {
     }
 
     public addUser(user : User) {
-        this.http.post(this.userUrl, user).subscribe({
+        this.http.post(this.usersApi, user).subscribe({
             next: res=> this.users.getValue().push(new User(res)),
             error: err => alert(err.message)
         });
 	}
 
     public deleteUser(id : Number){
-        this.http.delete(`${this.userUrl}/${id}`).subscribe({
+        this.http.delete(`${this.usersApi}/${id}`).subscribe({
             next: () => {
                 const listWithoutDeletedUser = this.users.value.filter(u => u.id != id);
                 this.users.next(listWithoutDeletedUser);

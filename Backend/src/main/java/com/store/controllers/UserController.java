@@ -32,10 +32,10 @@ public class UserController {
     }
 
     @GetMapping(path="/{id}")
-    public ResponseEntity<?> callGetUserById(@PathVariable Long id) {
+    public ResponseEntity<?> callGetUserById(@PathVariable String id) {
         if (service.isIdInvalid(id)) return ResponseEntity.badRequest().build();
 
-        Optional<User> user = service.getUser(id);
+        Optional<User> user = service.getUser(Long.parseLong(id));
         if (user.isEmpty()) return ResponseEntity.notFound().build();
 
         return ResponseEntity.ok(user.get());
@@ -63,7 +63,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        if (service.isIdInvalid(id)) return ResponseEntity.badRequest().build();
+        if (service.isIdInvalid(id.toString())) return ResponseEntity.badRequest().build();
 
         boolean isDeleted = service.deleteUser(id);
         if (!isDeleted) return ResponseEntity.notFound().build();

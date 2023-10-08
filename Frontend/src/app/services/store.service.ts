@@ -9,17 +9,17 @@ import {Movie} from "../models/movie";
 })
 export class StoreService {
 
-  private readonly storeUrl: string = 'http://localhost:8080';
+  private readonly storeApi: string = 'http://localhost:8080';
   public store = new BehaviorSubject<Store>(new Store());
 
   constructor(private httpClient : HttpClient) { }
 
   public callGetStoreApi() {
-    return this.httpClient.get<Store>(`${this.storeUrl}/store/1`);
+    return this.httpClient.get<Store>(`${this.storeApi}/store/1`);
   }
 
   public callRestockMoviesApi(movies : Movie[]) : Observable<Object> {
-    return this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies);
+    return this.httpClient.post(`${this.storeApi}/store/1/restock`, movies);
   }
 
   public updateStore(store: Store) {
@@ -27,7 +27,7 @@ export class StoreService {
   }
 
   public getUpdatedStore() {
-    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
+    this.httpClient.get<Store>(`${this.storeApi}/store/1`).subscribe(res => {
       this.store.next(res);
     });
     return this.store;

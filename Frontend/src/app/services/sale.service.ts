@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class SaleService {
-  private readonly saleUrl: string = 'http://localhost:8080/sales';
+  private readonly salesApi: string = 'http://localhost:8080/sales';
 
   constructor(private httpClient : HttpClient) { }
 
@@ -15,10 +15,10 @@ export class SaleService {
     const headers = new HttpHeaders({'Content-Lenght':"0"});
     const requestOptions = {headers: headers};
 
-    return this.httpClient.post<Sale>(`${this.saleUrl}/1/generate`, requestOptions);
+    return this.httpClient.post<Sale>(`${this.salesApi}/1/generate`, requestOptions);
   }
 
   public getAllSales() : Observable<Sale[]> {
-    return this.httpClient.get<Sale[]>(`${this.saleUrl}/from-user/1`);
+    return this.httpClient.get<Sale[]>(`${this.salesApi}/1`);
   }
 }

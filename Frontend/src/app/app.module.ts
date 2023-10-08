@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/home/app.component';
+import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AddusersComponent } from './components/add-user/add-user.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
@@ -15,16 +15,18 @@ import { MatCardModule} from "@angular/material/card";
 import { StoreComponent } from './components/store/store.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { StockComponent } from './components/stock/stock.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    HomeComponent,
     ListUsersComponent,
     AddusersComponent,
     SaleComponent,
     SearchMovieComponent,
     StoreComponent,
-    StockComponent
+    StockComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,6 @@ import { StockComponent } from './components/stock/stock.component';
     ScrollingModule
   ],
   providers: [UserService],
-  bootstrap: [AppComponent]
+  bootstrap: [HomeComponent]
 })
 export class AppModule { }

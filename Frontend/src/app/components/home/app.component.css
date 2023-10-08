@@ -3,8 +3,8 @@
   display: flex;
   flex-direction: column;
 }
-header, footer {
-  background: #45b3e0;
+header{
+  background: slategray;
 }
 .float-container {
   height: 100%;
@@ -13,18 +13,17 @@ header, footer {
 }
 .float-child-1 {
   width: 50%;
-  height: 78vh;
+  height: 84vh;
   float: left;
   padding: 20px;
-  border: 2px solid;
-  background-color: #45b3e0;
 }
 .float-child-2 {
   width: 45%;
+  height: 84vh;
   float: right;
   padding: 20px;
   border: 2px solid;
-  background-color: #45b3e0;
+  background-color: #1f1b1b;
 }
 .content {
   flex: 1;

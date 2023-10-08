@@ -1,7 +1,13 @@
-<label for="movieQuery">Search Movie:</label>
-<input type="text" name="movieQuery" id="movieQuery" class="nav-list-search" [(ngModel)]="query" (keyup.enter)="searchMovie()">
-<button (click)="searchMovie()">SEARCH</button>
+<!--<label for="movieQuery">Search:</label>-->
+<!--<input type="search" name="movieQuery" id="movieQuery" class="page-search-header" placeholder="Movie" [(ngModel)]="query" (keyup.enter)="searchMovie()">-->
+<!--<button (click)="searchMovie()">SEARCH</button>-->
 
+<div class="input-group mb-3">
+  <input type="search" name="movieQuery" id="movieQuery" class="form-control rounded" placeholder="Movie" [(ngModel)]="query" (keyup.enter)="searchMovie()">
+  <div class="input-group-append">
+    <button class="input-group-text" (click)="searchMovie()">Search</button>
+  </div>
+</div>
 
 <ng-container *ngIf="movies != undefined">
   <cdk-virtual-scroll-viewport itemSize="18" style="height:60vh" class="border">
@@ -16,7 +22,7 @@
             <div class="card-body">
               <h5 class="card-title">{{movie.movieTitle}}</h5>
               <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
-              <p class="card-text">Unit Price:{{movie.unitPrice}} </p>
+              <p class="card-text">Unit Price:${{movie.unitPrice}} </p>
               <label class="card-text" for="copiesQuantity">Quantity:</label>
               <input style="width: 60px" type="number" name="copiesQuantity" id="copiesQuantity" [(ngModel)]="movie.copiesAmount">
             </div>

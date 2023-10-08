@@ -1,4 +1,4 @@
-<h4>{{store.getValue().copiesTotal}} copies in stock</h4>
+<h4 class="text-light">{{store.getValue().copiesTotal}} copies in stock</h4>
 
 <ng-container *ngIf="store.getValue().moviesInStock != undefined">
   <cdk-virtual-scroll-viewport itemSize="20" style="height:62vh" class="border bg-dark">
@@ -13,7 +13,7 @@
             <div class="card-body">
               <h5 class="card-title">{{movie.movieTitle}}</h5>
               <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
-              <p class="card-text">Unit Price:{{movie.unitPrice}} </p>
+              <p class="card-text">Unit Price:${{movie.unitPrice.toFixed(2)}} </p>
               <p class="card-text">Copies: {{movie.copiesAmount}}</p>
             </div>
           </div>

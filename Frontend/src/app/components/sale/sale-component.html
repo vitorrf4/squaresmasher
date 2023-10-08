@@ -1,13 +1,16 @@
-<button (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
-<br><br>
+<div class="text-center">
+  <button class="btn-lg btn-danger active" id="btn-status" (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
+</div>
 
-<table style="height: 68vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
+<br>
+
+<table style="height: 75vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
   <tr>
     <td class="center-sale text-lg-center text-light">You haven't made any sales yet, add a movie to your stock to start!</td>
   </tr>
 </table>
 
-<cdk-virtual-scroll-viewport itemSize="5" class="virtual-scroll" *ngIf="sales.value.length > 0">
+<cdk-virtual-scroll-viewport style ="height: 74vh" itemSize="5" class="virtual-scroll" *ngIf="sales.value.length > 0">
   <table class="table table-dark">
     <tr>
       <th class="col-9">Sale</th>

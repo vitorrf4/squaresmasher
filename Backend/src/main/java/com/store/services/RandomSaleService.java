@@ -68,7 +68,7 @@ public class RandomSaleService {
     }
 
     private int getRandomCopy(int copiesAmount) {
-        int max = Math.min(copiesAmount, 4);
+        int max = Math.min(copiesAmount, 6);
 
         return (int)(Math.random() * (max - 1)) + 1;
     }

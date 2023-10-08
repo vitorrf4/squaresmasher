@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SaleService} from "../../services/sale.service";
 import {Sale} from "../../models/sale";
-import {BehaviorSubject, generate} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
 
 @Component({
@@ -13,7 +13,7 @@ export class SaleComponent implements OnInit {
   sales = new BehaviorSubject<Sale[]>([]);
   salesIntervalId: number = 0;
   timeout = 1500;
-  storeStatus = "open";
+  storeStatus = "closed";
 
   constructor(private saleService: SaleService,
               private storeService: StoreService) { }
@@ -22,16 +22,21 @@ export class SaleComponent implements OnInit {
     this.saleService.getAllSales().subscribe(res => {
       this.sales.next(res);
     });
-    this.generateRandomSale();
   }
 
   public changeStoreStatus() {
+    let statusButton = document.getElementById("btn-status");
+
     if (this.storeStatus == "closed") {
       this.storeStatus = "open";
       this.generateRandomSale();
+      // @ts-ignore
+      statusButton.className = "btn-lg btn-success";
     } else {
       this.storeStatus = "closed";
       clearInterval(this.salesIntervalId);
+      // @ts-ignore
+      statusButton.className = "btn-lg btn-danger active";
     }
 
   }

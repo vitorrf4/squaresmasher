@@ -62,7 +62,7 @@ public class Movie {
     public void calculateUnitPrice() {
         String currentYear = Year.now().toString();
         if (currentYear.equals(releaseYear.toString())) {
-            unitPrice = 20; // if it's a new release(year of release is the current year) price is a fixed $20
+            unitPrice = 19.99; // if it's a new release(year of release is the current year) price is a fixed $20
             return;
         }
 
@@ -71,7 +71,7 @@ public class Movie {
 
         int decadePrice = currentDecade - movieReleaseDecade;
 
-        unitPrice = 5 + decadePrice;
+        unitPrice = (5 + decadePrice) - 0.01;
     }
 
     public Year getReleaseYear() {

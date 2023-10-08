@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <header>
+    <app-store></app-store>
+  </header>
+
+  <div class="content">
+    <div class="float-container">
+      <app-generate-sale class="float-child-1"></app-generate-sale>
+
+      <div class="float-child-2" >
+        <ul class="nav nav-pills ">
+          <li class="nav-item ">
+            <button (click)="currentTab.next('stock')" class="nav-link btn-secondary">MOVIES</button>
+          </li>
+          <li class="nav-item">
+            <button (click)="currentTab.next('price')" class="nav-link btn-secondary">RESTOCK</button>
+          </li>
+        </ul>
+        <br>
+
+        <div *ngIf="currentTab.value === 'stock'">
+          <app-stock></app-stock>
+        </div>
+        <div *ngIf="currentTab.value === 'price'">
+          <app-search-movie [currentTab]="currentTab"></app-search-movie>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

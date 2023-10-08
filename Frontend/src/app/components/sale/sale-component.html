@@ -1,0 +1,27 @@
+<div class="text-center">
+  <button class="btn-lg btn-danger active" id="btn-status" (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
+</div>
+
+<br>
+
+<table style="height: 75vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
+  <tr>
+    <td class="center-sale text-lg-center text-light">You haven't made any sales yet, add a movie to your stock to start!</td>
+  </tr>
+</table>
+
+<cdk-virtual-scroll-viewport style ="height: 74vh" itemSize="5" class="virtual-scroll" *ngIf="sales.value.length > 0">
+  <table class="table table-dark">
+    <tr>
+      <th class="col-9">Sale</th>
+      <th class="col-1">Total</th>
+      <th class="col-1">Time</th>
+    </tr>
+    <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
+      <td class="center-sale">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>
+      <td class="center-sale">${{sale["saleTotalPrice"].toFixed(2)}}</td>
+      <td class="center-sale text-right">{{sale["saleDateTime"] | date: "HH:mm dd/MM/yyyy"}}</td>
+    </tr>
+  </table>
+</cdk-virtual-scroll-viewport>
+

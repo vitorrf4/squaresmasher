@@ -28,7 +28,7 @@ public class RandomSaleController {
     }
 
     @Transactional
-    @GetMapping("/generate/{id}")
+    @PostMapping("/{id}/generate")
     public ResponseEntity<?> generateSale(@PathVariable Long id) {
         Store store = saleService.getUserStore(id);
         if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), HttpStatus.BAD_REQUEST);

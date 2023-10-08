@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Store} from "../models/store";
 import {Movie} from "../models/movie";
@@ -14,14 +14,22 @@ export class StoreService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public getStoreInformation() : BehaviorSubject<Store> {
-    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(data => {
-      this.store.next(data);
-    });
-    return this.store;
+  public callGetStoreApi() {
+    return this.httpClient.get<Store>(`${this.storeUrl}/store/1`);
   }
 
-  public restockMovies(movies : Movie[]) {
-    this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies).subscribe();
+  public callRestockMoviesApi(movies : Movie[]) : Observable<Object> {
+    return this.httpClient.post(`${this.storeUrl}/store/1/restock`, movies);
+  }
+
+  public updateStore(store: Store) {
+    this.store.next(store);
+  }
+
+  public getUpdatedStore() {
+    this.httpClient.get<Store>(`${this.storeUrl}/store/1`).subscribe(res => {
+      this.store.next(res);
+    });
+    return this.store;
   }
 }

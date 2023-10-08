@@ -1,9 +1,8 @@
 import {Component, Input} from '@angular/core';
+import {SearchService} from "../../services/search.service";
+import {Movie} from "../../models/movie";
+import {StoreService} from "../../services/store.service";
 import {BehaviorSubject} from "rxjs";
-import {SearchService} from "../services/search.service";
-import {Movie} from "../models/movie";
-import {StoreService} from "../services/store.service";
-import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-movie',
@@ -13,10 +12,10 @@ import {Router} from "@angular/router";
 export class SearchMovieComponent {
   movies! : Movie[];
   query : String = "";
+  @Input() currentTab!: BehaviorSubject<string>
 
   constructor(private searchService: SearchService,
               private storeService: StoreService) { }
-
 
   public searchMovie() {
     this.searchService.searchMovie(this.query).subscribe(res => {
@@ -32,10 +31,12 @@ export class SearchMovieComponent {
         moviesToAdd.push(movie)
     }
 
-    this.storeService.restockMovies(moviesToAdd);
+    this.storeService.callRestockMoviesApi(moviesToAdd).subscribe(() => {
+      this.storeService.callGetStoreApi().subscribe(res => {
+        this.storeService.updateStore(res);
+      });
+    });
 
-    setTimeout(()=> {
-      this.storeService.getStoreInformation();
-    }, 500)
+    this.currentTab.next('stock');
   }
 }

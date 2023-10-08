@@ -5,7 +5,7 @@ import java.time.Year;
 
 public class MovieMapper {
     public static MovieDTO toDTO(Movie domainMovie) {
-        String movieTitle = domainMovie.getMovieTitle();
+        String movieTitle = domainMovie.getTitle();
         int copiesAmount = domainMovie.getCopiesAmount();
         double unitPrice = domainMovie.getUnitPrice();
         Year releaseyear = domainMovie.getReleaseYear();

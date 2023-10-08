@@ -1,0 +1,27 @@
+<h4 class="text-light">{{store.getValue().copiesTotal}} copies in stock</h4>
+
+<ng-container *ngIf="store.getValue().moviesInStock != undefined">
+  <cdk-virtual-scroll-viewport itemSize="20" style="height:62vh" class="border bg-dark">
+    <div class="container mt-4">
+      <div class="row">
+
+        <div *ngFor="let movie of orderMoviesByCopies() " class="col-md-3">
+          <div  class="card">
+
+            <img ngSrc="https://image.tmdb.org/t/p/w300/{{movie.posterUrl}}"
+                 width="444" height="250" class="card-img-top" alt="{{movie.movieTitle}} poster">
+            <div class="card-body">
+              <h5 class="card-title">{{movie.movieTitle}}</h5>
+              <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
+              <p class="card-text">Unit Price:${{movie.unitPrice.toFixed(2)}} </p>
+              <p class="card-text">Copies: {{movie.copiesAmount}}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <br>
+
+  </cdk-virtual-scroll-viewport>
+</ng-container>

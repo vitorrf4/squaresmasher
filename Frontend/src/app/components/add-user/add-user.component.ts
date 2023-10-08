@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {User} from '../models/user';
-import {UserService} from '../services/user.service';
-import {Router} from '@angular/router';
+import {User} from '../../models/user';
+import {UserService} from '../../services/user.service';
 import {ListUsersComponent} from "../list-users/list-users.component";
 import {BehaviorSubject} from "rxjs";
 

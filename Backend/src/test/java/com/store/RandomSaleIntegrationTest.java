@@ -57,9 +57,9 @@ public class RandomSaleIntegrationTest {
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(actualSale).isInstanceOf(SaleDTO.class);
         assertThat(actualSale.movieTitle()).isIn(
-            copies.get(0).getMovieTitle(),
-            copies.get(1).getMovieTitle(),
-            copies.get(2).getMovieTitle()
+            copies.get(0).getTitle(),
+            copies.get(1).getTitle(),
+            copies.get(2).getTitle()
         );
     }
 
@@ -77,7 +77,7 @@ public class RandomSaleIntegrationTest {
         ResponseEntity<?> saleResponse = controller.generateSale(user.getId());
 
         assertThat(saleResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        assertThat(saleResponse.getBody().toString()).isEqualTo("No movie copies in stock");
+        assertThat(saleResponse.getBody().toString()).isEqualTo("No movies in stock");
         assertThat(copiesInStock).isEqualTo(0);
     }
 

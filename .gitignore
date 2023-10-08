@@ -53,3 +53,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+/Frontend/src/app/images/

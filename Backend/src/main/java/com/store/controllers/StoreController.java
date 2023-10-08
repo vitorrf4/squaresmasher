@@ -6,7 +6,6 @@ import com.store.dto.StoreDTO;
 import com.store.dto.StoreMapper;
 import com.store.models.Movie;
 import com.store.models.Store;
-import com.store.models.User;
 import com.store.repos.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -11,17 +11,15 @@ export class AuthService {
   constructor(private http: HttpClient) {
   }
 
-  authenticate(credentials : User, callback: Function) {
+  authenticate(credentials : {name: string, password: string}, callback: Function) {
     const headers = new HttpHeaders(credentials ? {
       authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
     } : {});
 
-    this.http.get<User>('user', {headers: headers}).subscribe(response => {
-      if (response['name']) {
-        this.authenticated = true;
-      } else {
-        this.authenticated = false;
-      }
+    this.http.get<User>('http://localhost:8080/users/login', {headers: headers}).subscribe(response => {
+      this.authenticated = !!response['name'];
+
+      console.log(response);
       return callback && callback();
     });
 

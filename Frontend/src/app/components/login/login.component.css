@@ -1,11 +1,14 @@
+.container-fluid {
+    background-color: slategray;
+}
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
-
 .login-form {
+    background-color: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -23,7 +26,5 @@
 }
 #greeting-box {
     border: solid #1f1b1b 5px;
-    background-color: #3f483f;
-    color: whitesmoke;
-
+    background-color: white;
 }

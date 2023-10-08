@@ -2,16 +2,19 @@ package com.store.controllers;
 
 import com.store.models.User;
 import com.store.services.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
-
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
 @CrossOrigin // only allow origin from deployed frontend server
@@ -69,5 +72,10 @@ public class UserController {
         if (!isDeleted) return ResponseEntity.notFound().build();
 
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping("/login")
+    public Principal checkLogin(Principal user) {
+        return user;
     }
 }

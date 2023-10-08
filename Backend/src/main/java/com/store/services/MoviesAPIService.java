@@ -74,7 +74,6 @@ public class MoviesAPIService {
 
         if (node.get("release_date").textValue().isEmpty() ||
                 LocalDate.parse(node.get("release_date").textValue()).isAfter(LocalDate.now())) {
-            System.out.println(title + " has an invalid date or has not yet been released");
             return null;
         }
 

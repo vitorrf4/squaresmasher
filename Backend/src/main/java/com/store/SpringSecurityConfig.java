@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,9 +26,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
             .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-//                        .anyRequest().permitAll()
-                        .requestMatchers(HttpMethod.GET, "/store/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/sales/*").permitAll()
+            .requestMatchers(HttpMethod.GET, "/store/*", "/sales/*").permitAll()
         );
 
         return http.build();

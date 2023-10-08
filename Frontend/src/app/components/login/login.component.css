@@ -1,0 +1,29 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-form {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 50%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#greeting {
+    border: #1f1b1b 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#greeting-box {
+    border: solid #1f1b1b 5px;
+    background-color: #3f483f;
+    color: whitesmoke;
+
+}

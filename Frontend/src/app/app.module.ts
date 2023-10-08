@@ -16,6 +16,7 @@ import { StoreComponent } from './components/store/store.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { StockComponent } from './components/stock/stock.component';
 import { LoginComponent } from './components/login/login.component';
+import { IndexComponent } from './components/index/index.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { LoginComponent } from './components/login/login.component';
     SearchMovieComponent,
     StoreComponent,
     StockComponent,
-    LoginComponent
+    LoginComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,6 @@ import { LoginComponent } from './components/login/login.component';
     ScrollingModule
   ],
   providers: [UserService],
-  bootstrap: [HomeComponent]
+  bootstrap: [IndexComponent]
 })
 export class AppModule { }

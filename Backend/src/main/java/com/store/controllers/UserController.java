@@ -6,6 +6,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
-@CrossOrigin // only allow origin from deployed frontend server
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true") // only allow origin from deployed frontend server
 public class UserController {
     public final UserService service;
 
@@ -74,7 +75,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public Principal checkLogin(Principal user) {
         return user;
     }

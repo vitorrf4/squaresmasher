@@ -12,6 +12,4 @@ export class HomeComponent {
   currentTab = new BehaviorSubject<string>("stock")
 
 	constructor(private auth: AuthService) { }
-
-	authenticated() {return this.auth.authenticated}
 }

@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials="true") // only allow origin from deployed frontend server
+@CrossOrigin(origins = "http://localhost:4200") // only allow origin from deployed frontend server
 public class UserController {
     public final UserService service;
 
@@ -75,8 +75,4 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/login")
-    public Principal checkLogin(Principal user) {
-        return user;
-    }
 }

@@ -1,69 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-const AUTH_API = 'http://localhost:8080/users/login';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {User} from "../models/user";
+import {Router} from "@angular/router";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  authenticated = false;
+  apiUrl = "http://localhost:8080"
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post(
-      AUTH_API,
-      {
-        username,
-        password,
-      },
-      httpOptions
-    );
+  constructor(private http: HttpClient, private router: Router) {
+
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(
-      AUTH_API,
-      {
-        username,
-        email,
-        password,
-      },
-      httpOptions
-    );
+  authenticate(credentials : {name: string, password: string}, callback: Function) {
+    const headers = new HttpHeaders(credentials ? {
+      authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
+    } : {});
+
+    this.http.get<Object>(`${this.apiUrl}/auth/login`, {headers: headers}).subscribe(response => {
+      // @ts-ignore
+      this.authenticated = !!response['name'];
+
+      console.log(response);
+      return callback && callback();
+    });
   }
 
-  logout(): Observable<any> {
-    return this.http.post(AUTH_API, { }, httpOptions);
+  logout() {
+    this.authenticated = false;
+    this.router.navigateByUrl('/login');
+
   }
 }
-// import { Injectable } from '@angular/core';
-// import {HttpClient, HttpHeaders} from "@angular/common/http";
-// import {User} from "../models/user";
-//
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class AuthService {
-//   authenticated = false;
-//
-//   constructor(private http: HttpClient) {
-//   }
-//
-//   authenticate(credentials : {name: string, password: string}, callback: Function) {
-//     const headers = new HttpHeaders(credentials ? {
-//       authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
-//     } : {});
-//
-//     this.http.get<User>('http://localhost:8080/users/login', ).subscribe(response => {
-//       this.authenticated = !!response['name'];
-//
-//       console.log(response);
-//       return callback && callback();
-//     });
-//
-//   }
-// }

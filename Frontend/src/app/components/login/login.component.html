@@ -13,20 +13,26 @@
         <div class="login-form">
 
           <h2 class="text-center align-text-top">{{ isLoginMode ? 'Login' : 'Register' }}</h2>
-          <form role="form">
+          <form (ngSubmit)="onSubmit()" role="form" name="form" #form="ngForm">
             <div class="form-group">
               <label for="name">Username</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="Enter username" [(ngModel)]="credentials.name">
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" [(ngModel)]="credentials.password">
+              <input type="text" class="form-control" name="name" id="name" placeholder="Enter username" [(ngModel)]="loginCredentials.name">
             </div>
 
-            <!-- Additional fields for registration -->
+            <!-- register -->
             <div *ngIf="!isLoginMode" class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email">
+              <label for="email">Store Name</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" [(ngModel)]="newUser.storeName">
+            </div>
+            <!-- -->
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" [(ngModel)]="loginCredentials.password">
+            </div>
+
+            <div *ngIf="!isLoginMode" class="form-group">
+              <label for="confirm">Confirm password</label>
+              <input type="email" class="form-control" name="confirm" id="confirm" placeholder="Enter email" [(ngModel)]="newUser.confirm">
             </div>
 
             <button type="submit" class="btn btn-primary btn-block">{{ isLoginMode ? 'Login' : 'Register' }}</button>

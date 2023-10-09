@@ -26,7 +26,7 @@ public class DatabaseInserter implements CommandLineRunner {
 
         Store store1 = new Store("test store", new StoreStock());
 
-        User user = new User("user 1", "passwordd 1", store1);
+        User user = new User("user1", "password1", store1);
         user = userRepo.save(user);
         System.out.println("Initiliazed user " + user.getId());
 

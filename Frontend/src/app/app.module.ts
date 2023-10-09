@@ -17,7 +17,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { StockComponent } from './components/stock/stock.component';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
-import {httpInterceptorProviders} from "./helpers/http-request.interceptor";
+// import {httpInterceptorProviders} from "./helpers/http-request.interceptor";
 
 
 @NgModule({
@@ -42,7 +42,7 @@ import {httpInterceptorProviders} from "./helpers/http-request.interceptor";
     MatCardModule,
     ScrollingModule
   ],
-  providers: [UserService, httpInterceptorProviders],
+  providers: [UserService],
   bootstrap: [IndexComponent]
 })
 export class AppModule { }

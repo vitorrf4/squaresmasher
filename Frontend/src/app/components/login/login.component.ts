@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-
+  isLoginMode = true; // Initially, show the login form
   credentials = {name: '', password: ''};
 
   constructor(private auth: AuthService, private router: Router) {
@@ -20,5 +20,10 @@ export class LoginComponent {
       this.router.navigateByUrl('/home');
     });
     return false;
+  }
+
+
+  toggleMode() {
+    this.isLoginMode = !this.isLoginMode; // Toggle between login and registration forms
   }
 }

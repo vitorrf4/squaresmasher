@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "../../models/store";
 import {StoreService} from "../../services/store.service";
 import {BehaviorSubject} from "rxjs";
@@ -16,7 +16,7 @@ export class StoreComponent implements OnInit {
 
   constructor(private service: StoreService,
               private authService: AuthService) {
-    this.user = authService.userValue;
+    this.user = this.authService.userValue;
   }
 
   ngOnInit() {

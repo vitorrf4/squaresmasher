@@ -1,5 +1,6 @@
 package com.store.controllers;
 
+import com.store.dto.NewUserDTO;
 import com.store.models.User;
 import com.store.repos.UserRepository;
 import com.store.services.UserService;
@@ -29,7 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<?> signUpUser(@RequestBody User user) {
+    public ResponseEntity<?> signUpUser(@RequestBody NewUserDTO userDTO) {
+        User user = NewUserDTO.toUser(userDTO);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.createUser(user);
 

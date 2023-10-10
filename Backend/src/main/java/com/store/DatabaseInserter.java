@@ -21,14 +21,14 @@ public class DatabaseInserter implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        if (userRepo.existsById(1L)) return;
-
-
-        Store store1 = new Store("test store", new StoreStock());
-
-        User user = new User("user1", "password1", store1);
-        user = userRepo.save(user);
-        System.out.println("Initiliazed user " + user.getId());
-
+//        if (userRepo.existsById(1L)) return;
+//
+//
+//        Store store1 = new Store("test store", new StoreStock());
+//
+//        User user = new User("user1", "password1", store1);
+//        user = userRepo.save(user);
+//        System.out.println("Initiliazed user " + user.getId());
+//
     }
 }

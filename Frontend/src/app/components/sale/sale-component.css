@@ -11,3 +11,6 @@
 .btn-lg {
   box-shadow: darkblue;
 }
+#btn-status:hover {
+  cursor:pointer;
+}

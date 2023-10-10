@@ -39,13 +39,13 @@ class UserControllerUnitTests {
 
 			given(service.getUser(1L)).willReturn(Optional.of(user1));
 
-			assertThat(controller.callGetUserById(1L).getStatusCode()).isEqualTo(HttpStatus.OK);
-			assertThat(controller.callGetUserById(1L).getBody()).isEqualTo(user1);
+			assertThat(controller.callGetUserById("1").getStatusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(controller.callGetUserById("1").getBody()).isEqualTo(user1);
 		}
 
 		@Test @DisplayName("GET /users/1 - NotFound")
 		public void whenGetUserById_thenNotFound() {
-			assertThat(controller.callGetUserById(1L).getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+			assertThat(controller.callGetUserById("1").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		}
 
 	}

@@ -1,6 +1,7 @@
 package com.store.controllers;
 
 import com.store.models.User;
+import com.store.repos.UserRepository;
 import com.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,13 @@ public class AuthController {
     private UserService userService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
 
-    @RequestMapping("/login")
-    public Principal checkLogin(Principal user) {
+    @PostMapping("/login")
+    public User checkLogin(@RequestBody User user) {
+        user = userRepository.findByName(user.getName());
+        System.out.println(user);
         return user;
     }
 

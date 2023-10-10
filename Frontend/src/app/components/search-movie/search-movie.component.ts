@@ -3,6 +3,8 @@ import {SearchService} from "../../services/search.service";
 import {Movie} from "../../models/movie";
 import {StoreService} from "../../services/store.service";
 import {BehaviorSubject} from "rxjs";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-search-movie',
@@ -13,9 +15,13 @@ export class SearchMovieComponent {
   movies! : Movie[];
   query : String = "";
   @Input() currentTab!: BehaviorSubject<string>
+  user: User;
 
   constructor(private searchService: SearchService,
-              private storeService: StoreService) { }
+              private storeService: StoreService,
+              private authService: AuthService) {
+    this.user = authService.userValue;
+  }
 
   public searchMovie() {
     this.searchService.searchMovie(this.query).subscribe(res => {
@@ -31,8 +37,8 @@ export class SearchMovieComponent {
         moviesToAdd.push(movie)
     }
 
-    this.storeService.callRestockMoviesApi(moviesToAdd).subscribe(() => {
-      this.storeService.callGetStoreApi().subscribe(res => {
+    this.storeService.callRestockMoviesApi(moviesToAdd, this.user.id).subscribe(() => {
+      this.storeService.callGetStoreApi(this.user.id).subscribe(res => {
         this.storeService.updateStore(res);
       });
     });

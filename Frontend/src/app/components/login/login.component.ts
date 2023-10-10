@@ -26,9 +26,7 @@ export class LoginComponent {
   }
 
   login() {
-    this.auth.authenticate(this.loginCredentials, () => {
-      this.router.navigateByUrl('/home');
-    });
+    this.auth.authenticate(this.loginCredentials);
     return false;
   }
 
@@ -43,8 +41,7 @@ export class LoginComponent {
     this.loginCredentials.password = "";
     this.newUser.confirm = "";
     this.newUser.storeName = "";
+
     this.isLoginMode = !this.isLoginMode;
   }
-
-  protected readonly onsubmit = onsubmit;
 }

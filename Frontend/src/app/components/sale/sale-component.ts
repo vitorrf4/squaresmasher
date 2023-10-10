@@ -3,6 +3,8 @@ import {SaleService} from "../../services/sale.service";
 import {Sale} from "../../models/sale";
 import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
+import {AuthService} from "../../services/auth.service";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-generate-sale',
@@ -14,12 +16,16 @@ export class SaleComponent implements OnInit {
   salesIntervalId: number = 0;
   timeout = 1500;
   storeStatus = "closed";
+  user : User;
 
   constructor(private saleService: SaleService,
-              private storeService: StoreService) { }
+              private storeService: StoreService,
+              private authService: AuthService) {
+    this.user = authService.userValue
+  }
 
   ngOnInit() {
-    this.saleService.getAllSales().subscribe(res => {
+    this.saleService.getAllSales(this.user.id).subscribe(res => {
       this.sales.next(res);
     });
   }
@@ -56,10 +62,10 @@ export class SaleComponent implements OnInit {
 
 
   public makeSale() {
-    this.saleService.generateSale().subscribe(res => {
+    this.saleService.generateSale(this.user.id).subscribe(res => {
       this.sales.value.push(res);
 
-      this.storeService.callGetStoreApi().subscribe(res => {
+      this.storeService.callGetStoreApi(this.user.id).subscribe(res => {
         this.storeService.updateStore(res);
       });
     });

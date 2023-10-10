@@ -67,4 +67,14 @@ public class User {
     public void setStore(Store store) {
         this.store = store;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", store=" + store +
+                '}';
+    }
 }

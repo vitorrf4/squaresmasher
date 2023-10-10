@@ -14,20 +14,20 @@ export class StoreService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public callGetStoreApi() {
-    return this.httpClient.get<Store>(`${this.storeApi}/store/1`);
+  public callGetStoreApi(userId: number) {
+    return this.httpClient.get<Store>(`${this.storeApi}/store/${userId}`);
   }
 
-  public callRestockMoviesApi(movies : Movie[]) : Observable<Object> {
-    return this.httpClient.post(`${this.storeApi}/store/1/restock`, movies);
+  public callRestockMoviesApi(movies : Movie[], userId: number) : Observable<Object> {
+    return this.httpClient.post(`${this.storeApi}/store/${userId}/restock`, movies);
   }
 
   public updateStore(store: Store) {
     this.store.next(store);
   }
 
-  public getUpdatedStore() {
-    this.httpClient.get<Store>(`${this.storeApi}/store/1`).subscribe(res => {
+  public getUpdatedStore(userId: number) {
+    this.httpClient.get<Store>(`${this.storeApi}/store/${userId}`).subscribe(res => {
       this.store.next(res);
     });
     return this.store;

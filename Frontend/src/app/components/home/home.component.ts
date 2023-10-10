@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {AuthService} from "../../services/auth.service";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {User} from "../../models/user";
 
 @Component({
 	selector: 'app-home',
@@ -12,17 +13,16 @@ import {Router} from "@angular/router";
 
 export class HomeComponent {
   currentTab = new BehaviorSubject<string>("stock")
+	user!: User;
 
   constructor(private auth: AuthService, private router: Router) {
-    if (!this.authenticated()){
-      console.log("no auth")
-      this.router.navigateByUrl("/login");
-    }
+
+		this.auth.user.subscribe(x => {
+			this.user = x
+		});
   }
 
   logout() {
     this.auth.logout();
   }
-
-  authenticated() {return this.auth.authenticated}
 }

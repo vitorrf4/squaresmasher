@@ -11,14 +11,14 @@ export class SaleService {
 
   constructor(private httpClient : HttpClient) { }
 
-  public generateSale() : Observable<Sale> {
+  public generateSale(userId: number) : Observable<Sale> {
     const headers = new HttpHeaders({'Content-Lenght':"0"});
     const requestOptions = {headers: headers};
 
-    return this.httpClient.post<Sale>(`${this.salesApi}/1/generate`, requestOptions);
+    return this.httpClient.post<Sale>(`${this.salesApi}/${userId}/generate`, requestOptions);
   }
 
-  public getAllSales() : Observable<Sale[]> {
-    return this.httpClient.get<Sale[]>(`${this.salesApi}/1`);
+  public getAllSales(userId: number) : Observable<Sale[]> {
+    return this.httpClient.get<Sale[]>(`${this.salesApi}/${userId}`);
   }
 }

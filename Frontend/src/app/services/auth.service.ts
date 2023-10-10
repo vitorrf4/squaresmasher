@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../models/user";
 import {Router} from "@angular/router";
+import {BehaviorSubject, map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +10,32 @@ import {Router} from "@angular/router";
 export class AuthService {
   authenticated = false;
   apiUrl = "http://localhost:8080"
+  private userSubject: BehaviorSubject<User>;
+  public user: Observable<User>;
 
   constructor(private http: HttpClient, private router: Router) {
-
+    // @ts-ignore
+    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+    this.user = this.userSubject.asObservable();
   }
 
-  authenticate(credentials : {name: string, password: string}, callback: Function) {
-    const headers = new HttpHeaders(credentials ? {
-      authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
-    } : {});
+  public get userValue(): User {
+    return this.userSubject.value;
+  }
 
-    this.http.get<Object>(`${this.apiUrl}/auth/login`, {headers: headers}).subscribe(response => {
-      // @ts-ignore
-      this.authenticated = !!response['name'];
+  authenticate(credentials : {name: string, password: string}) {
+			const headers = new HttpHeaders(credentials ? {
+				authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
+			} : {})
 
-      console.log(response);
-      return callback && callback();
-    });
+    this.http.post<User>(`${this.apiUrl}/auth/login`, credentials).pipe(map(user => {
+      // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
+      user.authdata = window.btoa(credentials.name + ':' + credentials.password);
+      localStorage.setItem('user', JSON.stringify(user));
+      this.userSubject.next(user);
+      this.router.navigateByUrl("/home");
+      return user;
+    })).subscribe();
   }
 
   signUp(name: string, password: string, storeName: string) {
@@ -34,8 +44,9 @@ export class AuthService {
   }
 
   logout() {
-    this.authenticated = false;
-    this.router.navigateByUrl('/login');
+    localStorage.removeItem('user');
+    this.userSubject.next(new User());
+    this.router.navigate(['/login']);
 
   }
 }

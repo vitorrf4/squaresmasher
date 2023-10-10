@@ -1,13 +1,20 @@
 package com.store;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -21,6 +28,8 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
@@ -29,12 +38,14 @@ public class SpringSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-                .requestMatchers("auth/*").permitAll()
-                .requestMatchers("/store/*", "/sales/*", "users/*").authenticated()
-                .anyRequest().authenticated()
-
-                );
+                    .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
+                    .requestMatchers("auth/*").permitAll()
+                    .requestMatchers("/store/*", "/sales/*", "users/*", "movies/*").authenticated()
+                    .anyRequest().authenticated())
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID"));
 
         return http.build();
     }
@@ -52,7 +63,22 @@ public class SpringSecurityConfig {
         return source;
     }
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(authProvider())
+                .build();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 }

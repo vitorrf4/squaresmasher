@@ -28,6 +28,11 @@ export class AuthService {
     });
   }
 
+  signUp(name: string, password: string, storeName: string) {
+    let newUser = {name: name, password: password, storeName: storeName};
+    return this.http.post(`${this.apiUrl}/auth/sign-up`, newUser);
+  }
+
   logout() {
     this.authenticated = false;
     this.router.navigateByUrl('/login');

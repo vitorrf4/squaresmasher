@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-login',
@@ -33,9 +33,10 @@ export class LoginComponent {
   }
 
   registerUser() {
-
+    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe(res => {
+      this.login();
+    });
   }
-
 
   toggleMode() {
     this.loginCredentials.name = "";

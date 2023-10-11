@@ -50,7 +50,7 @@ public class MoviesAPIService {
 
     }
 
-    public List<Movie> parseResponseToMovieList(String response)  {
+    public List<Movie> parseResponseToMovieList(String response) {
         ArrayNode arrayNode;
         try {
             arrayNode = (ArrayNode)mapper.readValue(response, JsonNode.class).get("results");
@@ -72,13 +72,12 @@ public class MoviesAPIService {
     private Movie createMovieWithJsonNode(JsonNode node) {
         String title = node.get("title").textValue();
 
-        if (node.get("release_date").textValue().isEmpty() ||
-                LocalDate.parse(node.get("release_date").textValue()).isAfter(LocalDate.now())) {
+        if (node.get("release_date").textValue().isEmpty()
+                || LocalDate.parse(node.get("release_date").textValue()).isAfter(LocalDate.now())) {
             return null;
         }
 
         Year releaseYear  = Year.parse(node.get("release_date").textValue().substring(0, 4));
-
         String posterUrl = node.get("poster_path").textValue();
 
         return new Movie(title, 0, releaseYear, posterUrl);

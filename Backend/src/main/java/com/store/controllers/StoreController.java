@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(path = "/store")
@@ -25,8 +24,6 @@ public class StoreController {
         this.storeRepository = storeRepository;
     }
 
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
-
     @GetMapping("/{id}")
     public ResponseEntity<?> getStoreInformation(@PathVariable Long id) {
         Optional<Store> store = storeRepository.findById(id);
@@ -37,7 +34,6 @@ public class StoreController {
         return ResponseEntity.ok(storeDTO);
     }
 
-
     @PostMapping("/{id}/restock")
     public ResponseEntity<Integer> restockMovies(@PathVariable Long id, @RequestBody List<MovieDTO> movieDTOS) {
         Optional<Store> store = storeRepository.findById(id);
@@ -45,12 +41,10 @@ public class StoreController {
 
         int copiesInStockBefore = store.get().getStock().getCopiesTotal();
 
-        for (MovieDTO dto : movieDTOS) {
-            logger.info("DTO: " + dto.toString());
-            Movie movie = MovieMapper.toMovie(dto);
-            logger.info("Movie: " + movie);
+        movieDTOS.forEach(movieDTO -> {
+            Movie movie = MovieMapper.toMovie(movieDTO);
             store.get().getStock().addMovieToStock(movie);
-        }
+        });
 
         storeRepository.save(store.get());
         int copiesInStockAfter = store.get().getStock().getCopiesTotal() - copiesInStockBefore;

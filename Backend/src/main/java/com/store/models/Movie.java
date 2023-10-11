@@ -14,7 +14,7 @@ public class Movie {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @JsonProperty("movieTitle")
-    private String title; //TODO change to movieTitle
+    private String title;
     private int copiesAmount;
     private double unitPrice;
     private Year releaseYear;
@@ -62,7 +62,7 @@ public class Movie {
     public void calculateUnitPrice() {
         String currentYear = Year.now().toString();
         if (currentYear.equals(releaseYear.toString())) {
-            unitPrice = 19.99; // if it's a new release(year of release is the current year) price is a fixed $20
+            unitPrice = 19.99; // if it's a new release(year of release is the current year) price is a fixed $19,99
             return;
         }
 

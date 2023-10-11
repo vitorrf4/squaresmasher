@@ -41,7 +41,6 @@ public class StoreStock {
 
     public void addMovieToStock(Movie movie) {
         if (getCopyFromStockByName(movie) != null) {
-            System.out.println("movie " + movie.getTitle() + " already in stock");
             getCopyFromStockByName(movie).addCopies(movie.getCopiesAmount());
             calculateTotalCopies();
             return;

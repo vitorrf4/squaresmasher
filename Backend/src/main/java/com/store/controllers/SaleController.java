@@ -5,7 +5,6 @@ import com.store.dto.SaleMapper;
 import com.store.models.*;
 import com.store.repos.UserRepository;
 import com.store.services.RandomSaleService;
-import jdk.jfr.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -45,7 +44,7 @@ public class SaleController {
         if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
 
         Sale sale = saleService.generateSale(randomSale, store);
-        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.BAD_REQUEST);
+        if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.INTERNAL_SERVER_ERROR);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
 

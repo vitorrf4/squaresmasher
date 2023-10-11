@@ -59,15 +59,4 @@ public class UserController {
 
         return ResponseEntity.ok(modifiedUser);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        if (service.isIdInvalid(id.toString())) return ResponseEntity.badRequest().build();
-
-        boolean isDeleted = service.deleteUser(id);
-        if (!isDeleted) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.noContent().build();
-    }
-
 }

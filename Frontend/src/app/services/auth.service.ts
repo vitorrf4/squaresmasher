@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../models/user";
 import {Router} from "@angular/router";
 import {BehaviorSubject, map, Observable} from "rxjs";
@@ -22,10 +22,6 @@ export class AuthService {
   }
 
   authenticate(credentials : {name: string, password: string}) {
-			const headers = new HttpHeaders(credentials ? {
-				authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
-			} : {})
-
     this.http.post<User>(`${environment.apiUrl}/auth/login`, credentials).pipe(map(user => {
       user.authdata = window.btoa(credentials.name + ':' + credentials.password);
       localStorage.setItem('user', JSON.stringify(user));

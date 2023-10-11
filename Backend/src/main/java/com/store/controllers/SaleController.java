@@ -38,11 +38,11 @@ public class SaleController {
         if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.BAD_REQUEST);
 
         List<Movie> moviesInStock = store.getStock().getAllCopies();
+        int moviesQuantityInStock = saleService.getMoviesInStockAmount(moviesInStock);
+        if (moviesQuantityInStock == 0) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
 
-        SaleItem randomSale = saleService.getRandomSaleItem(moviesInStock);
-        if (randomSale == null) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
-
-        Sale sale = saleService.generateSale(randomSale, store);
+        SaleItem randomSaleItem = saleService.getRandomSaleItem(moviesInStock);
+        Sale sale = saleService.generateSale(randomSaleItem, store);
         if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.INTERNAL_SERVER_ERROR);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);

@@ -13,9 +13,8 @@ export class SaleService {
 
   public generateSale(userId: number) : Observable<Sale> {
     const headers = new HttpHeaders({'Content-Lenght':"0"});
-    const requestOptions = {headers: headers};
 
-    return this.httpClient.post<Sale>(`${this.salesApi}/${userId}/generate`, requestOptions);
+    return this.httpClient.post<Sale>(`${this.salesApi}/${userId}/generate`, {headers: headers});
   }
 
   public getAllSales(userId: number) : Observable<Sale[]> {

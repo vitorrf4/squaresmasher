@@ -3,13 +3,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {User} from "../models/user";
 import {Router} from "@angular/router";
 import {BehaviorSubject, map, Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  authenticated = false;
-  apiUrl = "http://localhost:8080"
   private userSubject: BehaviorSubject<User>;
   public user: Observable<User>;
 
@@ -27,7 +26,7 @@ export class AuthService {
 				authorization : 'Basic ' + btoa(credentials.name + ':' + credentials.password)
 			} : {})
 
-    this.http.post<User>(`${this.apiUrl}/auth/login`, credentials).pipe(map(user => {
+    this.http.post<User>(`${environment.apiUrl}/auth/login`, credentials).pipe(map(user => {
       user.authdata = window.btoa(credentials.name + ':' + credentials.password);
       localStorage.setItem('user', JSON.stringify(user));
 
@@ -40,7 +39,7 @@ export class AuthService {
 
   signUp(name: string, password: string, storeName: string) {
     let newUser = {name: name, password: password, storeName: storeName};
-    return this.http.post(`${this.apiUrl}/auth/sign-up`, newUser);
+    return this.http.post(`${environment.apiUrl}/auth/sign-up`, newUser);
   }
 
   logout() {

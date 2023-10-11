@@ -36,6 +36,7 @@ export class SearchMovieComponent {
       if (movie.copiesAmount > 0)
         moviesToAdd.push(movie)
     }
+    //TODO validate maximum int input
 
     this.storeService.callRestockMoviesApi(moviesToAdd, this.user.id).subscribe(() => {
       this.storeService.callGetStoreApi(this.user.id).subscribe(res => {

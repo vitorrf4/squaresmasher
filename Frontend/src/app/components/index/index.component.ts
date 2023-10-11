@@ -8,6 +8,8 @@ import {environment} from "../../../environments/environment";
 })
 export class IndexComponent {
   constructor() {
-    console.log(environment.production);
+    if (!environment.production) {
+      console.log("DEVELOPMENT ENVIROMENT");
+    }
   }
 }

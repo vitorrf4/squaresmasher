@@ -3,23 +3,22 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Store} from "../models/store";
 import {Movie} from "../models/movie";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-
-  private readonly storeApi: string = 'http://localhost:8080';
   public store = new BehaviorSubject<Store>(new Store());
 
   constructor(private httpClient : HttpClient) { }
 
   public callGetStoreApi(userId: number) {
-    return this.httpClient.get<Store>(`${this.storeApi}/store/${userId}`);
+    return this.httpClient.get<Store>(`${environment.apiUrl}/store/${userId}`);
   }
 
   public callRestockMoviesApi(movies : Movie[], userId: number) : Observable<Object> {
-    return this.httpClient.post(`${this.storeApi}/store/${userId}/restock`, movies);
+    return this.httpClient.post(`${environment.apiUrl}/store/${userId}/restock`, movies);
   }
 
   public updateStore(store: Store) {
@@ -27,7 +26,7 @@ export class StoreService {
   }
 
   public getUpdatedStore(userId: number) {
-    this.httpClient.get<Store>(`${this.storeApi}/store/${userId}`).subscribe(res => {
+    this.httpClient.get<Store>(`${environment.apiUrl}/store/${userId}`).subscribe(res => {
       this.store.next(res);
     });
     return this.store;

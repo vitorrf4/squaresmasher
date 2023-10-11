@@ -29,11 +29,12 @@ export class AuthService {
 			} : {})
 
     this.http.post<User>(`${this.apiUrl}/auth/login`, credentials).pipe(map(user => {
-      // store user details and basic auth credentials in local storage to keep user logged in between page refreshes
       user.authdata = window.btoa(credentials.name + ':' + credentials.password);
       localStorage.setItem('user', JSON.stringify(user));
+
       this.userSubject.next(user);
       this.router.navigateByUrl("/home");
+
       return user;
     })).subscribe();
   }

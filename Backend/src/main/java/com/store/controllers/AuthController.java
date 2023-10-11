@@ -5,6 +5,7 @@ import com.store.models.User;
 import com.store.repos.UserRepository;
 import com.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +26,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public User checkLogin(@RequestBody User user) {
+    public ResponseEntity<User> checkLogin(@RequestBody User user) {
         user = userRepository.findByName(user.getName());
+        if (user == null) return ResponseEntity.notFound().build();
 
-        return user;
+
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUpUser(@RequestBody NewUserDTO userDTO) {
+        if (userDTO == null) return new ResponseEntity<>(new StringBuilder("Invalid user"), HttpStatus.BAD_REQUEST);
+
         User user = NewUserDTO.toUser(userDTO);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));

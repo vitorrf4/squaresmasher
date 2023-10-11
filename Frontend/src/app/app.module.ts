@@ -17,7 +17,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { StockComponent } from './components/stock/stock.component';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
-import {BasicAuthInterceptor } from "./helpers/http-request.interceptor";
+import {BasicAuthInterceptor } from "./helpers/basic-auth.interceptor";
 import { ErrorInterceptor } from "./helpers/error.interceptor";
 
 

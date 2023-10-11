@@ -30,9 +30,9 @@ public class AuthController {
         User userDb = userRepository.findByName(user.getName());
         if (userDb == null) return ResponseEntity.notFound().build();
 
-        if (!user.getPassword().equals(userDb.getPassword())) return ResponseEntity.badRequest().build();
+        if (!passwordEncoder.matches(user.getPassword(), userDb.getPassword())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userDb);
     }
 
     @PostMapping("/sign-up")

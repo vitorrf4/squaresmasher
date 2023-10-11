@@ -27,7 +27,7 @@ export class AuthService {
       localStorage.setItem('user', JSON.stringify(user));
 
       this.userSubject.next(user);
-      this.router.navigateByUrl("/home");
+      this.router.navigateByUrl("/home").then();
 
       return user;
     })).subscribe();
@@ -41,7 +41,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('user');
     this.userSubject.next(new User());
-    this.router.navigate(['/login']);
+    this.router.navigateByUrl('/login').then();
 
   }
 }

@@ -11,7 +11,7 @@ import {environment} from "../../environments/environment";
 export class StoreService {
   public store = new BehaviorSubject<Store>(new Store());
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient : HttpClient) {}
 
   public callGetStoreApi(userId: number) {
     return this.httpClient.get<Store>(`${environment.apiUrl}/store/${userId}`);

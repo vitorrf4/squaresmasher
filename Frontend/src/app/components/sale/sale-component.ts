@@ -14,14 +14,13 @@ import {User} from "../../models/user";
 export class SaleComponent implements OnInit {
   sales = new BehaviorSubject<Sale[]>([]);
   salesIntervalId: number = 0;
-  timeout = 1500;
   storeStatus = "closed";
   user : User;
 
   constructor(private saleService: SaleService,
               private storeService: StoreService,
               private authService: AuthService) {
-    this.user = authService.userValue
+    this.user = this.authService.userValue
   }
 
   ngOnInit() {
@@ -48,7 +47,7 @@ export class SaleComponent implements OnInit {
   }
 
   public generateRandomSale() {
-    this.salesIntervalId = setInterval(this.generate.bind(this), this.timeout);
+    this.salesIntervalId = setInterval(this.generate.bind(this), 1500);
   }
 
   public generate() {

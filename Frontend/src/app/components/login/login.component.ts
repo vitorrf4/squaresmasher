@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import {Router} from "@angular/router";
-import {User} from "../../models/user";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +9,12 @@ import {User} from "../../models/user";
 })
 export class LoginComponent {
   @ViewChild("form", {static: false}) form : any
-  isLoginMode = true; // Initially, show the login form
+  isLoginMode = true;
   loginCredentials = {name: '', password: ''};
   newUser = {storeName: '', confirm: ''};
 
-  constructor(private auth: AuthService, private router: Router) {
-  }
+  constructor(private auth: AuthService,
+              private snackBar : MatSnackBar) {}
 
   onSubmit() {
     if (this.isLoginMode)
@@ -31,7 +30,7 @@ export class LoginComponent {
   }
 
   registerUser() {
-    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe(res => {
+    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe(() => {
       this.login();
     });
   }

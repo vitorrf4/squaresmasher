@@ -15,7 +15,7 @@ import { StockComponent } from './components/stock/stock.component';
 import { LoginComponent } from './components/login/login.component';
 import { IndexComponent } from './components/index/index.component';
 import {BasicAuthInterceptor } from "./helpers/basic-auth.interceptor";
-import { ErrorInterceptor } from "./helpers/error.interceptor";
+import {MatSnackBarModule} from '@angular/material/snack-bar'
 
 
 @NgModule({
@@ -36,11 +36,11 @@ import { ErrorInterceptor } from "./helpers/error.interceptor";
     NgOptimizedImage,
     BrowserAnimationsModule,
     MatCardModule,
-    ScrollingModule
+    ScrollingModule,
+    MatSnackBarModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },],
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },],
   bootstrap: [IndexComponent]
 })
 export class AppModule { }

@@ -27,14 +27,14 @@ export class AuthService {
       localStorage.setItem('user', JSON.stringify(user));
 
       this.userSubject.next(user);
-      this.router.navigateByUrl("/home").then();
+      this.router.navigateByUrl('/home').then();
 
       return user;
     })).subscribe();
   }
 
   signUp(name: string, password: string, storeName: string) {
-    let newUser = {name: name, password: password, storeName: storeName};
+    const newUser = {name: name, password: password, storeName: storeName};
     return this.http.post(`${environment.apiUrl}/auth/sign-up`, newUser);
   }
 

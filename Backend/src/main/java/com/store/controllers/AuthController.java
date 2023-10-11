@@ -30,7 +30,6 @@ public class AuthController {
         user = userRepository.findByName(user.getName());
         if (user == null) return ResponseEntity.notFound().build();
 
-
         return ResponseEntity.ok(user);
     }
 

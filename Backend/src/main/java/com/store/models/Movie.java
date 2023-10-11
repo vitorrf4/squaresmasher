@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
 import java.time.Year;
 import java.util.Objects;
 
@@ -59,21 +58,6 @@ public class Movie {
         return unitPrice;
     }
 
-    public void calculateUnitPrice() {
-        String currentYear = Year.now().toString();
-        if (currentYear.equals(releaseYear.toString())) {
-            unitPrice = 19.99; // if it's a new release(year of release is the current year) price is a fixed $19,99
-            return;
-        }
-
-        int currentDecade = Integer.parseInt(currentYear.substring(0, 3));
-        int movieReleaseDecade = Integer.parseInt(releaseYear.toString().substring(0, 3));
-
-        int decadePrice = currentDecade - movieReleaseDecade;
-
-        unitPrice = (5 + decadePrice) - 0.01;
-    }
-
     public Year getReleaseYear() {
         return releaseYear;
     }
@@ -86,8 +70,32 @@ public class Movie {
         return copiesAmount;
     }
 
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
+
+    private void calculateUnitPrice() {
+        String currentYear = Year.now().toString();
+        if (currentYear.equals(releaseYear.toString())) {
+            unitPrice = 19.99;
+            return;
+        }
+
+        int currentDecade = Integer.parseInt(currentYear.substring(0, 3));
+        int movieReleaseDecade = Integer.parseInt(releaseYear.toString().substring(0, 3));
+
+        int decadePrice = currentDecade - movieReleaseDecade;
+
+        unitPrice = (5 + decadePrice) - 0.01;
+    }
+
     public void addCopies(int copiesAdded) {
-        //TODO test for negative numbers
+        if (copiesAdded <= 0) return;
+
         copiesAmount += copiesAdded;
     }
 
@@ -98,13 +106,6 @@ public class Movie {
         return true;
     }
 
-    public String getPosterUrl() {
-        return posterUrl;
-    }
-
-    public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
-    }
 
     @Override
     public boolean equals(Object o) {

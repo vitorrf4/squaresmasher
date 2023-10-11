@@ -42,11 +42,10 @@ public class StoreStock {
     public void addMovieToStock(Movie movie) {
         if (getCopyFromStockByName(movie) != null) {
             getCopyFromStockByName(movie).addCopies(movie.getCopiesAmount());
-            calculateTotalCopies();
-            return;
+        } else {
+            movies.add(movie);
         }
 
-        movies.add(movie);
         calculateTotalCopies();
     }
 

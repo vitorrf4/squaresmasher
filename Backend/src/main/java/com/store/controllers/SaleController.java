@@ -34,7 +34,6 @@ public class SaleController {
     @Transactional
     @PostMapping("/{id}/generate")
     public ResponseEntity<?> generateSale(@PathVariable Long id) {
-
         Store store = saleService.getUserStore(id);
         if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.BAD_REQUEST);
 
@@ -47,7 +46,6 @@ public class SaleController {
         if (sale == null) return new ResponseEntity<>(new StringBuilder("Sale could not be completed"), HttpStatus.INTERNAL_SERVER_ERROR);
 
         SaleDTO saleDTO = SaleMapper.toDTO(sale);
-
         return ResponseEntity.ok(saleDTO);
     }
 

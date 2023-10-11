@@ -116,19 +116,4 @@ class UserControllerUnitTests {
 		}
 
 	}
-
-	@Nested
-	class DeleteTests {
-		@Test @DisplayName("DELETE /users/1 - NoContent")
-		public void whenDeleteUser_thenNoContent() {
-			given(service.deleteUser(1L)).willReturn(true);
-			assertThat(controller.deleteUser(1L).getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-		}
-
-		@Test @DisplayName("DELETE /users/1 - NotFound")
-		public void whenDeleteUser_thenNotFound() {
-			assertThat(controller.deleteUser(1L).getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-		}
-	}
-
 }

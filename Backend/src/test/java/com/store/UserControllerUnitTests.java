@@ -29,7 +29,7 @@ class UserControllerUnitTests {
 		public void whenGetUsers_thenSuccess() {
 			given(service.getAllUsers()).willReturn(new ArrayList<>(List.of(new User(), new User())));
 
-			assertThat(controller.callGetAllUsers().getStatusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(controller.getAllUsers().getStatusCode()).isEqualTo(HttpStatus.OK);
 		}
 
 		@Test @DisplayName("GET /users/1 - Ok")
@@ -39,13 +39,13 @@ class UserControllerUnitTests {
 
 			given(service.getUser(1L)).willReturn(Optional.of(user1));
 
-			assertThat(controller.callGetUserById("1").getStatusCode()).isEqualTo(HttpStatus.OK);
-			assertThat(controller.callGetUserById("1").getBody()).isEqualTo(user1);
+			assertThat(controller.getUserById("1").getStatusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(controller.getUserById("1").getBody()).isEqualTo(user1);
 		}
 
 		@Test @DisplayName("GET /users/1 - NotFound")
 		public void whenGetUserById_thenNotFound() {
-			assertThat(controller.callGetUserById("1").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+			assertThat(controller.getUserById("1").getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		}
 
 	}
@@ -62,14 +62,14 @@ class UserControllerUnitTests {
 			given(service.createUser(user1)).willReturn(user1);
 			ResponseEntity<User> expectedEntity = ResponseEntity.created(new URI("/users/1")).body(user1);
 
-			assertThat(controller.callCreateUser(user1).getStatusCode()).isEqualTo(HttpStatus.CREATED);
-			assertThat(controller.callCreateUser(user1)).isEqualTo(expectedEntity);
+			assertThat(controller.createUser(user1).getStatusCode()).isEqualTo(HttpStatus.CREATED);
+			assertThat(controller.createUser(user1)).isEqualTo(expectedEntity);
 		}
 
 		@Test @DisplayName("POST /users - BadRequest")
 		public void whenAddUser_thenBadRequest() {
 			given(service.isUserInvalid(new User())).willReturn(true);
-			assertThat(controller.callCreateUser(new User()).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+			assertThat(controller.createUser(new User()).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 		}
 
 		@Test @DisplayName("POST /users - Conflict")
@@ -82,7 +82,7 @@ class UserControllerUnitTests {
 
 			given(service.getUser(1L)).willReturn(Optional.of(u1));
 
-			assertThat(controller.callCreateUser(u2).getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
+			assertThat(controller.createUser(u2).getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
 		}
 	}
 
@@ -100,19 +100,19 @@ class UserControllerUnitTests {
 
 			given(service.changeUser(u1)).willReturn(modifiedUser);
 
-			assertThat(controller.callChangeUser(u1).getStatusCode()).isEqualTo(HttpStatus.OK);
-			assertThat(controller.callChangeUser(u1).getBody()).isEqualTo(modifiedUser);
+			assertThat(controller.changeUser(u1).getStatusCode()).isEqualTo(HttpStatus.OK);
+			assertThat(controller.changeUser(u1).getBody()).isEqualTo(modifiedUser);
 		}
 
 		@Test @DisplayName("PUT /users/1 - NotFound")
 		public void whenPutUser_thenNotFound() {
-			assertThat(controller.callChangeUser(new User()).getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+			assertThat(controller.changeUser(new User()).getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 		}
 
 		@Test @DisplayName("PUT /users/1 - BadRequest")
 		public void whenPutUser_thenBadRequest() {
 			given(service.isUserInvalid(new User())).willReturn(true);
-			assertThat(controller.callChangeUser(new User()).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+			assertThat(controller.changeUser(new User()).getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 		}
 
 	}

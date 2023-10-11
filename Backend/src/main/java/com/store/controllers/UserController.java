@@ -2,20 +2,15 @@ package com.store.controllers;
 
 import com.store.models.User;
 import com.store.services.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
+
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
 @CrossOrigin(origins = "http://localhost:4200") // only allow origin from deployed frontend server
@@ -28,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> callGetAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = service.getAllUsers();
         if (users == null) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 
@@ -36,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping(path="/{id}")
-    public ResponseEntity<?> callGetUserById(@PathVariable String id) {
+    public ResponseEntity<?> getUserById(@PathVariable String id) {
         if (service.isIdInvalid(id)) return ResponseEntity.badRequest().build();
 
         Optional<User> user = service.getUser(Long.parseLong(id));
@@ -46,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> callCreateUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         if (service.isUserInvalid(user)) return ResponseEntity.badRequest().build();
 
         User savedUser = service.createUser(user);
@@ -56,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> callChangeUser(@RequestBody User user) {
+    public ResponseEntity<User> changeUser(@RequestBody User user) {
         if (service.isUserInvalid(user)) return ResponseEntity.badRequest().build();
 
         User modifiedUser = service.changeUser(user);

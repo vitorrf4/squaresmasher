@@ -9,23 +9,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @RestController
 @RequestMapping(value = "/auth")
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository userRepository;
+    public AuthController(UserService userService, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping("/login")
     public User checkLogin(@RequestBody User user) {
         user = userRepository.findByName(user.getName());
-        System.out.println(user);
+
         return user;
     }
 

@@ -26,7 +26,6 @@ export class LoginComponent {
 			this.registerUser();
     }
 
-		this.login();
   }
 
   login() {
@@ -68,7 +67,9 @@ export class LoginComponent {
   }
 
   registerUser() {
-    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe();
+    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe(() => {
+      this.login();
+    });
   }
 
   toggleMode() {

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {SearchService} from "../../services/search.service";
 import {Movie} from "../../models/movie";
 import {StoreService} from "../../services/store.service";
@@ -12,21 +12,21 @@ import {User} from "../../models/user";
   styleUrls: ['./search-movie.component.css']
 })
 export class SearchMovieComponent {
-  movies! : Movie[];
-  query : String = "";
   @Input() currentTab!: BehaviorSubject<string>
+  movies: Movie[] = [];
+  query = '';
   user: User;
 
   constructor(private searchService: SearchService,
               private storeService: StoreService,
               private authService: AuthService) {
-    this.user = authService.userValue;
+    this.user = this.authService.userValue;
   }
 
   public searchMovie() {
-    this.searchService.searchMovie(this.query).subscribe(res => {
-      this.movies = res;
-    });
+    this.searchService.searchMovie(this.query).subscribe({
+      next: res => this.movies = res
+    })
   }
 
   public restockMovies() {
@@ -39,9 +39,7 @@ export class SearchMovieComponent {
     //TODO validate maximum int input
 
     this.storeService.callRestockMoviesApi(moviesToAdd, this.user.id).subscribe(() => {
-      this.storeService.callGetStoreApi(this.user.id).subscribe(res => {
-        this.storeService.updateStore(res);
-      });
+      this.storeService.getUpdatedStore(this.user.id);
     });
 
     this.currentTab.next('stock');

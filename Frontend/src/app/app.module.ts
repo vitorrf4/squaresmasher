@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './components/home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SaleComponent } from './components/sale/sale-component';
 import { SearchMovieComponent } from './components/search-movie/search-movie.component';
 import { NgOptimizedImage} from "@angular/common";
@@ -28,17 +28,18 @@ import {MatSnackBarModule} from '@angular/material/snack-bar'
     LoginComponent,
     IndexComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    NgOptimizedImage,
-    BrowserAnimationsModule,
-    MatCardModule,
-    ScrollingModule,
-    MatSnackBarModule
-  ],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		HttpClientModule,
+		FormsModule,
+		NgOptimizedImage,
+		BrowserAnimationsModule,
+		MatCardModule,
+		ScrollingModule,
+		MatSnackBarModule,
+		ReactiveFormsModule
+	],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },],
   bootstrap: [IndexComponent]

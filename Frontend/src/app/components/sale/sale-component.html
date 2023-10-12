@@ -16,7 +16,7 @@
     <tr>
       <th class="col-9">Sale</th>
       <th class="col-1">Total</th>
-      <th class="col-1">Time</th>
+      <th class="col-1 text-center">Time</th>
     </tr>
     <tr *cdkVirtualFor="let sale of sales.value.slice().reverse()">
       <td class="center-sale">{{sale["customerName"]}} bought <span id="quantity"> {{sale["quantityBought"]}} </span> copies of {{sale["movieTitle"]}}</td>

@@ -9,22 +9,24 @@
     </div>
 
     <div class="col-md-6">
+      <div id="error-div" class="border-dark bg-danger" #errorDiv hidden>
+        <p class="text-center" id="error-p" #errorP>ERROR</p>
+      </div>
       <div class="login-container">
         <div class="login-form">
 
           <h2 class="text-center align-text-top">{{ isLoginMode ? 'Login' : 'Sign up' }}</h2>
-          <form (ngSubmit)="onSubmit()" role="form" name="form" #form="ngForm">
+          <form (ngSubmit)="onSubmit()" role="form" name="form">
             <div class="form-group">
               <label for="name">Username</label>
-              <input type="text" class="form-control" name="name" id="name" placeholder="Enter username" [(ngModel)]="loginCredentials.name">
+              <input type="text" autocomplete="off" required minlength="4" maxlength="20" class="form-control" name="name" id="name" placeholder="Enter username" [(ngModel)]="loginCredentials.name">
             </div>
 
-            <!-- register -->
             <div *ngIf="!isLoginMode" class="form-group">
-              <label for="email">Store Name</label>
-              <input type="text" class="form-control" name="email" id="email" placeholder="Enter email" [(ngModel)]="newUser.storeName">
+              <label for="store-name">Store Name</label>
+              <input type="text" class="form-control" name="store-name" id="store-name" placeholder="Enter the store name" [(ngModel)]="newUser.storeName">
             </div>
-            <!-- -->
+
             <div class="form-group">
               <label for="password">Password</label>
               <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" [(ngModel)]="loginCredentials.password">
@@ -32,7 +34,7 @@
 
             <div *ngIf="!isLoginMode" class="form-group">
               <label for="confirm">Confirm password</label>
-              <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Enter email" [(ngModel)]="newUser.confirm">
+              <input type="password" class="form-control" name="confirm" id="confirm" placeholder="Confirm the password" [(ngModel)]="newUser.confirm">
             </div>
 
             <button type="submit" class="btn btn-primary btn-block">{{ isLoginMode ? 'Login' : 'Register' }}</button>

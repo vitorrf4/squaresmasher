@@ -25,11 +25,16 @@ export class LoginComponent {
     }
 
 		this.auth.authenticate(this.loginCredentials);
+
+    if (this.auth.userValue == null || this.auth.userValue.id == -1) {
+			this.errorP.nativeElement.textContent = 'Invalid username or password';
+			this.errorDiv.nativeElement.hidden = false;
+    }
   }
 
   validateLogin(): boolean {
     if (!this.loginCredentials.name || !this.loginCredentials.password) {
-      this.errorP.nativeElement.textContent = "All the fields must be filled";
+      this.errorP.nativeElement.textContent = 'All the fields must be filled';
       this.errorDiv.nativeElement.hidden = false;
       return false;
     }
@@ -39,7 +44,7 @@ export class LoginComponent {
 
   validateRegister() : boolean {
 		if (!this.newUser.storeName || !this.newUser.confirm) {
-			this.errorP.nativeElement.textContent = "All the fields must be filled";
+			this.errorP.nativeElement.textContent = 'All the fields must be filled';
 			this.errorDiv.nativeElement.hidden = false;
 			return false;
 		}

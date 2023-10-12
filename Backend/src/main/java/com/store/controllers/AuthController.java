@@ -38,9 +38,10 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUpUser(@RequestBody NewUserDTO userDTO) {
-        if (userDTO == null) return new ResponseEntity<>(new StringBuilder("Invalid user"), HttpStatus.BAD_REQUEST);
+        if (userDTO == null) return ResponseEntity.badRequest().build();
 
         User user = NewUserDTO.toUser(userDTO);
+        if (userRepository.findByName(userDTO.name()) != null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.createUser(user);

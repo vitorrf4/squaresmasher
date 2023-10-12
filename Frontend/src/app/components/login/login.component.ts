@@ -1,7 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import {catchError} from "rxjs";
-import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -26,24 +24,20 @@ export class LoginComponent {
 			this.registerUser();
     }
 
+    this.login();
   }
 
   login() {
     this.auth.authenticate(this.loginCredentials).subscribe({
-      next: res => {
-        console.log(res);
-      },
       error: () => {
-        this.errorP.nativeElement.textContent = 'Invalid username or password';
-        this.errorDiv.nativeElement.hidden = false;
+        this.showErrorDiv('Invalid username or password');
       }
     });
   }
 
   validateLogin(): boolean {
     if (!this.loginCredentials.name || !this.loginCredentials.password) {
-      this.errorP.nativeElement.textContent = 'All the fields must be filled';
-      this.errorDiv.nativeElement.hidden = false;
+      this.showErrorDiv("All the fields must be filled");
       return false;
     }
 
@@ -52,14 +46,12 @@ export class LoginComponent {
 
   validateRegister() : boolean {
 		if (!this.newUser.storeName || !this.newUser.confirm) {
-			this.errorP.nativeElement.textContent = 'All the fields must be filled';
-			this.errorDiv.nativeElement.hidden = false;
+      this.showErrorDiv("All the fields must be filled");
 			return false;
 		}
 
     if (this.newUser.confirm != this.loginCredentials.password) {
-			this.errorP.nativeElement.textContent = "Passwords don't match";
-			this.errorDiv.nativeElement.hidden = false;
+      this.showErrorDiv("Passwords don't match");
 			return false;
     }
 
@@ -67,9 +59,18 @@ export class LoginComponent {
   }
 
   registerUser() {
-    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe(() => {
-      this.login();
+    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe({
+      next: () => this.login(),
+      error: err => {
+        if (err.status == "409")
+          this.showErrorDiv('Username already taken');
+      }
     });
+  }
+
+  showErrorDiv(message: string) {
+    this.errorP.nativeElement.textContent = message;
+    this.errorDiv.nativeElement.hidden = false;
   }
 
   toggleMode() {

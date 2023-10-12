@@ -13,5 +13,4 @@ export class SearchService {
   public searchMovie(query: String) : Observable<Movie[]> {
     return this.httpClient.get<Movie[]>(`${environment.apiUrl}/movies/search/${query}`);
   }
-
 }

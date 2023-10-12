@@ -1,5 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import {catchError} from "rxjs";
+import {HttpErrorResponse, HttpStatusCode} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -24,12 +26,19 @@ export class LoginComponent {
 			this.registerUser();
     }
 
-		this.auth.authenticate(this.loginCredentials);
+		this.login();
+  }
 
-    if (this.auth.userValue == null || this.auth.userValue.id == -1) {
-			this.errorP.nativeElement.textContent = 'Invalid username or password';
-			this.errorDiv.nativeElement.hidden = false;
-    }
+  login() {
+    this.auth.authenticate(this.loginCredentials).subscribe({
+      next: res => {
+        console.log(res);
+      },
+      error: () => {
+        this.errorP.nativeElement.textContent = 'Invalid username or password';
+        this.errorDiv.nativeElement.hidden = false;
+      }
+    });
   }
 
   validateLogin(): boolean {

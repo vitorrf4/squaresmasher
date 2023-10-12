@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   authenticate(credentials : {name: string, password: string}) {
-    this.http.post<User>(`${environment.apiUrl}/auth/login`, credentials).pipe(map(user => {
+    return this.http.post<User>(`${environment.apiUrl}/auth/login`, credentials).pipe(map(user => {
       user.authdata = window.btoa(credentials.name + ':' + credentials.password);
       localStorage.setItem('user', JSON.stringify(user));
 
@@ -30,7 +30,7 @@ export class AuthService {
       this.router.navigateByUrl('/home').then();
 
       return user;
-    })).subscribe();
+    }));
   }
 
   signUp(name: string, password: string, storeName: string) {

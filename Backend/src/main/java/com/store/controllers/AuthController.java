@@ -28,9 +28,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<User> checkLogin(@RequestBody User user) {
         User userDb = userRepository.findByName(user.getName());
-        if (userDb == null) return ResponseEntity.notFound().build();
 
-        if (!passwordEncoder.matches(user.getPassword(), userDb.getPassword())) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (userDb == null ||
+                !passwordEncoder.matches(user.getPassword(), userDb.getPassword()))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         return ResponseEntity.ok(userDb);
     }

@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {SaleService} from "../../services/sale.service";
 import {Sale} from "../../models/sale";
 import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
+import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-generate-sale',
@@ -12,6 +13,7 @@ import {User} from "../../models/user";
   styleUrls: ['./sale-component.css']
 })
 export class SaleComponent implements OnInit {
+  @ViewChild("btnStatus") statusButton!: ElementRef<HTMLButtonElement>
   sales = new BehaviorSubject<Sale[]>([]);
   salesIntervalId: number = 0;
   storeStatus = "closed";
@@ -30,20 +32,18 @@ export class SaleComponent implements OnInit {
   }
 
   public changeStoreStatus() {
-    let statusButton = document.getElementById("btn-status");
-
-    if (this.storeStatus == "closed") {
-      this.storeStatus = "open";
-      this.generateRandomSale();
-      // @ts-ignore
-      statusButton.className = "btn-lg btn-success";
-    } else {
-      this.storeStatus = "closed";
-      clearInterval(this.salesIntervalId);
-      // @ts-ignore
-      statusButton.className = "btn-lg btn-danger active";
+    switch (this.storeStatus) {
+      case "closed":
+        this.storeStatus = "open";
+        this.generateRandomSale();
+        this.statusButton.nativeElement.className = "btn-lg btn-success";
+        break;
+      case "open":
+        this.storeStatus = "closed";
+        clearInterval(this.salesIntervalId);
+        this.statusButton.nativeElement.className = "btn-lg btn-danger active";
+        break;
     }
-
   }
 
   public generateRandomSale() {

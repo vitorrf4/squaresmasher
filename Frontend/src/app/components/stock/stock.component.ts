@@ -16,11 +16,10 @@ export class StockComponent implements OnInit{
 
   constructor(private storeService: StoreService,
               private authService: AuthService) {
-    this.user = authService.userValue;
+    this.user = this.authService.userValue;
   }
 
   ngOnInit() {
-    console.log(this.user);
     this.store = this.storeService.getUpdatedStore(this.user.id);
   }
 

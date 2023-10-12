@@ -7,10 +7,10 @@ import {User} from "../../models/user";
 
 @Component({
   selector: 'app-store',
-  templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  templateUrl: './store-header.component.html',
+  styleUrls: ['./store-header.component.css']
 })
-export class StoreComponent implements OnInit {
+export class StoreHeaderComponent implements OnInit {
   @Input() store! : BehaviorSubject<Store>;
   user : User;
 
@@ -23,4 +23,7 @@ export class StoreComponent implements OnInit {
     this.store = this.service.getUpdatedStore(this.user.id);
   }
 
+  logout() {
+    this.authService.logout();
+  }
 }

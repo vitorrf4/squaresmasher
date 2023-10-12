@@ -16,13 +16,8 @@ export class HomeComponent {
 	user!: User;
 
   constructor(private auth: AuthService, private router: Router) {
-
-		this.auth.user.subscribe(x => {
-			this.user = x
+		this.auth.user.subscribe(res => {
+			this.user = res
 		});
-  }
-
-  logout() {
-    this.auth.logout();
   }
 }

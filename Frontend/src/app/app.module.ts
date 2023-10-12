@@ -9,7 +9,7 @@ import { SearchMovieComponent } from './components/search-movie/search-movie.com
 import { NgOptimizedImage} from "@angular/common";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from "@angular/material/card";
-import { StoreComponent } from './components/store/store.component';
+import { StoreHeaderComponent } from './components/store-header/store-header.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { StockComponent } from './components/stock/stock.component';
 import { LoginComponent } from './components/login/login.component';
@@ -23,7 +23,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar'
     HomeComponent,
     SaleComponent,
     SearchMovieComponent,
-    StoreComponent,
+    StoreHeaderComponent,
     StockComponent,
     LoginComponent,
     IndexComponent

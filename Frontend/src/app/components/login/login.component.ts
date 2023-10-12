@@ -18,13 +18,13 @@ export class LoginComponent {
   onSubmit() {
 		if (!this.validateLogin()) return;
 
-    if (!this.isLoginMode){
-			if (!this.validateRegister()) return;
-
-			this.registerUser();
+    if (this.isLoginMode){
+      this.login();
+      return;
     }
 
-    this.login();
+    if (!this.validateRegister()) return;
+    this.registerUser();
   }
 
   login() {

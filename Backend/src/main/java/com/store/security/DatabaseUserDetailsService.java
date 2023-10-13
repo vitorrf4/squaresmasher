@@ -23,6 +23,6 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new MyUserPrincipal(user);
+        return new UserPrincipal(user);
     }
 }

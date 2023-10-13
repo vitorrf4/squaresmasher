@@ -4,14 +4,14 @@
 
 <br>
 
-<table style="height: 75vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
+<table style="height: 74vh;" class="table table-dark" *ngIf="sales.value.length <= 0">
   <tr>
     <td class="center-sale text-lg-center text-light" style="font-size: 20px">You haven't made any sales yet, add a movie to your stock to start,<br>
     then press the button above to begin the sales!</td>
   </tr>
 </table>
 
-<cdk-virtual-scroll-viewport style ="height: 74vh" itemSize="5" class="virtual-scroll" *ngIf="sales.value.length > 0">
+<cdk-virtual-scroll-viewport style="height: 74vh" itemSize="5" class="virtual-scroll" *ngIf="sales.value.length > 0">
   <table class="table table-dark">
     <tr>
       <th class="col-9">Sale</th>

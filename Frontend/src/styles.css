@@ -5,3 +5,8 @@ html, body {
   height: 100%;
 }
 body { font-family: "Tahoma", sans-serif; }
+
+.error {
+  --mdc-snackbar-container-color: darkred;
+  font-size: 555px;
+}

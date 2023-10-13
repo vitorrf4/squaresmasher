@@ -41,10 +41,11 @@ public class StoreController {
 
         int copiesInStockBefore = store.get().getStock().getCopiesTotal();
 
-        movieDTOS.forEach(movieDTO -> {
+        for (MovieDTO movieDTO : movieDTOS) {
+            if (movieDTO.copiesAmount() > 10000000) return ResponseEntity.badRequest().build();
             Movie movie = MovieMapper.toMovie(movieDTO);
             store.get().getStock().addMovieToStock(movie);
-        });
+        }
 
         storeRepository.save(store.get());
         int copiesInStockAfter = store.get().getStock().getCopiesTotal() - copiesInStockBefore;

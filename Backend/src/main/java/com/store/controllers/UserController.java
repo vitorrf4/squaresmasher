@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
-@CrossOrigin(origins = "http://localhost:4200") // only allow origin from deployed frontend server
+@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher", "http://localhost:4200"})
 public class UserController {
     public final UserService service;
 
@@ -47,7 +47,7 @@ public class UserController {
         User savedUser = service.createUser(user);
         if (savedUser == null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
-        return ResponseEntity.created(URI.create("/users/" + savedUser.getId())).body(savedUser); // change created uri for deployed server
+        return ResponseEntity.created(URI.create("/users/" + savedUser.getId())).body(savedUser);
     }
 
     @PutMapping("/{id}")

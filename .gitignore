@@ -54,4 +54,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-/Frontend/src/app/images/
+/Frontend/.angular/

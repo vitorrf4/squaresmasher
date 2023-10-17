@@ -1,11 +1,11 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {SearchService} from "../../services/search.service";
 import {Movie} from "../../models/movie";
 import {StoreService} from "../../services/store.service";
-import {BehaviorSubject, config} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-search-movie',

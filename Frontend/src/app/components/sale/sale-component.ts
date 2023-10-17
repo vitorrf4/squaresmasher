@@ -5,7 +5,6 @@ import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
-import {MatSnackBar, MatSnackBarConfig} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-generate-sale',

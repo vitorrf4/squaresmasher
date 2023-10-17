@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080' //TODO add deployed apiUrl
+  apiUrl: 'https://squaresmasher.onrender.com'
 };

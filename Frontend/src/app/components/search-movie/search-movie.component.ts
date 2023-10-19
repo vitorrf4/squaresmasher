@@ -59,7 +59,7 @@ export class SearchMovieComponent {
 
       if (movie.copiesAmount > 0)
         moviesToAdd.push(movie)
-    }
+    } // TODO put this for into a separate function
 
     if (moviesToAdd.length == 0) {
       this.showErrorSnackbar("No copies added");

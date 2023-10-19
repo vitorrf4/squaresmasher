@@ -5,6 +5,7 @@ import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-generate-sale',
@@ -20,7 +21,8 @@ export class SaleComponent implements OnInit {
 
   constructor(private saleService: SaleService,
               private storeService: StoreService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private snackBar: MatSnackBar) {
     this.user = this.authService.userValue
   }
 
@@ -52,20 +54,33 @@ export class SaleComponent implements OnInit {
   public generate() {
     if (this.storeService.store.getValue().copiesTotal == 0) {
       this.changeStoreStatus();
+      this.showEmptyStockSnackBar();
       return;
     }
 
     this.makeSale();
   }
 
+  public showEmptyStockSnackBar() {
+    this.snackBar.open("Stock is empty", "", {
+      duration: 4000,
+      panelClass: ["error"],
+      verticalPosition: "bottom"
+    })
+  }
 
   public makeSale() {
-    this.saleService.generateSale(this.user.id).subscribe(res => {
-      this.sales.value.push(res);
-
-      this.storeService.callGetStoreApi(this.user.id).subscribe(res => {
-        this.storeService.updateStore(res);
-      });
+    this.saleService.generateSale(this.user.id).subscribe({
+      next: saleRes => {
+        this.storeService.callGetStoreApi(this.user.id).subscribe(storeRes => {
+          this.sales.value.push(saleRes);
+          this.storeService.updateStore(storeRes);
+        })
+      },
+      error: () => {
+        this.changeStoreStatus();
+        this.showEmptyStockSnackBar();
+      }
     });
   }
 }

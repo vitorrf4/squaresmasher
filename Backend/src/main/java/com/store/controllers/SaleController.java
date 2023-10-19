@@ -33,13 +33,14 @@ public class SaleController {
 
     @Transactional
     @PostMapping("/{id}/generate")
-    public ResponseEntity<?> generateSale(@PathVariable Long id) {
+    public ResponseEntity<?> generateSale(@PathVariable Long id) throws InterruptedException {
+        Thread.sleep(1600);
         Store store = saleService.getUserStore(id);
-        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.BAD_REQUEST);
+        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.NOT_FOUND);
 
         List<Movie> moviesInStock = store.getStock().getAllCopies();
         int moviesQuantityInStock = saleService.getMoviesInStockAmount(moviesInStock);
-        if (moviesQuantityInStock == 0) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
+        if (moviesQuantityInStock == 0) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.BAD_REQUEST);
 
         SaleItem randomSaleItem = saleService.getRandomSaleItem(moviesInStock);
         Sale sale = saleService.generateSale(randomSaleItem, store);

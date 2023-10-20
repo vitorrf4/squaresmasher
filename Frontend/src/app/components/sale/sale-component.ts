@@ -6,6 +6,7 @@ import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {setIntervalAsync, clearIntervalAsync} from 'set-interval-async/dynamic';
 
 @Component({
   selector: 'app-generate-sale',
@@ -15,12 +16,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class SaleComponent implements OnInit {
   @ViewChild("btnStatus") statusButton!: ElementRef<HTMLButtonElement>
   sales = new BehaviorSubject<Sale[]>([]);
-  salesIntervalId: number = 0;
+  salesIntervalId = setIntervalAsync(() => {}, 0);
   storeStatus = "closed";
   user : User;
 
   constructor(private saleService: SaleService,
-              private storeService: StoreService,
+              public storeService: StoreService,
               private authService: AuthService,
               private snackBar: MatSnackBar) {
     this.user = this.authService.userValue
@@ -41,24 +42,10 @@ export class SaleComponent implements OnInit {
         break;
       case "open":
         this.storeStatus = "closed";
-        clearInterval(this.salesIntervalId);
+        clearIntervalAsync(this.salesIntervalId).then();
         this.statusButton.nativeElement.className = "btn-lg btn-danger active";
         break;
     }
-  }
-
-  public generateRandomSale() {
-    this.salesIntervalId = setInterval(this.generate.bind(this), 1500);
-  }
-
-  public generate() {
-    if (this.storeService.store.getValue().copiesTotal == 0) {
-      this.changeStoreStatus();
-      this.showEmptyStockSnackBar();
-      return;
-    }
-
-    this.makeSale();
   }
 
   public showEmptyStockSnackBar() {
@@ -69,8 +56,18 @@ export class SaleComponent implements OnInit {
     })
   }
 
+  public generateRandomSale() {
+    if (this.storeService.store.getValue().copiesTotal == 0)
+      return;
+
+
+    this.salesIntervalId = setIntervalAsync(() => {
+      this.makeSale();
+    }, 1500);
+  }
+
   public makeSale() {
-    this.saleService.generateSale(this.user.id).subscribe({
+     this.saleService.generateSale(this.user.id).subscribe({
       next: saleRes => {
         this.storeService.callGetStoreApi(this.user.id).subscribe(storeRes => {
           this.sales.value.push(saleRes);
@@ -78,6 +75,7 @@ export class SaleComponent implements OnInit {
         })
       },
       error: () => {
+        console.log("ERROR, changing...");
         this.changeStoreStatus();
         this.showEmptyStockSnackBar();
       }

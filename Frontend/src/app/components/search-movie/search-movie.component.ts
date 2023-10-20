@@ -39,7 +39,7 @@ export class SearchMovieComponent {
     })
   }
 
-  showErrorSnackbar(message: string) {
+  private showErrorSnackbar(message: string) {
     this.snackbar.open(message, "Error" , {
       duration: 4000,
       panelClass: ["error"],
@@ -48,7 +48,7 @@ export class SearchMovieComponent {
     });
   }
 
-  public restockMovies() {
+  public getSelectedMovies() {
     let moviesToAdd : Movie[] = [];
 
     for (let movie of this.movies) {
@@ -58,15 +58,18 @@ export class SearchMovieComponent {
       }
 
       if (movie.copiesAmount > 0)
-        moviesToAdd.push(movie)
-    } // TODO put this for into a separate function
+        moviesToAdd.push(movie);
+    }
 
     if (moviesToAdd.length == 0) {
       this.showErrorSnackbar("No copies added");
       return;
     }
 
+    this.restockMovies(moviesToAdd);
+  }
 
+  private restockMovies(moviesToAdd: Movie[]) {
     this.storeService.callRestockMoviesApi(moviesToAdd, this.user.id).subscribe(() => {
       this.storeService.getUpdatedStore(this.user.id);
     });

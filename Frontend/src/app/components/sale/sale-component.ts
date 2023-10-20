@@ -16,7 +16,7 @@ import {setIntervalAsync, clearIntervalAsync} from 'set-interval-async/dynamic';
 export class SaleComponent implements OnInit {
   @ViewChild("btnStatus") statusButton!: ElementRef<HTMLButtonElement>
   sales = new BehaviorSubject<Sale[]>([]);
-  salesIntervalId = setIntervalAsync(() => {}, 0);
+  salesIntervalId = 0;
   storeStatus = "closed";
   user : User;
 
@@ -42,7 +42,7 @@ export class SaleComponent implements OnInit {
         break;
       case "open":
         this.storeStatus = "closed";
-        clearIntervalAsync(this.salesIntervalId).then();
+        clearInterval(this.salesIntervalId);
         this.statusButton.nativeElement.className = "btn-lg btn-danger active";
         break;
     }
@@ -57,28 +57,44 @@ export class SaleComponent implements OnInit {
   }
 
   public generateRandomSale() {
-    if (this.storeService.store.getValue().copiesTotal == 0)
+    if (this.storeService.store.getValue().copiesTotal == 0) {
+      this.showEmptyStockSnackBar();
+      setTimeout(() => this.changeStoreStatus(), 100);
       return;
+    }
 
+    console.log("generating sale...");
+    this.makeSaleWithInterval();
+  }
 
-    this.salesIntervalId = setIntervalAsync(() => {
-      this.makeSale();
+  private makeSaleWithInterval() {
+    this.salesIntervalId = setInterval(() => {
+      if (this.isPreviousSaleCompleted) {
+        this.makeSale();
+      }
     }, 1500);
   }
 
+  private isPreviousSaleCompleted: boolean = true;
+
   public makeSale() {
-     this.saleService.generateSale(this.user.id).subscribe({
+    this.isPreviousSaleCompleted = false;
+
+    this.saleService.generateSale(this.user.id).subscribe({
       next: saleRes => {
         this.storeService.callGetStoreApi(this.user.id).subscribe(storeRes => {
           this.sales.value.push(saleRes);
           this.storeService.updateStore(storeRes);
+          if (storeRes.copiesTotal == 0) this.changeStoreStatus();
+          this.isPreviousSaleCompleted = true;
         })
       },
       error: () => {
-        console.log("ERROR, changing...");
         this.changeStoreStatus();
         this.showEmptyStockSnackBar();
+        this.isPreviousSaleCompleted = true;
       }
     });
   }
+
 }

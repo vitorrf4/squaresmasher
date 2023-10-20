@@ -1,5 +1,5 @@
 <div class="text-center">
-  <button [disabled]="storeService.store.getValue().copiesTotal == 0" class="btn-lg btn-danger" #btnStatus id="btn-status" (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
+  <button class="btn-lg btn-danger" #btnStatus id="btn-status" (click)="changeStoreStatus()">{{storeStatus | uppercase}}</button>
 </div>
 
 <br>

@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -83,9 +84,11 @@ public class MoviesAPIService {
     }
 
     private String setPosterUrl(JsonNode node) {
-        if (node.get("poster_path") != null)
-            return "https://image.tmdb.org/t/p/w300/" + node.get("poster_path").textValue();
+        if (node.get("poster_path").isNull()) {
+            return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png";
+        }
 
-        return "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/390px-No-Image-Placeholder.svg.png";
+        return "https://image.tmdb.org/t/p/w300/" + node.get("poster_path").textValue();
+
     }
 }

@@ -6,7 +6,6 @@ import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {setIntervalAsync, clearIntervalAsync} from 'set-interval-async/dynamic';
 
 @Component({
   selector: 'app-generate-sale',
@@ -63,7 +62,6 @@ export class SaleComponent implements OnInit {
       return;
     }
 
-    console.log("generating sale...");
     this.makeSaleWithInterval();
   }
 

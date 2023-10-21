@@ -5,6 +5,7 @@ import {BehaviorSubject} from "rxjs";
 import {StoreService} from "../../services/store.service";
 import {AuthService} from "../../services/auth.service";
 import {User} from "../../models/user";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-generate-sale',
@@ -14,13 +15,14 @@ import {User} from "../../models/user";
 export class SaleComponent implements OnInit {
   @ViewChild("btnStatus") statusButton!: ElementRef<HTMLButtonElement>
   sales = new BehaviorSubject<Sale[]>([]);
-  salesIntervalId: number = 0;
+  salesIntervalId = 0;
   storeStatus = "closed";
   user : User;
 
   constructor(private saleService: SaleService,
-              private storeService: StoreService,
-              private authService: AuthService) {
+              public storeService: StoreService,
+              private authService: AuthService,
+              private snackBar: MatSnackBar) {
     this.user = this.authService.userValue
   }
 
@@ -45,27 +47,52 @@ export class SaleComponent implements OnInit {
     }
   }
 
-  public generateRandomSale() {
-    this.salesIntervalId = setInterval(this.generate.bind(this), 1500);
+  public showEmptyStockSnackBar() {
+    this.snackBar.open("Stock is empty", "", {
+      duration: 4000,
+      panelClass: ["error"],
+      verticalPosition: "bottom"
+    })
   }
 
-  public generate() {
+  public generateRandomSale() {
     if (this.storeService.store.getValue().copiesTotal == 0) {
-      this.changeStoreStatus();
+      this.showEmptyStockSnackBar();
+      setTimeout(() => this.changeStoreStatus(), 100);
       return;
     }
 
-    this.makeSale();
+    this.makeSaleWithInterval();
   }
 
+  private makeSaleWithInterval() {
+    this.salesIntervalId = setInterval(() => {
+      if (this.isPreviousSaleCompleted) {
+        this.makeSale();
+      }
+    }, 1500);
+  }
+
+  private isPreviousSaleCompleted: boolean = true;
 
   public makeSale() {
-    this.saleService.generateSale(this.user.id).subscribe(res => {
-      this.sales.value.push(res);
+    this.isPreviousSaleCompleted = false;
 
-      this.storeService.callGetStoreApi(this.user.id).subscribe(res => {
-        this.storeService.updateStore(res);
-      });
+    this.saleService.generateSale(this.user.id).subscribe({
+      next: saleRes => {
+        this.storeService.callGetStoreApi(this.user.id).subscribe(storeRes => {
+          this.sales.value.push(saleRes);
+          this.storeService.updateStore(storeRes);
+          if (storeRes.copiesTotal == 0) this.changeStoreStatus();
+          this.isPreviousSaleCompleted = true;
+        })
+      },
+      error: () => {
+        this.changeStoreStatus();
+        this.showEmptyStockSnackBar();
+        this.isPreviousSaleCompleted = true;
+      }
     });
   }
+
 }

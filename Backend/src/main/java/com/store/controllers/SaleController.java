@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RestController(value = "RandomSale")
 @RequestMapping(path = "/sales")
-@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher/login", "http://localhost:4200"})
+@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher", "http://localhost:4200"})
 public class SaleController {
     private final RandomSaleService saleService;
     private final UserRepository userRepository;
@@ -35,11 +35,11 @@ public class SaleController {
     @PostMapping("/{id}/generate")
     public ResponseEntity<?> generateSale(@PathVariable Long id) {
         Store store = saleService.getUserStore(id);
-        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.BAD_REQUEST);
+        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.NOT_FOUND);
 
         List<Movie> moviesInStock = store.getStock().getAllCopies();
         int moviesQuantityInStock = saleService.getMoviesInStockAmount(moviesInStock);
-        if (moviesQuantityInStock == 0) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.NOT_FOUND);
+        if (moviesQuantityInStock == 0) return new ResponseEntity<>(new StringBuilder("No movies in stock"), HttpStatus.BAD_REQUEST);
 
         SaleItem randomSaleItem = saleService.getRandomSaleItem(moviesInStock);
         Sale sale = saleService.generateSale(randomSaleItem, store);

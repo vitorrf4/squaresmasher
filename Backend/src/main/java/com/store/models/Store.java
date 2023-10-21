@@ -63,8 +63,7 @@ public class Store {
             if (item.getCopiesSold() <= 0) return null;
 
             Movie movieOnStock = stock.getCopyFromStockByName(item.getMovieCopy());
-            if (movieOnStock == null) return null;
-            if (!movieOnStock.takeCopies(item.getCopiesSold())) return null;
+            if (movieOnStock == null || !movieOnStock.takeCopies(item.getCopiesSold())) return null;
 
             stock.calculateTotalCopies();
         }

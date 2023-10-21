@@ -13,8 +13,8 @@
         <div *ngFor="let movie of movies" class="col-md-3">
           <div  class="card">
 
-            <img ngSrc="https://image.tmdb.org/t/p/w300/{{movie.posterUrl}}"
-                 width="444" height="250" class="card-img-top" alt="{{movie.movieTitle}} poster">
+            <img ngSrc="{{movie.posterUrl}}"
+                 width="444" height="250" class="card-img-top" alt="{{movie.movieTitle}} poster" >
             <div class="card-body">
               <h5 class="card-title">{{movie.movieTitle}}</h5>
               <h6 class="card-subtitle">{{movie.releaseYear}}</h6>
@@ -24,7 +24,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
     <br>

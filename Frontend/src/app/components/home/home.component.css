@@ -25,7 +25,7 @@
 .content {
   flex: 1;
   overflow: auto;
-  background-image: url("https://images.unsplash.com/photo-1651204978999-00d7ce1b078a");
+  background-image: url("images/store-background.webp");
   background-size: cover;
   background-repeat: no-repeat;
 }

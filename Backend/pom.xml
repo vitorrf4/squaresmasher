@@ -14,6 +14,8 @@
 	<name>squaresmasher</name>
 	<description>Backend API for Simulated Movie Store</description>
 	<properties>
+		<jib-maven-plugin.version>3.2.0</jib-maven-plugin.version>
+		<docker.image.prefix>squaresmasher.azurecr.io</docker.image.prefix>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -28,7 +30,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -38,12 +39,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -82,7 +77,6 @@
 			<version>2.0.1</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -95,13 +89,18 @@
 			<version>1.6</version>
 		</dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>12.4.1.jre11</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>
@@ -115,6 +114,26 @@
 					</profiles>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<artifactId>jib-maven-plugin</artifactId>
+				<groupId>com.google.cloud.tools</groupId>
+				<version>3.3.2</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:17-jdk-alpine</image>
+					</from>
+					<to>
+						<image>squaresmasher.azurecr.io/squaresmasher-0.0.1</image>
+						<auth>
+							<username>squaresmasher</username>
+							<password>${env.AZ_CONTAINER}</password>
+						</auth>
+					</to>
+
+				</configuration>
+			</plugin>
+
 		</plugins>
 
 		<resources>

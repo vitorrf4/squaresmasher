@@ -109,7 +109,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://vitorrf4.github.io/squaresmasher"
+            "baseHref": "/squaresmasher/"
           }
         }
       }

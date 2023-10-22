@@ -18,13 +18,9 @@
   margin-bottom: auto;
 }
 
-.logout-button {
-  cursor: pointer;
+.logout-box {
   justify-content: end;
   text-align: end;
-}
-.logout-button:hover {
-  text-decoration: underline;
 }
 
 .box {

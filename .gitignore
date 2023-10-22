@@ -1,3 +1,7 @@
+/Backend/src/main/resources/application-prod.properties
+/Frontend/docs
+/Frontend/.angular/
+
 target/
 .idea
 !.mvn/wrapper/maven-wrapper.jar
@@ -53,5 +57,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-/Frontend/.angular/

@@ -70,6 +70,7 @@ public class SpringSecurityConfig {
                 new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder());
         provider.setUserDetailsService(this.databaseUserDetailsService);
+
         return provider;
     }
 

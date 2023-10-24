@@ -22,20 +22,18 @@ import java.util.Optional;
 public class SaleController {
     private final RandomSaleService saleService;
     private final UserRepository userRepository;
-    private final HttpHeaders jsonHeaders = new HttpHeaders();
 
     @Autowired
     public SaleController(RandomSaleService saleService, UserRepository userRepository) {
         this.saleService = saleService;
         this.userRepository = userRepository;
-        jsonHeaders.setContentType(MediaType.APPLICATION_JSON);
     }
 
     @Transactional
     @PostMapping("/{id}/generate")
     public ResponseEntity<?> generateSale(@PathVariable Long id) {
         Store store = saleService.getUserStore(id);
-        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), jsonHeaders, HttpStatus.NOT_FOUND);
+        if (store == null) return new ResponseEntity<>(new StringBuilder("Invalid user store"), HttpStatus.NOT_FOUND);
 
         List<Movie> moviesInStock = store.getStock().getAllCopies();
         int moviesQuantityInStock = saleService.getMoviesInStockAmount(moviesInStock);
@@ -53,7 +51,7 @@ public class SaleController {
     public ResponseEntity<?> getAllSalesByUser(@PathVariable Long id) {
 
         Optional<User> user = userRepository.findById(id);
-        if (user.isEmpty()) return new ResponseEntity<>(new StringBuilder(HttpStatus.NOT_FOUND.toString()), jsonHeaders, HttpStatus.NOT_FOUND);
+        if (user.isEmpty()) return ResponseEntity.notFound().build();
 
         List<SaleDTO> salesDTO = new ArrayList<>();
 

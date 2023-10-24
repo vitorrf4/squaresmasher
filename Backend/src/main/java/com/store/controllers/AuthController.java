@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/auth")
+@RequestMapping()
 @CrossOrigin(origins = {"https://vitorrf4.github.io", "http://localhost:4200"})
 public class AuthController {
     private final AuthService authService;
@@ -19,6 +19,14 @@ public class AuthController {
     @Autowired
     public AuthController(AuthService authService) {
         this.authService = authService;
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+        AuthenticationResponse authenticationResponse = authService.setJwtToken(authenticationRequest);
+        if (authenticationResponse == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping("/sign-up")
@@ -33,12 +41,5 @@ public class AuthController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
-        AuthenticationResponse authenticationResponse = authService.setJwtToken(authenticationRequest);
-        if (authenticationResponse == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-
-        return ResponseEntity.ok(authenticationResponse);
-    }
 
 }

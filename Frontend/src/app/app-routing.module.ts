@@ -6,7 +6,7 @@ import {UserGuard} from "./helpers/user.guard";
 
 const routes: Routes = [
   { path: "", component: LoginComponent },
-  { path: "home", component: HomeComponent, canActivate: [UserGuard]},
+  { path: "store", component: HomeComponent, canActivate: [UserGuard]},
   { path: "**", pathMatch: "full", redirectTo: "" }
 ];
 

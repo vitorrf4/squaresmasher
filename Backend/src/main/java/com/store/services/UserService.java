@@ -58,7 +58,8 @@ public class UserService {
 
     public boolean isUserInvalid(User user) {
         return user == null || user.getName().isEmpty() || user.getName().isBlank() ||
-                user.getPassword().isEmpty() || user.getPassword().isBlank();
+                user.getPassword().isEmpty() || user.getPassword().isBlank() ||
+                user.getStore().getName().isBlank() || user.getStore().getName().isEmpty();
     }
 
     public boolean isIdInvalid(String id) {

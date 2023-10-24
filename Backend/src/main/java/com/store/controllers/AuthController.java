@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping()
-@CrossOrigin(origins = {"https://vitorrf4.github.io", "http://localhost:4200"})
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;

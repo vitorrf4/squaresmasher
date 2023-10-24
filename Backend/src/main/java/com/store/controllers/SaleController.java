@@ -18,7 +18,6 @@ import java.util.Optional;
 
 @RestController(value = "RandomSale")
 @RequestMapping(path = "/sales")
-@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher", "http://localhost:4200"})
 public class SaleController {
     private final RandomSaleService saleService;
     private final UserRepository userRepository;

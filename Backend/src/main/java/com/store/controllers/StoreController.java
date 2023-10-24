@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/store")
-@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher", "http://localhost:4200"})
 public class StoreController {
     private final StoreRepository storeRepository;
 

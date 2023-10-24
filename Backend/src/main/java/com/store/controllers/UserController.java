@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @RestController(value = "UserController")
 @RequestMapping(path = "/users")
-@CrossOrigin(origins = {"https://vitorrf4.github.io/squaresmasher", "http://localhost:4200"})
 public class UserController {
     public final UserService service;
 

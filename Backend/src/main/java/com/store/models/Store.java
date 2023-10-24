@@ -1,6 +1,7 @@
 package com.store.models;
 
 import jakarta.persistence.*;
+import net.datafaker.providers.base.Stock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +18,15 @@ public class Store {
     private List<Sale> sales;
     private double totalRevenue;
 
-
     public Store() {
         sales = new ArrayList<>();
         stock  = new StoreStock();
     }
 
-    public Store(String name, StoreStock stock) {
+    public Store(String name) {
         this.name = name;
-        this.stock = stock;
+        stock = new StoreStock();
         sales = new ArrayList<>();
-        calculateStoreRevenue();
     }
 
     public Long getId() {

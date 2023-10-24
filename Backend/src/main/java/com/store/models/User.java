@@ -18,10 +18,10 @@ public class User {
         store = new Store();
     }
 
-    public User(String name, String password, Store store) {
+    public User(String name, String password, String storeName) {
         this.name = name;
         this.password = password;
-        this.store = store;
+        store = new Store(storeName);
     }
 
     public Long getId() {

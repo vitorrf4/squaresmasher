@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorize -> authorize
                 .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
-                .requestMatchers("/authentication", "/sign-up", "/test").permitAll()
+                .requestMatchers("/authentication", "/sign-up", "/login", "/test").permitAll()
                 .requestMatchers("/store/*", "/sales/*", "users/*", "movies/*").authenticated()
                 .anyRequest().authenticated())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -1,30 +1,27 @@
-package com.store.security;
-
-import org.springframework.lang.NonNull;
+package com.store.models;
 
 public class AuthenticationRequest {
-
-    @NonNull
     private String name;
-
-    @NonNull
     private String password;
 
-    @NonNull
+    public AuthenticationRequest(String name, String password) {
+        this.name = name;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }
 
-    public void setName(@NonNull String name) {
+    public void setName( String name) {
         this.name = name;
     }
 
-    @NonNull
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NonNull String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

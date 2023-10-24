@@ -1,9 +1,10 @@
 package com.store.controllers;
 
 import com.store.dto.NewUserDTO;
+import com.store.models.AuthenticatedUser;
 import com.store.models.User;
-import com.store.security.AuthenticationRequest;
-import com.store.security.AuthenticationResponse;
+import com.store.models.AuthenticationRequest;
+import com.store.models.AuthenticationResponse;
 import com.store.services.AuthService;
 import com.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,17 @@ public class AuthController {
         return ResponseEntity.ok(authenticationResponse);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user) {
+        if (userService.isUserInvalid(user)) return ResponseEntity.badRequest().build();
+
+        if (!authService.isLoginCorrect(user)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        AuthenticatedUser authenticatedUser = authService.createAuthenticatedUser(user);
+
+        return ResponseEntity.ok(authenticatedUser);
+    }
+
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUpUser(@RequestBody NewUserDTO newUserDTO) {
         if (NewUserDTO.isDTOInvalid(newUserDTO))
@@ -44,6 +56,6 @@ public class AuthController {
         newUser = authService.encodePassword(newUser);
         userService.saveUser(newUser);
 
-        return ResponseEntity.ok(newUserDTO);
+        return ResponseEntity.ok(newUser);
     }
 }

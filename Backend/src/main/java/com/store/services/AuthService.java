@@ -1,9 +1,10 @@
 package com.store.services;
 
+import com.store.models.AuthenticatedUser;
 import com.store.models.User;
+import com.store.models.AuthenticationRequest;
+import com.store.models.AuthenticationResponse;
 import com.store.repos.UserRepository;
-import com.store.security.AuthenticationRequest;
-import com.store.security.AuthenticationResponse;
 import com.store.security.JwtTokenService;
 import com.store.security.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenService jwtTokenService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUserDetailsService jwtUserDetailsService, JwtTokenService jwtTokenService) {
+    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUserDetailsService jwtUserDetailsService, JwtTokenService jwtTokenService, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenService = jwtTokenService;
+        this.userRepository = userRepository;
     }
 
     public AuthenticationResponse setJwtToken(AuthenticationRequest authenticationRequest) {
@@ -42,6 +45,20 @@ public class AuthService {
         authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
 
         return authenticationResponse;
+    }
+
+    public boolean isLoginCorrect(User user) {
+        User userOnDb = userRepository.findByName(user.getName());
+
+        return passwordEncoder.matches(user.getPassword(), userOnDb.getPassword());
+    }
+
+    public AuthenticatedUser createAuthenticatedUser(User user) {
+        AuthenticationResponse jwtToken = setJwtToken(new AuthenticationRequest(user.getName(), user.getPassword()));
+
+        user = userRepository.findByName(user.getName());
+
+        return new AuthenticatedUser(user.getName(), user.getStore().getName(), jwtToken.getAccessToken());
     }
 
     public User encodePassword(User user) {

@@ -1,4 +1,4 @@
-package com.store.security;
+package com.store.models;
 
 public class AuthenticationResponse {
     private String accessToken;

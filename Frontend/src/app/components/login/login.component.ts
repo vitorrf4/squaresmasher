@@ -13,29 +13,23 @@ export class LoginComponent {
   loginCredentials = {name: '', password: ''};
   newUser = {storeName: '', confirm: ''};
 
-  constructor(private auth: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   onSubmit() {
-		if (!this.validateLogin()) return;
+		if (!this.validateLoginFields()) return;
 
     if (this.isLoginMode){
-      this.login();
+      this.signIn();
       return;
     }
 
-    if (!this.validateRegister()) return;
-    this.registerUser();
+    if (!this.validateRegistrationFields()) return;
+
+    this.signUp();
   }
 
-  login() {
-    this.auth.authenticate(this.loginCredentials).subscribe({
-      error: () => {
-        this.showErrorDiv('Invalid username or password');
-      }
-    });
-  }
 
-  validateLogin(): boolean {
+  validateLoginFields(): boolean {
     if (!this.loginCredentials.name || !this.loginCredentials.password) {
       this.showErrorDiv("All the fields must be filled");
       return false;
@@ -44,7 +38,7 @@ export class LoginComponent {
     return true;
   }
 
-  validateRegister() : boolean {
+  validateRegistrationFields() : boolean {
 		if (!this.newUser.storeName || !this.newUser.confirm) {
       this.showErrorDiv("All the fields must be filled");
 			return false;
@@ -58,9 +52,17 @@ export class LoginComponent {
     return true;
   }
 
-  registerUser() {
-    this.auth.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe({
-      next: () => this.login(),
+  signIn() {
+    this.authService.signIn(this.loginCredentials).subscribe({
+      error: () => {
+        this.showErrorDiv('Invalid username or password');
+      }
+    });
+  }
+
+  signUp() {
+    this.authService.signUp(this.loginCredentials.name, this.loginCredentials.password, this.newUser.storeName).subscribe({
+      next: () => this.signIn(),
       error: err => {
         if (err.status == "409")
           this.showErrorDiv('Username already taken');

@@ -13,7 +13,7 @@ export class AuthService {
   public user: Observable<User>;
 
   constructor(private http: HttpClient, private router: Router) {
-    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')!));
+    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user-session')!));
     this.user = this.userSubject.asObservable();
   }
 
@@ -21,10 +21,9 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  authenticate(credentials : {name: string, password: string}) {
-    return this.http.post<User>(`${environment.apiUrl}/authentication`, credentials).pipe(map(user => {
-      user.authdata = window.btoa(credentials.name + ':' + credentials.password);
-      localStorage.setItem('user', JSON.stringify(user));
+  signIn(credentials : {name: string, password: string}) {
+    return this.http.post<User>(`${environment.apiUrl}/login`, credentials).pipe(map(user => {
+      localStorage.setItem('user-sesion', JSON.stringify(user));
 
       this.userSubject.next(user);
       this.router.navigateByUrl('/store').then();

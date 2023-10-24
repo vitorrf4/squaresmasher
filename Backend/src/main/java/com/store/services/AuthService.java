@@ -1,6 +1,5 @@
 package com.store.services;
 
-import com.store.dto.NewUserDTO;
 import com.store.models.User;
 import com.store.repos.UserRepository;
 import com.store.security.AuthenticationRequest;
@@ -17,18 +16,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
     private final AuthenticationManager authenticationManager;
     private final JwtUserDetailsService jwtUserDetailsService;
     private final JwtTokenService jwtTokenService;
 
     @Autowired
-    public AuthService(UserService userService, PasswordEncoder passwordEncoder, UserRepository userRepository, AuthenticationManager authenticationManager, JwtUserDetailsService jwtUserDetailsService, JwtTokenService jwtTokenService) {
-        this.userService = userService;
+    public AuthService(PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtUserDetailsService jwtUserDetailsService, JwtTokenService jwtTokenService) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.jwtUserDetailsService = jwtUserDetailsService;
         this.jwtTokenService = jwtTokenService;
@@ -49,16 +44,10 @@ public class AuthService {
         return authenticationResponse;
     }
 
-    public User createUser(NewUserDTO userDTO) {
-        User user = NewUserDTO.toUser(userDTO);
-
+    public User encodePassword(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.createUser(user);
 
         return user;
     }
 
-    public boolean isUsernameAlreadyTaken(String name) {
-        return userRepository.findByName(name) != null;
-    }
 }

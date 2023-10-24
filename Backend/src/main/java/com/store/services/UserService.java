@@ -65,4 +65,8 @@ public class UserService {
     public boolean isIdInvalid(String id) {
         return id == null || new IntegerValidator().validate(id) == null || Long.parseLong(id) < 1;
     }
+
+    public boolean isUsernameAlreadyTaken(String name) {
+        return repo.findByName(name) != null;
+    }
 }

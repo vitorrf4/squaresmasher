@@ -23,7 +23,7 @@ export class AuthService {
 
   signIn(credentials : {name: string, password: string}) {
     return this.http.post<User>(`${environment.apiUrl}/login`, credentials).pipe(map(user => {
-      localStorage.setItem('user-sesion', JSON.stringify(user));
+      localStorage.setItem('user-session', JSON.stringify(user));
 
       this.userSubject.next(user);
       this.router.navigateByUrl('/store').then();
@@ -38,7 +38,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('user-session');
     this.userSubject.next(new User());
     this.router.navigateByUrl('/').then();
 

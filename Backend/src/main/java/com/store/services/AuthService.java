@@ -58,7 +58,7 @@ public class AuthService {
 
         user = userRepository.findByName(user.getName());
 
-        return new AuthenticatedUser(user.getName(), user.getStore().getName(), jwtToken.getAccessToken());
+        return new AuthenticatedUser(user.getId(), user.getName(), user.getStore().getName(), jwtToken.getAccessToken());
     }
 
     public User encodePassword(User user) {

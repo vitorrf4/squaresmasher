@@ -44,7 +44,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         if (service.isUserInvalid(user)) return ResponseEntity.badRequest().build();
 
-        User savedUser = service.createUser(user);
+        User savedUser = service.saveUser(user);
         if (savedUser == null) return ResponseEntity.status(HttpStatus.CONFLICT).build();
 
         return ResponseEntity.created(URI.create("/users/" + savedUser.getId())).body(savedUser);

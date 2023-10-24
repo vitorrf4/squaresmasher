@@ -2,13 +2,11 @@ package com.store;
 
 import com.store.controllers.UserController;
 import com.store.models.User;
-import com.store.security.JwtTokenService;
 import com.store.services.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
@@ -64,7 +62,7 @@ class UserControllerUnitTests {
 			user1.setName("test name");
 			user1.setPassword("test password");
 
-			given(service.createUser(user1)).willReturn(user1);
+			given(service.saveUser(user1)).willReturn(user1);
 			ResponseEntity<User> expectedEntity = ResponseEntity.created(new URI("/users/1")).body(user1);
 
 			assertThat(controller.createUser(user1).getStatusCode()).isEqualTo(HttpStatus.CREATED);

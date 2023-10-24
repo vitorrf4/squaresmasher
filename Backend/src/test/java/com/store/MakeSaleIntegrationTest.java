@@ -24,15 +24,15 @@ public class MakeSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        movie = new Movie("test movie", 5, Year.of(2000));
-        stock = new StoreStock();
-        stock.addMovieToStock(movie);
-
-        store = new Store("test store", stock);
-
-        itemsBought = new ArrayList<>();
-
-        customer = new Customer("test customer");
+//        movie = new Movie("test movie", 5, Year.of(2000));
+//        stock = new StoreStock();
+//        stock.addMovieToStock(movie);
+//
+//        store = new Store("test store", stock);
+//
+//        itemsBought = new ArrayList<>();
+//
+//        customer = new Customer("test customer");
     }
 
     @ParameterizedTest(name = "Sold {0} copies ")

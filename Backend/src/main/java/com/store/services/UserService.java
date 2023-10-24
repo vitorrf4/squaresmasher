@@ -30,7 +30,7 @@ public class UserService {
         return repo.findById(id);
     }
 
-    public User createUser(User user) {
+    public User saveUser(User user) {
         if (isUserInvalid(user) || repo.findByName(user.getName()) != null)
             return null;
 
@@ -43,23 +43,10 @@ public class UserService {
         return repo.save(user);
     }
 
-    public boolean deleteUser(Long id) {
-        if (isIdInvalid(id.toString()))
-            return false;
-
-        Optional<User> userToBeDeleted = repo.findById(id);
-
-        if (userToBeDeleted.isEmpty()) return false;
-
-        repo.delete(userToBeDeleted.get());
-
-        return true;
-    }
-
     public boolean isUserInvalid(User user) {
-        return user == null || user.getName().isEmpty() || user.getName().isBlank() ||
-                user.getPassword().isEmpty() || user.getPassword().isBlank() ||
-                user.getStore().getName().isBlank() || user.getStore().getName().isEmpty();
+        return user == null ||
+                user.getName() == null || user.getName().isEmpty() || user.getName().isBlank() ||
+                user.getPassword() == null ||user.getPassword().isEmpty() || user.getPassword().isBlank();
     }
 
     public boolean isIdInvalid(String id) {

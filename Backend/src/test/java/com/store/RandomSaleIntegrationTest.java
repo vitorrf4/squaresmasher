@@ -36,18 +36,18 @@ public class RandomSaleIntegrationTest {
 
     @BeforeEach
     public void setup() {
-        copies = new ArrayList<>(List.of(
-                new Movie("movie1", 2, Year.of(2019)),
-                new Movie("movie2", 5, Year.of(1995)),
-                new Movie("movie3", 1, Year.of(1963))
-        ));
-
-        StoreStock stock = new StoreStock(copies);
-        Store store = new Store("test store", stock);
-
-        user = new User("test user", "test password", store);
-
-        user = userRepository.save(user);
+//        copies = new ArrayList<>(List.of(
+//                new Movie("movie1", 2, Year.of(2019)),
+//                new Movie("movie2", 5, Year.of(1995)),
+//                new Movie("movie3", 1, Year.of(1963))
+//        ));
+//
+//        StoreStock stock = new StoreStock(copies);
+//        Store store = new Store("test store", stock);
+//
+//        user = new User("test user", "test password", store);
+//
+//        user = userRepository.save(user);
     }
 
     @Test

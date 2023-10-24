@@ -2,12 +2,14 @@ package com.store;
 
 import com.store.controllers.UserController;
 import com.store.models.User;
+import com.store.security.JwtTokenService;
 import com.store.services.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@WebMvcTest(UserController.class)
+@SpringBootTest()
 @ActiveProfiles("dev")
 class UserControllerUnitTests {
 	@MockBean private UserService service;

@@ -65,7 +65,7 @@ public class AuthController {
     }
 
     @PostMapping("/authenticate")
-    public AuthenticationResponse authenticate(@RequestBody final AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationRequest.getName(), authenticationRequest.getPassword()));
@@ -80,8 +80,4 @@ public class AuthController {
         return authenticationResponse;
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> testApi() {
-        return ResponseEntity.ok("API is working");
-    }
 }

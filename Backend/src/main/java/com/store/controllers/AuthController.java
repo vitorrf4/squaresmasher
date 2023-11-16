@@ -2,15 +2,18 @@ package com.store.controllers;
 
 import com.store.dto.NewUserDTO;
 import com.store.models.AuthenticatedUser;
-import com.store.models.User;
 import com.store.models.AuthenticationRequest;
 import com.store.models.AuthenticationResponse;
+import com.store.models.User;
 import com.store.services.AuthService;
 import com.store.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping()
@@ -27,16 +30,19 @@ public class AuthController {
     @PostMapping("/authentication")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         AuthenticationResponse authenticationResponse = authService.setJwtToken(authenticationRequest);
-        if (authenticationResponse == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (authenticationResponse == null)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
-        if (userService.isUserInvalid(user)) return ResponseEntity.badRequest().build();
+        if (userService.isUserInvalid(user))
+            return ResponseEntity.badRequest().build();
 
-        if (!authService.isLoginCorrect(user)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!authService.isLoginCorrect(user))
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         AuthenticatedUser authenticatedUser = authService.createAuthenticatedUser(user);
 

@@ -10,10 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Date;
 
 @Service
 public class JwtTokenService {
-    private static final Duration JWT_TOKEN_VALIDITY = Duration.ofMinutes(20);
+    private static final Duration JWT_TOKEN_VALIDITY = Duration.ofMinutes(60);
     private final Algorithm hmac512;
     private final JWTVerifier verifier;
 
@@ -40,5 +41,4 @@ public class JwtTokenService {
             return null;
         }
     }
-
 }

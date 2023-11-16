@@ -43,7 +43,7 @@ public class SpringSecurityConfig {
             .authorizeHttpRequests(authorize -> authorize
                 .dispatcherTypeMatchers(FORWARD, ERROR).permitAll()
                 .requestMatchers("/authentication", "/sign-up", "/login", "/test").permitAll()
-                .requestMatchers("/store/*", "/sales/*", "users/*", "movies/*").authenticated()
+                .requestMatchers("/store/*", "/sales/*", "/users/*", "movies/*").authenticated()
                 .anyRequest().authenticated())
             .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -2,7 +2,6 @@ package com.store.services;
 
 import com.store.models.AuthenticatedUser;
 import com.store.models.User;
-import com.store.models.AuthenticationRequest;
 import com.store.models.AuthenticationResponse;
 import com.store.repos.UserRepository;
 import com.store.security.JwtTokenService;
@@ -34,15 +33,15 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public AuthenticationResponse setJwtToken(AuthenticationRequest authenticationRequest) {
+    public AuthenticationResponse setJwtToken(String name, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    authenticationRequest.getName(), authenticationRequest.getPassword()));
+                    name, password));
         } catch (AuthenticationException ex) {
             return null;
         }
 
-        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(authenticationRequest.getName());
+        UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(name);
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
 
@@ -56,7 +55,7 @@ public class AuthService {
     }
 
     public AuthenticatedUser createAuthenticatedUser(User user) {
-        AuthenticationResponse jwtToken = setJwtToken(new AuthenticationRequest(user.getName(), user.getPassword()));
+        AuthenticationResponse jwtToken = setJwtToken(user.getName(), user.getPassword());
 
         user = userRepository.findByName(user.getName());
 

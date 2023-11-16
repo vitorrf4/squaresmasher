@@ -2,7 +2,6 @@ package com.store.controllers;
 
 import com.store.dto.NewUserDTO;
 import com.store.models.AuthenticatedUser;
-import com.store.models.AuthenticationResponse;
 import com.store.models.User;
 import com.store.services.AuthService;
 import com.store.services.UserService;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping()
@@ -35,7 +32,7 @@ public class AuthController {
         if (name == null || password == null)
             return ResponseEntity.badRequest().build();
 
-        AuthenticationResponse authenticationResponse = authService.setJwtToken(name, password);
+        String authenticationResponse = authService.setJwtToken(name, password);
         if (authenticationResponse == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 

@@ -2,7 +2,6 @@ package com.store.services;
 
 import com.store.models.AuthenticatedUser;
 import com.store.models.User;
-import com.store.models.AuthenticationResponse;
 import com.store.repos.UserRepository;
 import com.store.security.JwtTokenService;
 import com.store.security.JwtUserDetailsService;
@@ -33,7 +32,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public AuthenticationResponse setJwtToken(String name, String password) {
+    public String setJwtToken(String name, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     name, password));
@@ -42,24 +41,22 @@ public class AuthService {
         }
 
         UserDetails userDetails = jwtUserDetailsService.loadUserByUsername(name);
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));
 
-        return authenticationResponse;
+        return jwtTokenService.generateToken(userDetails);
     }
 
     public boolean isLoginCorrect(User user) {
+        // TODO change to two booleans
         User userOnDb = userRepository.findByName(user.getName());
 
         return passwordEncoder.matches(user.getPassword(), userOnDb.getPassword());
     }
 
     public AuthenticatedUser createAuthenticatedUser(User user) {
-        AuthenticationResponse jwtToken = setJwtToken(user.getName(), user.getPassword());
-
+        String jwtToken = setJwtToken(user.getName(), user.getPassword());
         user = userRepository.findByName(user.getName());
 
-        return new AuthenticatedUser(user.getId(), user.getName(), user.getStore().getName(), jwtToken.getAccessToken());
+        return new AuthenticatedUser(user.getId(), user.getName(), user.getStore().getName(), jwtToken);
     }
 
     public User encodePassword(User user) {
